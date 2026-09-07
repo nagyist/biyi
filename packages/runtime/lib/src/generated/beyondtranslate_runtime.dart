@@ -4284,13 +4284,13 @@ class FfiConverterChatRole {
 
 enum ProviderType {
   anthropic,
-  baidu,
-  caiyun,
-  deepL,
-  google,
+  baiduFanyiApi,
+  caiyunPlatform,
+  deepLApi,
+  googleCloud,
   openAi,
   ollama,
-  tencent,
+  tencentCloud,
   xAi,
   deepSeek,
   qwen,
@@ -4300,7 +4300,7 @@ enum ProviderType {
   groq,
   gemini,
   openAiCompatible,
-  youdao,
+  youdaoZhiyun,
   system,
   ;
 }
@@ -4316,22 +4316,22 @@ class FfiConverterProviderType {
         );
       case 2:
         return LiftRetVal(
-          ProviderType.baidu,
+          ProviderType.baiduFanyiApi,
           4,
         );
       case 3:
         return LiftRetVal(
-          ProviderType.caiyun,
+          ProviderType.caiyunPlatform,
           4,
         );
       case 4:
         return LiftRetVal(
-          ProviderType.deepL,
+          ProviderType.deepLApi,
           4,
         );
       case 5:
         return LiftRetVal(
-          ProviderType.google,
+          ProviderType.googleCloud,
           4,
         );
       case 6:
@@ -4346,7 +4346,7 @@ class FfiConverterProviderType {
         );
       case 8:
         return LiftRetVal(
-          ProviderType.tencent,
+          ProviderType.tencentCloud,
           4,
         );
       case 9:
@@ -4396,7 +4396,7 @@ class FfiConverterProviderType {
         );
       case 18:
         return LiftRetVal(
-          ProviderType.youdao,
+          ProviderType.youdaoZhiyun,
           4,
         );
       case 19:
@@ -11466,7 +11466,7 @@ void _checkApiChecksums() {
     throw UniffiInternalError.panicked("UniFFI API checksum mismatch");
   }
   if (uniffi_beyondtranslate_runtime_checksum_method_runtimetextextractor_extract_from_clipboard() !=
-      61343) {
+      17294) {
     throw UniffiInternalError.panicked("UniFFI API checksum mismatch");
   }
   if (uniffi_beyondtranslate_runtime_checksum_method_runtimetextextractor_extract_from_screen_capture() !=

@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "caiyun"), allow(dead_code))]
+#![cfg_attr(not(feature = "caiyun_platform"), allow(dead_code))]
 
 use async_trait::async_trait;
 use beyondtranslate_core::{
@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
 #[derive(Debug, Clone, Deserialize, PartialEq, Serialize)]
-pub struct CaiyunProviderConfig {
+pub struct CaiyunPlatformProviderConfig {
     pub token: String,
     #[serde(rename = "requestId", alias = "request_id")]
     pub request_id: String,
@@ -19,19 +19,19 @@ pub struct CaiyunProviderConfig {
     pub base_url: Option<String>,
 }
 
-pub struct CaiyunProvider {
-    config: CaiyunProviderConfig,
-    translation_service: CaiyunTranslationService,
+pub struct CaiyunPlatformProvider {
+    config: CaiyunPlatformProviderConfig,
+    translation_service: CaiyunPlatformTranslationService,
 }
 
-struct CaiyunTranslationService {
+struct CaiyunPlatformTranslationService {
     token: String,
     request_id: String,
     http: HttpClient,
 }
 
-impl CaiyunProvider {
-    pub fn new(config: CaiyunProviderConfig) -> Result<Self, String> {
+impl CaiyunPlatformProvider {
+    pub fn new(config: CaiyunPlatformProviderConfig) -> Result<Self, String> {
         if config.token.trim().is_empty() {
             return Err("token must not be empty".to_owned());
         }
@@ -40,7 +40,7 @@ impl CaiyunProvider {
         }
         Ok(Self {
             config: config.clone(),
-            translation_service: CaiyunTranslationService {
+            translation_service: CaiyunPlatformTranslationService {
                 token: config.token,
                 request_id: config.request_id,
                 http: HttpClient::new(
@@ -55,7 +55,7 @@ impl CaiyunProvider {
 }
 
 #[async_trait(?Send)]
-impl TranslationService for CaiyunTranslationService {
+impl TranslationService for CaiyunPlatformTranslationService {
     async fn get_supported_language_pairs(&self) -> Result<Vec<LanguagePair>, TranslationError> {
         Ok(vec![
             LanguagePair {
@@ -141,9 +141,9 @@ impl TranslationService for CaiyunTranslationService {
     }
 }
 
-impl Provider for CaiyunProvider {
+impl Provider for CaiyunPlatformProvider {
     fn name(&self) -> &'static str {
-        "caiyun"
+        "caiyun_platform"
     }
 
     fn translation(&self) -> Option<&dyn TranslationService> {

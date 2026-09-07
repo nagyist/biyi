@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "google"), allow(dead_code))]
+#![cfg_attr(not(feature = "google_cloud"), allow(dead_code))]
 
 use async_trait::async_trait;
 use beyondtranslate_core::{
@@ -11,32 +11,32 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
 #[derive(Debug, Clone, Deserialize, PartialEq, Serialize)]
-pub struct GoogleProviderConfig {
+pub struct GoogleCloudProviderConfig {
     #[serde(rename = "appKey", alias = "apiKey", alias = "api_key")]
     pub api_key: String,
     #[serde(rename = "baseUrl", alias = "base_url")]
     pub base_url: Option<String>,
 }
 
-pub struct GoogleProvider {
+pub struct GoogleCloudProvider {
     #[allow(dead_code)]
-    config: GoogleProviderConfig,
-    translation_service: GoogleTranslationService,
+    config: GoogleCloudProviderConfig,
+    translation_service: GoogleCloudTranslationService,
 }
 
-struct GoogleTranslationService {
+struct GoogleCloudTranslationService {
     api_key: String,
     http: HttpClient,
 }
 
-impl GoogleProvider {
-    pub fn new(config: GoogleProviderConfig) -> Result<Self, String> {
+impl GoogleCloudProvider {
+    pub fn new(config: GoogleCloudProviderConfig) -> Result<Self, String> {
         if config.api_key.trim().is_empty() {
             return Err("api_key must not be empty".to_owned());
         }
         Ok(Self {
             config: config.clone(),
-            translation_service: GoogleTranslationService {
+            translation_service: GoogleCloudTranslationService {
                 api_key: config.api_key,
                 http: HttpClient::new(
                     config
@@ -50,7 +50,7 @@ impl GoogleProvider {
 }
 
 #[async_trait(?Send)]
-impl TranslationService for GoogleTranslationService {
+impl TranslationService for GoogleCloudTranslationService {
     async fn detect_language(
         &self,
         request: DetectLanguageRequest,
@@ -148,9 +148,9 @@ impl TranslationService for GoogleTranslationService {
     }
 }
 
-impl Provider for GoogleProvider {
+impl Provider for GoogleCloudProvider {
     fn name(&self) -> &'static str {
-        "google"
+        "google_cloud"
     }
 
     fn translation(&self) -> Option<&dyn TranslationService> {

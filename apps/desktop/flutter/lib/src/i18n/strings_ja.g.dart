@@ -79,6 +79,9 @@ class _TranslationsCommonJa extends TranslationsCommonEn {
 
   // Translations
   @override
+  late final _TranslationsCommonServiceNameJa service_name =
+      _TranslationsCommonServiceNameJa._(_root);
+  @override
   late final _TranslationsCommonUiJa ui = _TranslationsCommonUiJa._(_root);
   @override
   late final _TranslationsCommonLanguageJa language =
@@ -223,6 +226,33 @@ class _TranslationsSettingsJa extends TranslationsSettingsEn {
       _TranslationsSettingsAboutJa._(_root);
 }
 
+// Path: common.service_name
+class _TranslationsCommonServiceNameJa extends TranslationsCommonServiceNameEn {
+  _TranslationsCommonServiceNameJa._(TranslationsJa root)
+      : this._root = root,
+        super.internal(root);
+
+  final TranslationsJa _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get baidu_fanyi_api => '汎用翻訳 API';
+  @override
+  String get caiyun_platform => 'Caiyun Xiaoyi API';
+  @override
+  String get deepl_api => 'DeepL API / テキスト翻訳';
+  @override
+  String get google_cloud => 'Cloud Translation - Basic';
+  @override
+  String get tencent_cloud => '機械翻訳（TMT）';
+  @override
+  String get youdao_zhiyun_translation => 'テキスト翻訳 API';
+  @override
+  String get youdao_zhiyun_dictionary => 'テキスト翻訳 API（辞書結果）';
+  @override
+  String get youdao_zhiyun_ocr => '汎用文字認識 API';
+}
+
 // Path: common.ui
 class _TranslationsCommonUiJa extends TranslationsCommonUiEn {
   _TranslationsCommonUiJa._(TranslationsJa root)
@@ -365,13 +395,13 @@ class _TranslationsCommonProviderJa extends TranslationsCommonProviderEn {
   @override
   String get anthropic => 'Anthropic';
   @override
-  String get baidu => 'Baidu';
+  String get baidu_fanyi_api => 'Baidu Translate Open Platform';
   @override
-  String get caiyun => 'Caiyun';
+  String get caiyun_platform => 'Caiyun Open Platform';
   @override
-  String get deepl => 'DeepL';
+  String get deepl_api => 'DeepL API';
   @override
-  String get google => 'Google';
+  String get google_cloud => 'Google Cloud';
   @override
   String get ollama => 'Ollama';
   @override
@@ -383,9 +413,9 @@ class _TranslationsCommonProviderJa extends TranslationsCommonProviderEn {
   @override
   String get system => 'システム';
   @override
-  String get tencent => 'Tencent';
+  String get tencent_cloud => 'Tencent Cloud';
   @override
-  String get youdao => 'Youda';
+  String get youdao_zhiyun => 'Youdao Zhiyun AI Open Platform';
 }
 
 // Path: app.tray
@@ -2166,6 +2196,14 @@ class _TranslationsSettingsProvidersDetailModelsJa
 extension on TranslationsJa {
   dynamic _flatMapFunction(String path) {
     return switch (path) {
+      'common.service_name.baidu_fanyi_api' => '汎用翻訳 API',
+      'common.service_name.caiyun_platform' => 'Caiyun Xiaoyi API',
+      'common.service_name.deepl_api' => 'DeepL API / テキスト翻訳',
+      'common.service_name.google_cloud' => 'Cloud Translation - Basic',
+      'common.service_name.tencent_cloud' => '機械翻訳（TMT）',
+      'common.service_name.youdao_zhiyun_translation' => 'テキスト翻訳 API',
+      'common.service_name.youdao_zhiyun_dictionary' => 'テキスト翻訳 API（辞書結果）',
+      'common.service_name.youdao_zhiyun_ocr' => '汎用文字認識 API',
       'common.ui.button.ok' => 'OK',
       'common.ui.button.cancel' => 'キャンセル',
       'common.ui.button.add' => '追加',
@@ -2216,17 +2254,17 @@ extension on TranslationsJa {
       'common.theme_style.studio' => 'Studio',
       'common.theme_style.bright' => 'Bright',
       'common.provider.anthropic' => 'Anthropic',
-      'common.provider.baidu' => 'Baidu',
-      'common.provider.caiyun' => 'Caiyun',
-      'common.provider.deepl' => 'DeepL',
-      'common.provider.google' => 'Google',
+      'common.provider.baidu_fanyi_api' => 'Baidu Translate Open Platform',
+      'common.provider.caiyun_platform' => 'Caiyun Open Platform',
+      'common.provider.deepl_api' => 'DeepL API',
+      'common.provider.google_cloud' => 'Google Cloud',
       'common.provider.ollama' => 'Ollama',
       'common.provider.openai' => 'OpenAI',
       'common.provider.sogou' => 'Sogou',
       'common.provider.xai' => 'xAI',
       'common.provider.system' => 'システム',
-      'common.provider.tencent' => 'Tencent',
-      'common.provider.youdao' => 'Youda',
+      'common.provider.tencent_cloud' => 'Tencent Cloud',
+      'common.provider.youdao_zhiyun' => 'Youdao Zhiyun AI Open Platform',
       'app.tray.context_menu.show_window' => 'ウィンドウを表示',
       'app.tray.context_menu.dev_tools.title' => '開発ツール',
       'app.tray.context_menu.dev_tools.open_data_directory' => 'データディレクトリを開く',

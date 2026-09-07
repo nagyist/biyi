@@ -36,13 +36,13 @@ type ProviderType = engine::ProviderType;
 #[uniffi::remote(Enum)]
 pub enum ProviderType {
     Anthropic,
-    Baidu,
-    Caiyun,
-    DeepL,
-    Google,
+    BaiduFanyiApi,
+    CaiyunPlatform,
+    DeepLApi,
+    GoogleCloud,
     OpenAi,
     Ollama,
-    Tencent,
+    TencentCloud,
     XAi,
     DeepSeek,
     Qwen,
@@ -52,7 +52,7 @@ pub enum ProviderType {
     Groq,
     Gemini,
     OpenAiCompatible,
-    Youdao,
+    YoudaoZhiyun,
     System,
 }
 

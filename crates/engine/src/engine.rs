@@ -12,17 +12,17 @@ use serde::{Deserialize, Serialize};
 use serde_yaml::{Mapping, Value};
 use thiserror::Error;
 
-#[cfg(feature = "baidu")]
-use crate::provider::traditional::BaiduProvider;
-use crate::provider::traditional::BaiduProviderConfig;
-#[cfg(feature = "caiyun")]
-use crate::provider::traditional::CaiyunProvider;
-use crate::provider::traditional::CaiyunProviderConfig;
-use crate::provider::traditional::DeepLProvider;
-use crate::provider::traditional::DeepLProviderConfig;
-#[cfg(feature = "google")]
-use crate::provider::traditional::GoogleProvider;
-use crate::provider::traditional::GoogleProviderConfig;
+#[cfg(feature = "baidu_fanyi_api")]
+use crate::provider::traditional::BaiduFanyiApiProvider;
+use crate::provider::traditional::BaiduFanyiApiProviderConfig;
+#[cfg(feature = "caiyun_platform")]
+use crate::provider::traditional::CaiyunPlatformProvider;
+use crate::provider::traditional::CaiyunPlatformProviderConfig;
+use crate::provider::traditional::DeepLApiProvider;
+use crate::provider::traditional::DeepLApiProviderConfig;
+#[cfg(feature = "google_cloud")]
+use crate::provider::traditional::GoogleCloudProvider;
+use crate::provider::traditional::GoogleCloudProviderConfig;
 #[cfg(feature = "anthropic")]
 use crate::provider::AnthropicProvider;
 use crate::provider::AnthropicProviderConfig;
@@ -34,12 +34,12 @@ use crate::provider::OpenAiCompatibleProviderConfig;
 use crate::provider::{specs, OpenAiCompatibleProvider};
 
 use crate::provider::traditional::SystemProvider;
-#[cfg(feature = "tencent")]
-use crate::provider::traditional::TencentProvider;
-use crate::provider::traditional::TencentProviderConfig;
-#[cfg(feature = "youdao")]
-use crate::provider::traditional::YoudaoProvider;
-use crate::provider::traditional::YoudaoProviderConfig;
+#[cfg(feature = "tencent_cloud")]
+use crate::provider::traditional::TencentCloudProvider;
+use crate::provider::traditional::TencentCloudProviderConfig;
+#[cfg(feature = "youdao_zhiyun")]
+use crate::provider::traditional::YoudaoZhiyunProvider;
+use crate::provider::traditional::YoudaoZhiyunProviderConfig;
 
 // ── Error ─────────────────────────────────────────────────────────────────────
 
@@ -150,19 +150,19 @@ impl Engine {
 
 #[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub enum ProviderType {
-    #[serde(rename = "baidu")]
-    Baidu,
-    #[serde(rename = "caiyun")]
-    Caiyun,
-    #[serde(rename = "deepl")]
-    DeepL,
-    #[serde(rename = "google")]
-    Google,
+    #[serde(rename = "baidu_fanyi_api", alias = "baidu")]
+    BaiduFanyiApi,
+    #[serde(rename = "caiyun_platform", alias = "caiyun")]
+    CaiyunPlatform,
+    #[serde(rename = "deepl_api", alias = "deepl")]
+    DeepLApi,
+    #[serde(rename = "google_cloud", alias = "google")]
+    GoogleCloud,
 
-    #[serde(rename = "tencent")]
-    Tencent,
-    #[serde(rename = "youdao")]
-    Youdao,
+    #[serde(rename = "tencent_cloud", alias = "tencent")]
+    TencentCloud,
+    #[serde(rename = "youdao_zhiyun", alias = "youdao")]
+    YoudaoZhiyun,
     #[serde(rename = "anthropic")]
     Anthropic,
     #[serde(rename = "openai")]
@@ -194,13 +194,13 @@ pub enum ProviderType {
 impl ProviderType {
     pub fn as_str(self) -> &'static str {
         match self {
-            Self::Baidu => "baidu",
-            Self::Caiyun => "caiyun",
-            Self::DeepL => "deepl",
-            Self::Google => "google",
+            Self::BaiduFanyiApi => "baidu_fanyi_api",
+            Self::CaiyunPlatform => "caiyun_platform",
+            Self::DeepLApi => "deepl_api",
+            Self::GoogleCloud => "google_cloud",
 
-            Self::Tencent => "tencent",
-            Self::Youdao => "youdao",
+            Self::TencentCloud => "tencent_cloud",
+            Self::YoudaoZhiyun => "youdao_zhiyun",
             Self::Anthropic => "anthropic",
             Self::OpenAi => "openai",
             Self::Ollama => "ollama",
@@ -272,13 +272,25 @@ fn build_provider(
     config: ProviderConfig,
 ) -> Result<Arc<dyn Provider>, EngineError> {
     match config.provider_type {
-        ProviderType::Baidu => build_baidu_provider(provider_id, config.decode(provider_id)?),
-        ProviderType::Caiyun => build_caiyun_provider(provider_id, config.decode(provider_id)?),
-        ProviderType::DeepL => build_deepl_provider(provider_id, config.decode(provider_id)?),
-        ProviderType::Google => build_google_provider(provider_id, config.decode(provider_id)?),
+        ProviderType::BaiduFanyiApi => {
+            build_baidu_fanyi_api_provider(provider_id, config.decode(provider_id)?)
+        }
+        ProviderType::CaiyunPlatform => {
+            build_caiyun_platform_provider(provider_id, config.decode(provider_id)?)
+        }
+        ProviderType::DeepLApi => {
+            build_deepl_api_provider(provider_id, config.decode(provider_id)?)
+        }
+        ProviderType::GoogleCloud => {
+            build_google_cloud_provider(provider_id, config.decode(provider_id)?)
+        }
 
-        ProviderType::Tencent => build_tencent_provider(provider_id, config.decode(provider_id)?),
-        ProviderType::Youdao => build_youdao_provider(provider_id, config.decode(provider_id)?),
+        ProviderType::TencentCloud => {
+            build_tencent_cloud_provider(provider_id, config.decode(provider_id)?)
+        }
+        ProviderType::YoudaoZhiyun => {
+            build_youdao_zhiyun_provider(provider_id, config.decode(provider_id)?)
+        }
         ProviderType::Anthropic => {
             build_anthropic_provider(provider_id, config.decode(provider_id)?)
         }
@@ -341,41 +353,41 @@ build_openai_compatible_provider_fn!(
 );
 
 build_provider_fn!(
-    build_baidu_provider,
-    "baidu",
-    BaiduProvider,
-    BaiduProviderConfig
+    build_baidu_fanyi_api_provider,
+    "baidu_fanyi_api",
+    BaiduFanyiApiProvider,
+    BaiduFanyiApiProviderConfig
 );
 build_provider_fn!(
-    build_caiyun_provider,
-    "caiyun",
-    CaiyunProvider,
-    CaiyunProviderConfig
+    build_caiyun_platform_provider,
+    "caiyun_platform",
+    CaiyunPlatformProvider,
+    CaiyunPlatformProviderConfig
 );
 build_provider_fn!(
-    build_deepl_provider,
-    "deepl",
-    DeepLProvider,
-    DeepLProviderConfig
+    build_deepl_api_provider,
+    "deepl_api",
+    DeepLApiProvider,
+    DeepLApiProviderConfig
 );
 build_provider_fn!(
-    build_google_provider,
-    "google",
-    GoogleProvider,
-    GoogleProviderConfig
+    build_google_cloud_provider,
+    "google_cloud",
+    GoogleCloudProvider,
+    GoogleCloudProviderConfig
 );
 
 build_provider_fn!(
-    build_tencent_provider,
-    "tencent",
-    TencentProvider,
-    TencentProviderConfig
+    build_tencent_cloud_provider,
+    "tencent_cloud",
+    TencentCloudProvider,
+    TencentCloudProviderConfig
 );
 build_provider_fn!(
-    build_youdao_provider,
-    "youdao",
-    YoudaoProvider,
-    YoudaoProviderConfig
+    build_youdao_zhiyun_provider,
+    "youdao_zhiyun",
+    YoudaoZhiyunProvider,
+    YoudaoZhiyunProviderConfig
 );
 fn build_system_provider(provider_id: &str) -> Result<Arc<dyn Provider>, EngineError> {
     let provider = SystemProvider::new().map_err(|reason| EngineError::ConfigValidationFailed {

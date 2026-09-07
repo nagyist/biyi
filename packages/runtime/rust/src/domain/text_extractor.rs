@@ -563,17 +563,56 @@ pub fn simulate_copy_key_press() -> Result<(), TextExtractorError> {
     }
 }
 
-/// Read the current clipboard text.
-pub fn extract_from_clipboard() -> Result<String, TextExtractorError> {
-    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "linux"))]
-    {
-        platform::read_clipboard_text()
-    }
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "linux")))]
-    {
-        Err(TextExtractorError::UnsupportedMethod(
-            "clipboard is not supported on this platform".into(),
-        ))
+pub enum ClipboardContent {
+    Text(String),
+    /// PNG encoded in base64, ready for either local or remote OCR.
+    Image(String),
+}
+
+/// Prefer an image over its alternate text representation (often a URL).
+/// Reading never writes to or clears the clipboard.
+pub fn extract_from_clipboard() -> Result<ClipboardContent, TextExtractorError> {
+    let mut clipboard = arboard::Clipboard::new()
+        .map_err(|e| TextExtractorError::OperationFailed(e.to_string()))?;
+    clipboard_content(clipboard.get_image(), || clipboard.get_text())
+}
+
+fn clipboard_content(
+    image: Result<arboard::ImageData<'_>, arboard::Error>,
+    read_text: impl FnOnce() -> Result<String, arboard::Error>,
+) -> Result<ClipboardContent, TextExtractorError> {
+    use base64::Engine;
+    use image::ImageEncoder;
+
+    match image {
+        Ok(image) => {
+            let invalid_image =
+                || TextExtractorError::OperationFailed("invalid clipboard image dimensions".into());
+            let width = u32::try_from(image.width).map_err(|_| invalid_image())?;
+            let height = u32::try_from(image.height).map_err(|_| invalid_image())?;
+            let expected_len = image
+                .width
+                .checked_mul(image.height)
+                .and_then(|n| n.checked_mul(4));
+            if width == 0 || height == 0 || expected_len != Some(image.bytes.len()) {
+                return Err(invalid_image());
+            }
+            let mut png = Vec::new();
+            image::codecs::png::PngEncoder::new(&mut png)
+                .write_image(&image.bytes, width, height, image::ExtendedColorType::Rgba8)
+                .map_err(|e| TextExtractorError::OperationFailed(e.to_string()))?;
+            Ok(ClipboardContent::Image(
+                base64::engine::general_purpose::STANDARD.encode(png),
+            ))
+        }
+        Err(arboard::Error::ContentNotAvailable) => match read_text() {
+            Ok(text) if !text.is_empty() => Ok(ClipboardContent::Text(text)),
+            Ok(_) | Err(arboard::Error::ContentNotAvailable) => {
+                Err(TextExtractorError::NoTextSelected)
+            }
+            Err(error) => Err(TextExtractorError::OperationFailed(error.to_string())),
+        },
+        Err(error) => Err(TextExtractorError::OperationFailed(error.to_string())),
     }
 }
 
@@ -618,5 +657,95 @@ pub fn extract_from_screen_selection() -> Result<String, TextExtractorError> {
         Err(TextExtractorError::UnsupportedMethod(
             "screen text extraction is not supported on this platform".into(),
         ))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::borrow::Cow;
+
+    #[test]
+    fn clipboard_image_takes_priority_and_round_trips_as_png() {
+        use base64::Engine;
+        let pixels = vec![255, 0, 0, 255, 0, 255, 0, 128];
+        let content = clipboard_content(
+            Ok(arboard::ImageData {
+                width: 2,
+                height: 1,
+                bytes: Cow::Borrowed(&pixels),
+            }),
+            || panic!("must not read alternate text when an image is present"),
+        )
+        .unwrap();
+        let ClipboardContent::Image(encoded) = content else {
+            panic!("expected an image");
+        };
+        let png = base64::engine::general_purpose::STANDARD
+            .decode(encoded)
+            .unwrap();
+        let decoded = image::load_from_memory_with_format(&png, image::ImageFormat::Png)
+            .unwrap()
+            .into_rgba8();
+        assert_eq!(decoded.dimensions(), (2, 1));
+        assert_eq!(decoded.into_raw(), pixels);
+    }
+
+    #[test]
+    fn clipboard_text_is_preserved_without_an_image() {
+        let text = "你好\nclipboard text 🦀";
+        let content = clipboard_content(Err(arboard::Error::ContentNotAvailable), || {
+            Ok(text.to_owned())
+        })
+        .unwrap();
+        assert!(matches!(content, ClipboardContent::Text(value) if value == text));
+    }
+
+    #[test]
+    fn empty_or_unsupported_clipboard_returns_no_text() {
+        for result in [Ok(String::new()), Err(arboard::Error::ContentNotAvailable)] {
+            assert!(matches!(
+                clipboard_content(Err(arboard::Error::ContentNotAvailable), || result),
+                Err(TextExtractorError::NoTextSelected)
+            ));
+        }
+    }
+
+    #[test]
+    fn image_read_failure_is_not_hidden_by_text_fallback() {
+        assert!(matches!(
+            clipboard_content(Err(arboard::Error::ConversionFailure), || panic!(
+                "no fallback"
+            )),
+            Err(TextExtractorError::OperationFailed(_))
+        ));
+    }
+
+    #[test]
+    fn malformed_image_returns_error_instead_of_panicking() {
+        for (width, height, bytes) in [(0, 1, vec![]), (2, 1, vec![0; 4]), (usize::MAX, 2, vec![])]
+        {
+            assert!(matches!(
+                clipboard_content(
+                    Ok(arboard::ImageData {
+                        width,
+                        height,
+                        bytes: Cow::Owned(bytes)
+                    }),
+                    || panic!("no fallback"),
+                ),
+                Err(TextExtractorError::OperationFailed(_))
+            ));
+        }
+    }
+
+    #[test]
+    fn text_read_failure_is_reported() {
+        assert!(matches!(
+            clipboard_content(Err(arboard::Error::ContentNotAvailable), || {
+                Err(arboard::Error::ClipboardOccupied)
+            }),
+            Err(TextExtractorError::OperationFailed(_))
+        ));
     }
 }

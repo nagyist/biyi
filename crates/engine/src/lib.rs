@@ -19,22 +19,22 @@ pub use provider::{
 };
 
 // Traditional providers.
-#[cfg(feature = "baidu")]
-pub use provider::traditional::BaiduProvider;
-#[cfg(feature = "caiyun")]
-pub use provider::traditional::CaiyunProvider;
-pub use provider::traditional::DeepLProvider;
-#[cfg(feature = "google")]
-pub use provider::traditional::GoogleProvider;
+#[cfg(feature = "baidu_fanyi_api")]
+pub use provider::traditional::BaiduFanyiApiProvider;
+#[cfg(feature = "caiyun_platform")]
+pub use provider::traditional::CaiyunPlatformProvider;
+pub use provider::traditional::DeepLApiProvider;
+#[cfg(feature = "google_cloud")]
+pub use provider::traditional::GoogleCloudProvider;
 pub use provider::traditional::SystemProvider;
 pub use provider::traditional::SystemTranslationService;
-#[cfg(feature = "tencent")]
-pub use provider::traditional::TencentProvider;
-#[cfg(feature = "youdao")]
-pub use provider::traditional::YoudaoProvider;
+#[cfg(feature = "tencent_cloud")]
+pub use provider::traditional::TencentCloudProvider;
+#[cfg(feature = "youdao_zhiyun")]
+pub use provider::traditional::YoudaoZhiyunProvider;
 pub use provider::traditional::{
-    BaiduProviderConfig, CaiyunProviderConfig, DeepLProviderConfig, GoogleProviderConfig,
-    TencentProviderConfig, YoudaoProviderConfig,
+    BaiduFanyiApiProviderConfig, CaiyunPlatformProviderConfig, DeepLApiProviderConfig,
+    GoogleCloudProviderConfig, TencentCloudProviderConfig, YoudaoZhiyunProviderConfig,
 };
 
 #[cfg(test)]

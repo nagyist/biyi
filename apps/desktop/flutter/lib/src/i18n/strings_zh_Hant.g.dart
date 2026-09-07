@@ -80,6 +80,9 @@ class _TranslationsCommonZhHant extends TranslationsCommonEn {
 
   // Translations
   @override
+  late final _TranslationsCommonServiceNameZhHant service_name =
+      _TranslationsCommonServiceNameZhHant._(_root);
+  @override
   late final _TranslationsCommonUiZhHant ui =
       _TranslationsCommonUiZhHant._(_root);
   @override
@@ -226,6 +229,34 @@ class _TranslationsSettingsZhHant extends TranslationsSettingsEn {
       _TranslationsSettingsAboutZhHant._(_root);
 }
 
+// Path: common.service_name
+class _TranslationsCommonServiceNameZhHant
+    extends TranslationsCommonServiceNameEn {
+  _TranslationsCommonServiceNameZhHant._(TranslationsZhHant root)
+      : this._root = root,
+        super.internal(root);
+
+  final TranslationsZhHant _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get baidu_fanyi_api => '通用翻譯 API';
+  @override
+  String get caiyun_platform => '彩雲小譯 API';
+  @override
+  String get deepl_api => 'DeepL API / 文字翻譯';
+  @override
+  String get google_cloud => 'Cloud Translation - Basic';
+  @override
+  String get tencent_cloud => '機器翻譯（TMT）';
+  @override
+  String get youdao_zhiyun_translation => '文字翻譯 API';
+  @override
+  String get youdao_zhiyun_dictionary => '文字翻譯 API（詞典結果）';
+  @override
+  String get youdao_zhiyun_ocr => '通用文字識別 API';
+}
+
 // Path: common.ui
 class _TranslationsCommonUiZhHant extends TranslationsCommonUiEn {
   _TranslationsCommonUiZhHant._(TranslationsZhHant root)
@@ -369,13 +400,13 @@ class _TranslationsCommonProviderZhHant extends TranslationsCommonProviderEn {
   @override
   String get anthropic => 'Anthropic';
   @override
-  String get baidu => '百度';
+  String get baidu_fanyi_api => '百度翻译开放平台';
   @override
-  String get caiyun => '彩雲小譯';
+  String get caiyun_platform => '彩云科技开放平台';
   @override
-  String get deepl => 'DeepL';
+  String get deepl_api => 'DeepL API';
   @override
-  String get google => '谷歌';
+  String get google_cloud => 'Google Cloud';
   @override
   String get ollama => 'Ollama';
   @override
@@ -387,9 +418,9 @@ class _TranslationsCommonProviderZhHant extends TranslationsCommonProviderEn {
   @override
   String get system => '系統';
   @override
-  String get tencent => '騰訊';
+  String get tencent_cloud => '腾讯云';
   @override
-  String get youdao => '有道';
+  String get youdao_zhiyun => '有道智云 AI 开放平台';
 }
 
 // Path: app.tray
@@ -2181,6 +2212,14 @@ class _TranslationsSettingsProvidersDetailModelsZhHant
 extension on TranslationsZhHant {
   dynamic _flatMapFunction(String path) {
     return switch (path) {
+      'common.service_name.baidu_fanyi_api' => '通用翻譯 API',
+      'common.service_name.caiyun_platform' => '彩雲小譯 API',
+      'common.service_name.deepl_api' => 'DeepL API / 文字翻譯',
+      'common.service_name.google_cloud' => 'Cloud Translation - Basic',
+      'common.service_name.tencent_cloud' => '機器翻譯（TMT）',
+      'common.service_name.youdao_zhiyun_translation' => '文字翻譯 API',
+      'common.service_name.youdao_zhiyun_dictionary' => '文字翻譯 API（詞典結果）',
+      'common.service_name.youdao_zhiyun_ocr' => '通用文字識別 API',
       'common.ui.button.ok' => '確定',
       'common.ui.button.cancel' => '取消',
       'common.ui.button.add' => '新增',
@@ -2231,17 +2270,17 @@ extension on TranslationsZhHant {
       'common.theme_style.studio' => 'Studio',
       'common.theme_style.bright' => 'Bright',
       'common.provider.anthropic' => 'Anthropic',
-      'common.provider.baidu' => '百度',
-      'common.provider.caiyun' => '彩雲小譯',
-      'common.provider.deepl' => 'DeepL',
-      'common.provider.google' => '谷歌',
+      'common.provider.baidu_fanyi_api' => '百度翻译开放平台',
+      'common.provider.caiyun_platform' => '彩云科技开放平台',
+      'common.provider.deepl_api' => 'DeepL API',
+      'common.provider.google_cloud' => 'Google Cloud',
       'common.provider.ollama' => 'Ollama',
       'common.provider.openai' => 'OpenAI',
       'common.provider.sogou' => '搜狗',
       'common.provider.xai' => 'xAI',
       'common.provider.system' => '系統',
-      'common.provider.tencent' => '騰訊',
-      'common.provider.youdao' => '有道',
+      'common.provider.tencent_cloud' => '腾讯云',
+      'common.provider.youdao_zhiyun' => '有道智云 AI 开放平台',
       'app.tray.context_menu.show_window' => '顯示視窗',
       'app.tray.context_menu.dev_tools.title' => '開發工具',
       'app.tray.context_menu.dev_tools.open_data_directory' => '開啟資料目錄',

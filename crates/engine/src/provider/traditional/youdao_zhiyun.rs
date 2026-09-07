@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "youdao"), allow(dead_code))]
+#![cfg_attr(not(feature = "youdao_zhiyun"), allow(dead_code))]
 
 use crate::common::http_client::HttpClient;
 use async_trait::async_trait;
@@ -16,7 +16,7 @@ use sha2::{Digest, Sha256};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, Clone, Deserialize, PartialEq, Serialize)]
-pub struct YoudaoProviderConfig {
+pub struct YoudaoZhiyunProviderConfig {
     #[serde(rename = "appKey", alias = "app_key")]
     pub app_key: String,
     #[serde(rename = "appSecret", alias = "app_secret")]
@@ -27,11 +27,11 @@ pub struct YoudaoProviderConfig {
     pub picture_base_url: Option<String>,
 }
 
-pub struct YoudaoProvider {
-    config: YoudaoProviderConfig,
+pub struct YoudaoZhiyunProvider {
+    config: YoudaoZhiyunProviderConfig,
     dictionary_service: YoudaoDictionaryService,
     ocr_service: YoudaoOcrService,
-    translation_service: YoudaoTranslationService,
+    translation_service: YoudaoZhiyunTranslationService,
 }
 
 struct YoudaoDictionaryService {
@@ -47,14 +47,14 @@ struct YoudaoOcrService {
     http: HttpClient,
 }
 
-struct YoudaoTranslationService {
+struct YoudaoZhiyunTranslationService {
     app_key: String,
     app_secret: String,
     http: HttpClient,
 }
 
-impl YoudaoProvider {
-    pub fn new(config: YoudaoProviderConfig) -> Result<Self, String> {
+impl YoudaoZhiyunProvider {
+    pub fn new(config: YoudaoZhiyunProviderConfig) -> Result<Self, String> {
         if config.app_key.trim().is_empty() {
             return Err("app_key must not be empty".to_owned());
         }
@@ -86,7 +86,7 @@ impl YoudaoProvider {
                 app_secret: config.app_secret.clone(),
                 http: HttpClient::new(base_url.clone(), client.clone()),
             },
-            translation_service: YoudaoTranslationService {
+            translation_service: YoudaoZhiyunTranslationService {
                 app_key: config.app_key,
                 app_secret: config.app_secret,
                 http: HttpClient::new(base_url, client),
@@ -137,7 +137,7 @@ impl DictionaryService for YoudaoDictionaryService {
         if error_code != "0" {
             return Err(DictionaryError::NetworkError(format!(
                 "youdao: {}",
-                youdao_error_message(error_code)
+                youdao_zhiyun_error_message(error_code)
             )));
         }
 
@@ -366,7 +366,7 @@ impl OcrService for YoudaoOcrService {
         if error_code != "0" {
             return Err(OcrError::NetworkError(format!(
                 "youdao: {}",
-                youdao_error_message(error_code)
+                youdao_zhiyun_error_message(error_code)
             )));
         }
 
@@ -395,7 +395,7 @@ impl OcrService for YoudaoOcrService {
 }
 
 #[async_trait(?Send)]
-impl TranslationService for YoudaoTranslationService {
+impl TranslationService for YoudaoZhiyunTranslationService {
     async fn detect_language(
         &self,
         request: DetectLanguageRequest,
@@ -446,7 +446,7 @@ impl TranslationService for YoudaoTranslationService {
         if error_code != "0" {
             return Err(TranslationError::NetworkError(format!(
                 "youdao: {}",
-                youdao_error_message(error_code)
+                youdao_zhiyun_error_message(error_code)
             )));
         }
 
@@ -463,7 +463,7 @@ impl TranslationService for YoudaoTranslationService {
         Ok(DetectLanguageResponse {
             detections: Some(vec![TextDetection {
                 detected_language: Some(detected_language),
-                // Youdao answers with one language and no ranking.
+                // YoudaoZhiyun answers with one language and no ranking.
                 candidates: Vec::new(),
                 text,
             }]),
@@ -519,7 +519,7 @@ impl TranslationService for YoudaoTranslationService {
         if error_code != "0" {
             return Err(TranslationError::NetworkError(format!(
                 "youdao: {}",
-                youdao_error_message(error_code)
+                youdao_zhiyun_error_message(error_code)
             )));
         }
 
@@ -565,9 +565,9 @@ impl TranslationService for YoudaoTranslationService {
     }
 }
 
-impl Provider for YoudaoProvider {
+impl Provider for YoudaoZhiyunProvider {
     fn name(&self) -> &'static str {
-        "youdao"
+        "youdao_zhiyun"
     }
 
     fn dictionary(&self) -> Option<&dyn DictionaryService> {
@@ -625,7 +625,7 @@ fn current_timestamp() -> u64 {
         .as_secs()
 }
 
-fn youdao_error_message(code: &str) -> &str {
+fn youdao_zhiyun_error_message(code: &str) -> &str {
     match code {
         "101" => "缺少必填的参数,首先确保必填参数齐全，然后确认参数书写是否正确。",
         "102" => "不支持的语言类型",

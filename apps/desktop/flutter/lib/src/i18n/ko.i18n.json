@@ -1,5 +1,15 @@
 {
   "common": {
+    "service_name": {
+      "baidu_fanyi_api": "범용 번역 API",
+      "caiyun_platform": "Caiyun Xiaoyi API",
+      "deepl_api": "DeepL API / 텍스트 번역",
+      "google_cloud": "Cloud Translation - Basic",
+      "tencent_cloud": "기계 번역(TMT)",
+      "youdao_zhiyun_translation": "텍스트 번역 API",
+      "youdao_zhiyun_dictionary": "텍스트 번역 API(사전 결과)",
+      "youdao_zhiyun_ocr": "범용 문자 인식 API"
+    },
     "ui": {
       "button": {
         "ok": "확인",
@@ -63,17 +73,17 @@
     },
     "provider": {
       "anthropic": "Anthropic",
-      "baidu": "Baidu",
-      "caiyun": "Caiyun",
-      "deepl": "DeepL",
-      "google": "Google",
+      "baidu_fanyi_api": "Baidu Translate Open Platform",
+      "caiyun_platform": "Caiyun Open Platform",
+      "deepl_api": "DeepL API",
+      "google_cloud": "Google Cloud",
       "ollama": "Ollama",
       "openai": "OpenAI",
       "sogou": "Sogou",
       "xai": "xAI",
       "system": "시스템",
-      "tencent": "Tencent",
-      "youdao": "Youdao"
+      "tencent_cloud": "Tencent Cloud",
+      "youdao_zhiyun": "Youdao Zhiyun AI Open Platform"
     }
   },
   "app": {

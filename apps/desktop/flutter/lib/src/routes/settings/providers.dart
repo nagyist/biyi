@@ -238,7 +238,7 @@ class _ProviderRow extends StatelessWidget {
             ],
           ],
         ),
-        icon: ProviderIcon(providerTypeValue(provider.type), size: 18),
+        icon: ProviderIcon(provider.type, size: 18),
         title: providerTypeDisplayName(provider.type),
         subtitle: _meta(),
         onPressed: onOpen);

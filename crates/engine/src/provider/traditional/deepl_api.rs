@@ -7,32 +7,32 @@ use beyondtranslate_core::{
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, PartialEq, Serialize)]
-pub struct DeepLProviderConfig {
+pub struct DeepLApiProviderConfig {
     #[serde(rename = "appKey", alias = "apiKey", alias = "api_key")]
     pub api_key: String,
     #[serde(rename = "baseUrl", alias = "base_url")]
     pub base_url: Option<String>,
 }
 
-pub struct DeepLProvider {
+pub struct DeepLApiProvider {
     #[allow(dead_code)]
-    config: DeepLProviderConfig,
-    translation_service: DeepLTranslationService,
+    config: DeepLApiProviderConfig,
+    translation_service: DeepLApiTranslationService,
 }
 
-struct DeepLTranslationService {
+struct DeepLApiTranslationService {
     api_key: String,
     http: HttpClient,
 }
 
-impl DeepLProvider {
-    pub fn new(config: DeepLProviderConfig) -> Result<Self, String> {
+impl DeepLApiProvider {
+    pub fn new(config: DeepLApiProviderConfig) -> Result<Self, String> {
         if config.api_key.trim().is_empty() {
             return Err("api_key must not be empty".to_owned());
         }
         Ok(Self {
             config: config.clone(),
-            translation_service: DeepLTranslationService {
+            translation_service: DeepLApiTranslationService {
                 api_key: config.api_key,
                 http: HttpClient::new(
                     config
@@ -46,7 +46,7 @@ impl DeepLProvider {
 }
 
 #[async_trait(?Send)]
-impl TranslationService for DeepLTranslationService {
+impl TranslationService for DeepLApiTranslationService {
     async fn translate(
         &self,
         request: TranslateRequest,
@@ -77,7 +77,7 @@ impl TranslationService for DeepLTranslationService {
             .await
             .map_err(TranslationError::from_network_error)?;
         let response = TranslationError::from_response("deepl", response).await?;
-        let payload: DeepLTranslateResponse = response
+        let payload: DeepLApiTranslateResponse = response
             .json()
             .await
             .map_err(|error| TranslationError::SerializationError(error.to_string()))?;
@@ -96,9 +96,9 @@ impl TranslationService for DeepLTranslationService {
     }
 }
 
-impl Provider for DeepLProvider {
+impl Provider for DeepLApiProvider {
     fn name(&self) -> &'static str {
-        "deepl"
+        "deepl_api"
     }
 
     fn translation(&self) -> Option<&dyn TranslationService> {
@@ -107,12 +107,12 @@ impl Provider for DeepLProvider {
 }
 
 #[derive(Debug, Deserialize)]
-struct DeepLTranslateResponse {
-    translations: Vec<DeepLTranslation>,
+struct DeepLApiTranslateResponse {
+    translations: Vec<DeepLApiTranslation>,
 }
 
 #[derive(Debug, Deserialize)]
-struct DeepLTranslation {
+struct DeepLApiTranslation {
     detected_source_language: Option<String>,
     text: String,
 }

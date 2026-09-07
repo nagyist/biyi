@@ -473,7 +473,7 @@ class _ServiceRow extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ProviderIcon(
-                    providerTypeValue(provider?.type ?? ProviderType.system),
+                    provider?.type ?? ProviderType.system,
                     size: 16,
                   ),
                   const SizedBox(width: 10),

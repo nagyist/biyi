@@ -627,9 +627,9 @@ mod tests {
         assert_eq!(settings.providers.len(), 1);
         let provider = settings.providers.get("deepl-main").unwrap();
         assert_eq!(provider.id, "deepl-main");
-        assert_eq!(provider.r#type, ProviderType::DeepL);
+        assert_eq!(provider.r#type, ProviderType::DeepLApi);
         let parsed = provider_config_from_settings(provider).unwrap();
-        assert_eq!(parsed.provider_type.as_str(), "deepl");
+        assert_eq!(parsed.provider_type.as_str(), "deepl_api");
         assert_eq!(
             parsed.options.get("appKey"),
             Some(&serde_yaml::Value::String("test-key".to_owned()))
@@ -764,7 +764,7 @@ mod tests {
             "deepl-main".to_owned(),
             ProviderConfigEntry {
                 id: "deepl-main".to_owned(),
-                r#type: ProviderType::DeepL,
+                r#type: ProviderType::DeepLApi,
                 fields: HashMap::from([("appKey".to_owned(), "test-key".to_owned())]),
                 created_at: None,
             },
@@ -813,7 +813,7 @@ mod tests {
         );
         assert_eq!(
             json.pointer("/providers/deepl-main/type").cloned(),
-            Some(Value::String("deepl".to_owned()))
+            Some(Value::String("deepl_api".to_owned()))
         );
         assert_eq!(
             json.pointer("/providers/deepl-main/appKey").cloned(),

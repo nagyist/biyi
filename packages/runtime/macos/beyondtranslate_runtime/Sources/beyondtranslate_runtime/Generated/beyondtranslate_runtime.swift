@@ -2731,7 +2731,7 @@ public func FfiConverterTypeRuntimeSettings_lower(_ value: RuntimeSettings) -> U
 public protocol RuntimeTextExtractorProtocol: AnyObject, Sendable {
 
   /**
-   * Read the current clipboard text.
+   * Read clipboard text, or recognize a clipboard image with the default OCR service.
    */
   func extractFromClipboard() async throws -> String
 
@@ -2815,7 +2815,7 @@ open class RuntimeTextExtractor: RuntimeTextExtractorProtocol, @unchecked Sendab
   }
 
   /**
-   * Read the current clipboard text.
+   * Read clipboard text, or recognize a clipboard image with the default OCR service.
    */
   open func extractFromClipboard() async throws -> String {
     return
@@ -6595,13 +6595,13 @@ public func FfiConverterTypeInputSubmitMode_lower(_ value: InputSubmitMode) -> R
 public enum ProviderType: Equatable, Hashable {
 
   case anthropic
-  case baidu
-  case caiyun
-  case deepL
-  case google
+  case baiduFanyiApi
+  case caiyunPlatform
+  case deepLApi
+  case googleCloud
   case openAi
   case ollama
-  case tencent
+  case tencentCloud
   case xAi
   case deepSeek
   case qwen
@@ -6611,7 +6611,7 @@ public enum ProviderType: Equatable, Hashable {
   case groq
   case gemini
   case openAiCompatible
-  case youdao
+  case youdaoZhiyun
   case system
 
 }
@@ -6632,19 +6632,19 @@ public struct FfiConverterTypeProviderType: FfiConverterRustBuffer {
 
     case 1: return .anthropic
 
-    case 2: return .baidu
+    case 2: return .baiduFanyiApi
 
-    case 3: return .caiyun
+    case 3: return .caiyunPlatform
 
-    case 4: return .deepL
+    case 4: return .deepLApi
 
-    case 5: return .google
+    case 5: return .googleCloud
 
     case 6: return .openAi
 
     case 7: return .ollama
 
-    case 8: return .tencent
+    case 8: return .tencentCloud
 
     case 9: return .xAi
 
@@ -6664,7 +6664,7 @@ public struct FfiConverterTypeProviderType: FfiConverterRustBuffer {
 
     case 17: return .openAiCompatible
 
-    case 18: return .youdao
+    case 18: return .youdaoZhiyun
 
     case 19: return .system
 
@@ -6678,16 +6678,16 @@ public struct FfiConverterTypeProviderType: FfiConverterRustBuffer {
     case .anthropic:
       writeInt(&buf, Int32(1))
 
-    case .baidu:
+    case .baiduFanyiApi:
       writeInt(&buf, Int32(2))
 
-    case .caiyun:
+    case .caiyunPlatform:
       writeInt(&buf, Int32(3))
 
-    case .deepL:
+    case .deepLApi:
       writeInt(&buf, Int32(4))
 
-    case .google:
+    case .googleCloud:
       writeInt(&buf, Int32(5))
 
     case .openAi:
@@ -6696,7 +6696,7 @@ public struct FfiConverterTypeProviderType: FfiConverterRustBuffer {
     case .ollama:
       writeInt(&buf, Int32(7))
 
-    case .tencent:
+    case .tencentCloud:
       writeInt(&buf, Int32(8))
 
     case .xAi:
@@ -6726,7 +6726,7 @@ public struct FfiConverterTypeProviderType: FfiConverterRustBuffer {
     case .openAiCompatible:
       writeInt(&buf, Int32(17))
 
-    case .youdao:
+    case .youdaoZhiyun:
       writeInt(&buf, Int32(18))
 
     case .system:
@@ -9044,7 +9044,7 @@ private let initializationResult: InitializationResult = {
     return InitializationResult.apiChecksumMismatch
   }
   if uniffi_beyondtranslate_runtime_checksum_method_runtimetextextractor_extract_from_clipboard()
-    != 61343
+    != 17294
   {
     return InitializationResult.apiChecksumMismatch
   }

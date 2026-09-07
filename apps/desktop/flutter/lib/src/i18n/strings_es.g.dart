@@ -79,6 +79,9 @@ class _TranslationsCommonEs extends TranslationsCommonEn {
 
   // Translations
   @override
+  late final _TranslationsCommonServiceNameEs service_name =
+      _TranslationsCommonServiceNameEs._(_root);
+  @override
   late final _TranslationsCommonUiEs ui = _TranslationsCommonUiEs._(_root);
   @override
   late final _TranslationsCommonLanguageEs language =
@@ -223,6 +226,34 @@ class _TranslationsSettingsEs extends TranslationsSettingsEn {
       _TranslationsSettingsAboutEs._(_root);
 }
 
+// Path: common.service_name
+class _TranslationsCommonServiceNameEs extends TranslationsCommonServiceNameEn {
+  _TranslationsCommonServiceNameEs._(TranslationsEs root)
+      : this._root = root,
+        super.internal(root);
+
+  final TranslationsEs _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get baidu_fanyi_api => 'API de traducción general';
+  @override
+  String get caiyun_platform => 'API de Caiyun Xiaoyi';
+  @override
+  String get deepl_api => 'DeepL API / Traducción de texto';
+  @override
+  String get google_cloud => 'Cloud Translation - Basic';
+  @override
+  String get tencent_cloud => 'Traducción automática (TMT)';
+  @override
+  String get youdao_zhiyun_translation => 'API de traducción de texto';
+  @override
+  String get youdao_zhiyun_dictionary =>
+      'API de traducción de texto (resultados del diccionario)';
+  @override
+  String get youdao_zhiyun_ocr => 'API de reconocimiento de texto general';
+}
+
 // Path: common.ui
 class _TranslationsCommonUiEs extends TranslationsCommonUiEn {
   _TranslationsCommonUiEs._(TranslationsEs root)
@@ -365,13 +396,13 @@ class _TranslationsCommonProviderEs extends TranslationsCommonProviderEn {
   @override
   String get anthropic => 'Anthropic';
   @override
-  String get baidu => 'Baidu';
+  String get baidu_fanyi_api => 'Baidu Translate Open Platform';
   @override
-  String get caiyun => 'Caiyun';
+  String get caiyun_platform => 'Caiyun Open Platform';
   @override
-  String get deepl => 'DeepL';
+  String get deepl_api => 'DeepL API';
   @override
-  String get google => 'Google';
+  String get google_cloud => 'Google Cloud';
   @override
   String get ollama => 'Ollama';
   @override
@@ -383,9 +414,9 @@ class _TranslationsCommonProviderEs extends TranslationsCommonProviderEn {
   @override
   String get system => 'Sistema';
   @override
-  String get tencent => 'Tencent';
+  String get tencent_cloud => 'Tencent Cloud';
   @override
-  String get youdao => 'Youdao';
+  String get youdao_zhiyun => 'Youdao Zhiyun AI Open Platform';
 }
 
 // Path: app.tray
@@ -2218,6 +2249,17 @@ class _TranslationsSettingsProvidersDetailModelsEs
 extension on TranslationsEs {
   dynamic _flatMapFunction(String path) {
     return switch (path) {
+      'common.service_name.baidu_fanyi_api' => 'API de traducción general',
+      'common.service_name.caiyun_platform' => 'API de Caiyun Xiaoyi',
+      'common.service_name.deepl_api' => 'DeepL API / Traducción de texto',
+      'common.service_name.google_cloud' => 'Cloud Translation - Basic',
+      'common.service_name.tencent_cloud' => 'Traducción automática (TMT)',
+      'common.service_name.youdao_zhiyun_translation' =>
+        'API de traducción de texto',
+      'common.service_name.youdao_zhiyun_dictionary' =>
+        'API de traducción de texto (resultados del diccionario)',
+      'common.service_name.youdao_zhiyun_ocr' =>
+        'API de reconocimiento de texto general',
       'common.ui.button.ok' => 'OK',
       'common.ui.button.cancel' => 'Cancelar',
       'common.ui.button.add' => 'Agregar',
@@ -2268,17 +2310,17 @@ extension on TranslationsEs {
       'common.theme_style.studio' => 'Studio',
       'common.theme_style.bright' => 'Bright',
       'common.provider.anthropic' => 'Anthropic',
-      'common.provider.baidu' => 'Baidu',
-      'common.provider.caiyun' => 'Caiyun',
-      'common.provider.deepl' => 'DeepL',
-      'common.provider.google' => 'Google',
+      'common.provider.baidu_fanyi_api' => 'Baidu Translate Open Platform',
+      'common.provider.caiyun_platform' => 'Caiyun Open Platform',
+      'common.provider.deepl_api' => 'DeepL API',
+      'common.provider.google_cloud' => 'Google Cloud',
       'common.provider.ollama' => 'Ollama',
       'common.provider.openai' => 'OpenAI',
       'common.provider.sogou' => 'Sogou',
       'common.provider.xai' => 'xAI',
       'common.provider.system' => 'Sistema',
-      'common.provider.tencent' => 'Tencent',
-      'common.provider.youdao' => 'Youdao',
+      'common.provider.tencent_cloud' => 'Tencent Cloud',
+      'common.provider.youdao_zhiyun' => 'Youdao Zhiyun AI Open Platform',
       'app.tray.context_menu.show_window' => 'Mostrar ventana',
       'app.tray.context_menu.dev_tools.title' => 'Herramientas de desarrollo',
       'app.tray.context_menu.dev_tools.open_data_directory' =>

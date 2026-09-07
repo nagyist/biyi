@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "tencent"), allow(dead_code))]
+#![cfg_attr(not(feature = "tencent_cloud"), allow(dead_code))]
 
 use crate::common::http_client::HttpClient;
 use async_trait::async_trait;
@@ -19,7 +19,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 type HmacSha1 = Hmac<Sha1>;
 
 #[derive(Debug, Clone, Deserialize, PartialEq, Serialize)]
-pub struct TencentProviderConfig {
+pub struct TencentCloudProviderConfig {
     #[serde(rename = "secretId", alias = "secret_id")]
     pub secret_id: String,
     #[serde(rename = "secretKey", alias = "secret_key")]
@@ -28,19 +28,19 @@ pub struct TencentProviderConfig {
     pub base_url: Option<String>,
 }
 
-pub struct TencentProvider {
-    config: TencentProviderConfig,
-    translation_service: TencentTranslationService,
+pub struct TencentCloudProvider {
+    config: TencentCloudProviderConfig,
+    translation_service: TencentCloudTranslationService,
 }
 
-struct TencentTranslationService {
+struct TencentCloudTranslationService {
     secret_id: String,
     secret_key: String,
     http: HttpClient,
 }
 
-impl TencentProvider {
-    pub fn new(config: TencentProviderConfig) -> Result<Self, String> {
+impl TencentCloudProvider {
+    pub fn new(config: TencentCloudProviderConfig) -> Result<Self, String> {
         if config.secret_id.trim().is_empty() {
             return Err("secret_id must not be empty".to_owned());
         }
@@ -49,7 +49,7 @@ impl TencentProvider {
         }
         Ok(Self {
             config: config.clone(),
-            translation_service: TencentTranslationService {
+            translation_service: TencentCloudTranslationService {
                 secret_id: config.secret_id,
                 secret_key: config.secret_key,
                 http: HttpClient::new(
@@ -64,7 +64,7 @@ impl TencentProvider {
 }
 
 #[async_trait(?Send)]
-impl TranslationService for TencentTranslationService {
+impl TranslationService for TencentCloudTranslationService {
     async fn detect_language(
         &self,
         request: DetectLanguageRequest,
@@ -85,7 +85,7 @@ impl TranslationService for TencentTranslationService {
         Ok(DetectLanguageResponse {
             detections: Some(vec![TextDetection {
                 detected_language: Some(lang.to_owned()),
-                // Tencent answers with one language and no ranking.
+                // TencentCloud answers with one language and no ranking.
                 candidates: Vec::new(),
                 text,
             }]),
@@ -124,9 +124,9 @@ impl TranslationService for TencentTranslationService {
     }
 }
 
-impl Provider for TencentProvider {
+impl Provider for TencentCloudProvider {
     fn name(&self) -> &'static str {
-        "tencent"
+        "tencent_cloud"
     }
 
     fn translation(&self) -> Option<&dyn TranslationService> {
@@ -134,7 +134,7 @@ impl Provider for TencentProvider {
     }
 }
 
-impl TencentTranslationService {
+impl TencentCloudTranslationService {
     fn base_params(&self, action: &str) -> BTreeMap<String, String> {
         let mut body = BTreeMap::new();
         body.insert("Action".to_owned(), action.to_owned());

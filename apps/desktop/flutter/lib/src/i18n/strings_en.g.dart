@@ -68,6 +68,8 @@ class TranslationsCommonEn {
   final Translations _root; // ignore: unused_field
 
   // Translations
+  late final TranslationsCommonServiceNameEn service_name =
+      TranslationsCommonServiceNameEn.internal(_root);
   late final TranslationsCommonUiEn ui = TranslationsCommonUiEn.internal(_root);
   late final TranslationsCommonLanguageEn language =
       TranslationsCommonLanguageEn.internal(_root);
@@ -189,6 +191,40 @@ class TranslationsSettingsEn {
       TranslationsSettingsLayoutEn.internal(_root);
   late final TranslationsSettingsAboutEn about =
       TranslationsSettingsAboutEn.internal(_root);
+}
+
+// Path: common.service_name
+class TranslationsCommonServiceNameEn {
+  TranslationsCommonServiceNameEn.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'General Translation API'
+  String get baidu_fanyi_api => 'General Translation API';
+
+  /// en: 'Caiyun Xiaoyi API'
+  String get caiyun_platform => 'Caiyun Xiaoyi API';
+
+  /// en: 'DeepL API / Translate text'
+  String get deepl_api => 'DeepL API / Translate text';
+
+  /// en: 'Cloud Translation - Basic'
+  String get google_cloud => 'Cloud Translation - Basic';
+
+  /// en: 'Tencent Machine Translation (TMT)'
+  String get tencent_cloud => 'Tencent Machine Translation (TMT)';
+
+  /// en: 'Text Translation API'
+  String get youdao_zhiyun_translation => 'Text Translation API';
+
+  /// en: 'Text Translation API (dictionary results)'
+  String get youdao_zhiyun_dictionary =>
+      'Text Translation API (dictionary results)';
+
+  /// en: 'General Text Recognition API'
+  String get youdao_zhiyun_ocr => 'General Text Recognition API';
 }
 
 // Path: common.ui
@@ -362,17 +398,17 @@ class TranslationsCommonProviderEn {
   /// en: 'Anthropic'
   String get anthropic => 'Anthropic';
 
-  /// en: 'Baidu'
-  String get baidu => 'Baidu';
+  /// en: 'Baidu Translate Open Platform'
+  String get baidu_fanyi_api => 'Baidu Translate Open Platform';
 
-  /// en: 'Caiyun'
-  String get caiyun => 'Caiyun';
+  /// en: 'Caiyun Open Platform'
+  String get caiyun_platform => 'Caiyun Open Platform';
 
-  /// en: 'DeepL'
-  String get deepl => 'DeepL';
+  /// en: 'DeepL API'
+  String get deepl_api => 'DeepL API';
 
-  /// en: 'Google'
-  String get google => 'Google';
+  /// en: 'Google Cloud'
+  String get google_cloud => 'Google Cloud';
 
   /// en: 'Ollama'
   String get ollama => 'Ollama';
@@ -389,11 +425,11 @@ class TranslationsCommonProviderEn {
   /// en: 'System'
   String get system => 'System';
 
-  /// en: 'Tencent'
-  String get tencent => 'Tencent';
+  /// en: 'Tencent Cloud'
+  String get tencent_cloud => 'Tencent Cloud';
 
-  /// en: 'Youda'
-  String get youdao => 'Youda';
+  /// en: 'Youdao Zhiyun AI Open Platform'
+  String get youdao_zhiyun => 'Youdao Zhiyun AI Open Platform';
 }
 
 // Path: app.tray
@@ -2490,6 +2526,16 @@ class TranslationsSettingsProvidersDetailModelsEn {
 extension on Translations {
   dynamic _flatMapFunction(String path) {
     return switch (path) {
+      'common.service_name.baidu_fanyi_api' => 'General Translation API',
+      'common.service_name.caiyun_platform' => 'Caiyun Xiaoyi API',
+      'common.service_name.deepl_api' => 'DeepL API / Translate text',
+      'common.service_name.google_cloud' => 'Cloud Translation - Basic',
+      'common.service_name.tencent_cloud' =>
+        'Tencent Machine Translation (TMT)',
+      'common.service_name.youdao_zhiyun_translation' => 'Text Translation API',
+      'common.service_name.youdao_zhiyun_dictionary' =>
+        'Text Translation API (dictionary results)',
+      'common.service_name.youdao_zhiyun_ocr' => 'General Text Recognition API',
       'common.ui.button.ok' => 'OK',
       'common.ui.button.cancel' => 'Cancel',
       'common.ui.button.add' => 'Add',
@@ -2540,17 +2586,17 @@ extension on Translations {
       'common.theme_style.studio' => 'Studio',
       'common.theme_style.bright' => 'Bright',
       'common.provider.anthropic' => 'Anthropic',
-      'common.provider.baidu' => 'Baidu',
-      'common.provider.caiyun' => 'Caiyun',
-      'common.provider.deepl' => 'DeepL',
-      'common.provider.google' => 'Google',
+      'common.provider.baidu_fanyi_api' => 'Baidu Translate Open Platform',
+      'common.provider.caiyun_platform' => 'Caiyun Open Platform',
+      'common.provider.deepl_api' => 'DeepL API',
+      'common.provider.google_cloud' => 'Google Cloud',
       'common.provider.ollama' => 'Ollama',
       'common.provider.openai' => 'OpenAI',
       'common.provider.sogou' => 'Sogou',
       'common.provider.xai' => 'xAI',
       'common.provider.system' => 'System',
-      'common.provider.tencent' => 'Tencent',
-      'common.provider.youdao' => 'Youda',
+      'common.provider.tencent_cloud' => 'Tencent Cloud',
+      'common.provider.youdao_zhiyun' => 'Youdao Zhiyun AI Open Platform',
       'app.tray.context_menu.show_window' => 'Show Window',
       'app.tray.context_menu.dev_tools.title' => 'Dev Tools',
       'app.tray.context_menu.dev_tools.open_data_directory' =>

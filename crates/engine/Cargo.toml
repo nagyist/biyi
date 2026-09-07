@@ -6,41 +6,41 @@ edition = "2021"
 [features]
 default = [
     "anthropic",
-    "baidu",
-    "caiyun",
-    "deepl",
+    "baidu_fanyi_api",
+    "caiyun_platform",
+    "deepl_api",
     "deepseek",
     "doubao",
     "gemini",
-    "google",
+    "google_cloud",
     "groq",
     "moonshot",
     "ollama",
     "openai",
     "openai-compatible",
     "qwen",
-    "tencent",
+    "tencent_cloud",
     "xai",
-    "youdao",
+    "youdao_zhiyun",
     "zhipu",
 ]
 anthropic = []
-baidu = []
-caiyun = []
-deepl = []
+baidu_fanyi_api = []
+caiyun_platform = []
+deepl_api = []
 deepseek = []
 doubao = []
 gemini = []
-google = []
+google_cloud = []
 groq = []
 moonshot = []
 ollama = []
 openai = []
 openai-compatible = []
 qwen = []
-tencent = []
+tencent_cloud = []
 xai = []
-youdao = []
+youdao_zhiyun = []
 zhipu = []
 
 [dependencies]

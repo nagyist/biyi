@@ -213,7 +213,7 @@ class _ProviderDetailPageState extends State<ProviderDetailPage> {
         // The provider's identity, at the size the deck gives a page header.
         _inset(Row(
           children: [
-            ProviderIcon(providerTypeValue(widget.provider.type), size: 26),
+            ProviderIcon(widget.provider.type, size: 26),
             const SizedBox(width: 10),
             Text(
               providerTypeDisplayName(widget.provider.type),
@@ -501,7 +501,7 @@ class _ServiceLine extends StatelessWidget {
         children: [
           Flexible(
             child: Text(
-              service.name.isEmpty ? service.id : service.name,
+              serviceDisplayName(service),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: vars.sansStyle(

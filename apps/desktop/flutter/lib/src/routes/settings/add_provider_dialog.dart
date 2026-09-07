@@ -391,7 +391,7 @@ class _AddProviderDialogState extends State<AddProviderDialog> {
             tone: failed ? DialogTone.danger : DialogTone.normal,
             children: [
           AppDialogHeader(
-              icon: ProviderIcon(providerTypeValue(_type), size: 18),
+              icon: ProviderIcon(_type, size: 18),
               title: formatTranslation(
                 editor.add_title,
                 args: [providerTypeDisplayName(_type)],
@@ -621,7 +621,7 @@ class _ProviderTypeRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            ProviderIcon(providerTypeValue(type), size: 18),
+            ProviderIcon(type, size: 18),
             const SizedBox(width: 10),
             Expanded(
               child: Text(

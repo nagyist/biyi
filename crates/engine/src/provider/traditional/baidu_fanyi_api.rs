@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "baidu"), allow(dead_code))]
+#![cfg_attr(not(feature = "baidu_fanyi_api"), allow(dead_code))]
 
 use crate::common::http_client::HttpClient;
 use async_trait::async_trait;
@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 #[derive(Debug, Clone, Deserialize, PartialEq, Serialize)]
-pub struct BaiduProviderConfig {
+pub struct BaiduFanyiApiProviderConfig {
     #[serde(rename = "appId", alias = "app_id")]
     pub app_id: String,
     #[serde(rename = "appKey", alias = "app_key")]
@@ -20,19 +20,19 @@ pub struct BaiduProviderConfig {
     pub base_url: Option<String>,
 }
 
-pub struct BaiduProvider {
-    config: BaiduProviderConfig,
-    translation_service: BaiduTranslationService,
+pub struct BaiduFanyiApiProvider {
+    config: BaiduFanyiApiProviderConfig,
+    translation_service: BaiduFanyiApiTranslationService,
 }
 
-struct BaiduTranslationService {
+struct BaiduFanyiApiTranslationService {
     app_id: String,
     app_key: String,
     http: HttpClient,
 }
 
-impl BaiduProvider {
-    pub fn new(config: BaiduProviderConfig) -> Result<Self, String> {
+impl BaiduFanyiApiProvider {
+    pub fn new(config: BaiduFanyiApiProviderConfig) -> Result<Self, String> {
         if config.app_id.trim().is_empty() {
             return Err("app_id must not be empty".to_owned());
         }
@@ -41,7 +41,7 @@ impl BaiduProvider {
         }
         Ok(Self {
             config: config.clone(),
-            translation_service: BaiduTranslationService {
+            translation_service: BaiduFanyiApiTranslationService {
                 app_id: config.app_id,
                 app_key: config.app_key,
                 http: HttpClient::new(
@@ -56,7 +56,7 @@ impl BaiduProvider {
 }
 
 #[async_trait(?Send)]
-impl TranslationService for BaiduTranslationService {
+impl TranslationService for BaiduFanyiApiTranslationService {
     async fn detect_language(
         &self,
         request: DetectLanguageRequest,
@@ -89,7 +89,7 @@ impl TranslationService for BaiduTranslationService {
             .await
             .map_err(|error| TranslationError::SerializationError(error.to_string()))?;
 
-        ensure_baidu_success(&data)?;
+        ensure_baidu_fanyi_api_success(&data)?;
         let detected = data["data"]["src"].as_str().ok_or_else(|| {
             TranslationError::SerializationError("missing data.src in Baidu response".to_owned())
         })?;
@@ -97,7 +97,7 @@ impl TranslationService for BaiduTranslationService {
         Ok(DetectLanguageResponse {
             detections: Some(vec![TextDetection {
                 detected_language: Some(detected.to_owned()),
-                // Baidu answers with one language and no ranking.
+                // BaiduFanyiApi answers with one language and no ranking.
                 candidates: Vec::new(),
                 text,
             }]),
@@ -116,10 +116,12 @@ impl TranslationService for BaiduTranslationService {
                 self.app_id, request.text, salt, self.app_key
             ))
         );
-        let from = baidu_language_code(request.source_language.as_deref()).unwrap_or("auto");
-        let to = baidu_language_code(request.target_language.as_deref()).ok_or_else(|| {
-            TranslationError::InvalidRequest("target_language is required".to_owned())
-        })?;
+        let from =
+            baidu_fanyi_api_language_code(request.source_language.as_deref()).unwrap_or("auto");
+        let to =
+            baidu_fanyi_api_language_code(request.target_language.as_deref()).ok_or_else(|| {
+                TranslationError::InvalidRequest("target_language is required".to_owned())
+            })?;
 
         let response = self.http.post("/api/trans/vip/translate").query(&[
             ("q", request.text.as_str()),
@@ -141,7 +143,7 @@ impl TranslationService for BaiduTranslationService {
             .await
             .map_err(|error| TranslationError::SerializationError(error.to_string()))?;
 
-        ensure_baidu_success(&data)?;
+        ensure_baidu_fanyi_api_success(&data)?;
         let translations = data["trans_result"]
             .as_array()
             .ok_or_else(|| {
@@ -162,9 +164,9 @@ impl TranslationService for BaiduTranslationService {
     }
 }
 
-impl Provider for BaiduProvider {
+impl Provider for BaiduFanyiApiProvider {
     fn name(&self) -> &'static str {
-        "baidu"
+        "baidu_fanyi_api"
     }
 
     fn translation(&self) -> Option<&dyn TranslationService> {
@@ -172,7 +174,7 @@ impl Provider for BaiduProvider {
     }
 }
 
-fn baidu_language_code(language: Option<&str>) -> Option<&str> {
+fn baidu_fanyi_api_language_code(language: Option<&str>) -> Option<&str> {
     match language {
         Some("es") => Some("spa"),
         Some("fr") => Some("fra"),
@@ -183,7 +185,7 @@ fn baidu_language_code(language: Option<&str>) -> Option<&str> {
     }
 }
 
-fn ensure_baidu_success(data: &Value) -> Result<(), TranslationError> {
+fn ensure_baidu_fanyi_api_success(data: &Value) -> Result<(), TranslationError> {
     if let Some(code) = data["error_code"].as_i64() {
         if code != 0 {
             let message = data["error_msg"].as_str().unwrap_or("unknown error");

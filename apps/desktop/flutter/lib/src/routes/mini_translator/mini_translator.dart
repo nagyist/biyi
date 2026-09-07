@@ -867,20 +867,28 @@ class _MiniTranslatorPageState extends State<MiniTranslatorPage>
     }
   }
 
-  void _handleExtractTextFromClipboard() async {
-    final windowIsVisible = _window.isVisible;
-    if (!windowIsVisible) {
-      await _windowShow();
-      await Future.delayed(const Duration(milliseconds: 10));
-    }
+  bool _isExtractingClipboard = false;
 
-    String? text;
+  void _handleExtractTextFromClipboard() async {
+    if (_isExtractingClipboard) return;
+    _isExtractingClipboard = true;
     try {
-      text = await runtime.textExtractor().extractFromClipboard();
-    } catch (_) {
-      // extractFromClipboard may throw if clipboard is empty.
+      // Also focus an already visible window when invoked from a global shortcut.
+      await _windowShow();
+      if (!mounted) return;
+      final text = await runtime.textExtractor().extractFromClipboard();
+      if (!mounted) return;
+      _handleTextChanged(text, isRequery: true);
+    } catch (error) {
+      if (!mounted) return;
+      showToast(
+        context,
+        '${t.mini_translator.message.ocr_recognition_failed}: $error',
+        tone: ToastTint.danger,
+      );
+    } finally {
+      _isExtractingClipboard = false;
     }
-    _handleTextChanged(text, isRequery: true);
   }
 
   void _handleButtonTappedClear() {

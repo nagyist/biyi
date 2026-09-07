@@ -245,7 +245,7 @@ class _AddServiceDialogState extends State<AddServiceDialog> {
     return DialogFrame(
       child: Dialog(children: [
         AppDialogHeader(
-            icon: ProviderIcon(providerTypeValue(_provider.type), size: 18),
+            icon: ProviderIcon(_provider.type, size: 18),
             title: _isEditing ? t.common.ui.button.edit : editor.title,
             // Editing already has its subject in the title; the strapline only
             // makes sense while the service is being introduced.

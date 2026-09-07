@@ -20,7 +20,7 @@ providers:
 
     assert_eq!(registry.names(), vec!["deepl"]);
     let provider = registry.require("deepl").expect("deepl provider");
-    assert_eq!(provider.name(), "deepl");
+    assert_eq!(provider.name(), "deepl_api");
     assert!(registry.require("missing").is_err());
 }
 
@@ -39,9 +39,9 @@ providers:
     assert_eq!(registry.names(), vec!["deepl"]);
 }
 
-#[cfg(feature = "baidu")]
+#[cfg(feature = "baidu_fanyi_api")]
 #[test]
-fn loads_baidu_provider() {
+fn loads_baidu_fanyi_api_provider() {
     let registry = from_yaml_str(
         r#"
 providers:
@@ -55,7 +55,7 @@ providers:
 
     assert_eq!(registry.names(), vec!["baidu-main"]);
     let provider = registry.require("baidu-main").expect("baidu provider");
-    assert_eq!(provider.name(), "baidu");
+    assert_eq!(provider.name(), "baidu_fanyi_api");
 }
 
 #[cfg(feature = "openai")]
@@ -263,7 +263,7 @@ providers:
     assert!(provider.dictionary().is_some());
 }
 
-#[cfg(not(feature = "baidu"))]
+#[cfg(not(feature = "baidu_fanyi_api"))]
 #[test]
 fn errors_when_feature_is_disabled() {
     let error = from_yaml_str(
@@ -281,4 +281,22 @@ providers:
         error,
         EngineError::ProviderNotEnabled(name) if name == "baidu-main"
     ));
+}
+
+#[test]
+fn traditional_provider_ids_accept_legacy_names_and_write_canonical_names() {
+    for (legacy, canonical) in [
+        ("baidu", "baidu_fanyi_api"),
+        ("caiyun", "caiyun_platform"),
+        ("deepl", "deepl_api"),
+        ("google", "google_cloud"),
+        ("tencent", "tencent_cloud"),
+        ("youdao", "youdao_zhiyun"),
+    ] {
+        let old: crate::ProviderType = serde_yaml::from_str(legacy).unwrap();
+        let new: crate::ProviderType = serde_yaml::from_str(canonical).unwrap();
+        assert_eq!(old, new);
+        assert_eq!(old.as_str(), canonical);
+        assert_eq!(serde_json::to_value(old).unwrap(), canonical);
+    }
 }

@@ -9,22 +9,22 @@ import '../../services/runtime.dart';
 /// Provider types offered in the 添加提供商 picker, in the order it lists them.
 const List<ProviderType> kKnownProviderTypes = <ProviderType>[
   ProviderType.anthropic,
-  ProviderType.baidu,
-  ProviderType.caiyun,
-  ProviderType.deepL,
+  ProviderType.baiduFanyiApi,
+  ProviderType.caiyunPlatform,
+  ProviderType.deepLApi,
   ProviderType.deepSeek,
   ProviderType.doubao,
   ProviderType.gemini,
-  ProviderType.google,
+  ProviderType.googleCloud,
   ProviderType.groq,
   ProviderType.moonshot,
   ProviderType.openAi,
   ProviderType.openAiCompatible,
   ProviderType.ollama,
   ProviderType.qwen,
-  ProviderType.tencent,
+  ProviderType.tencentCloud,
   ProviderType.xAi,
-  ProviderType.youdao,
+  ProviderType.youdaoZhiyun,
   ProviderType.zhipu,
 ];
 
@@ -32,10 +32,10 @@ const List<ProviderType> kKnownProviderTypes = <ProviderType>[
 /// `*ProviderConfig+Fields.swift` files (lowest common denominator).
 const Map<ProviderType, List<String>> kProviderFields = {
   ProviderType.anthropic: ['apiKey', 'baseUrl', 'defaultModel'],
-  ProviderType.baidu: ['appId', 'appKey'],
-  ProviderType.caiyun: ['token'],
-  ProviderType.deepL: ['authKey'],
-  ProviderType.google: ['apiKey'],
+  ProviderType.baiduFanyiApi: ['appId', 'appKey'],
+  ProviderType.caiyunPlatform: ['token'],
+  ProviderType.deepLApi: ['authKey'],
+  ProviderType.googleCloud: ['apiKey'],
   ProviderType.openAi: ['apiKey', 'baseUrl', 'defaultModel'],
   ProviderType.ollama: ['baseUrl', 'defaultModel'],
   ProviderType.xAi: ['apiKey', 'baseUrl', 'defaultModel'],
@@ -48,8 +48,8 @@ const Map<ProviderType, List<String>> kProviderFields = {
   ProviderType.gemini: ['apiKey', 'baseUrl', 'defaultModel'],
   ProviderType.openAiCompatible: ['apiKey', 'baseUrl', 'defaultModel'],
   ProviderType.system: [],
-  ProviderType.tencent: ['secretId', 'secretKey'],
-  ProviderType.youdao: ['appKey', 'appSecret'],
+  ProviderType.tencentCloud: ['secretId', 'secretKey'],
+  ProviderType.youdaoZhiyun: ['appKey', 'appSecret'],
 };
 
 /// The fields a provider type cannot be built without — these mirror the
@@ -63,13 +63,13 @@ const Map<ProviderType, List<String>> kProviderFields = {
 /// endpoint.
 const Map<ProviderType, List<String>> kRequiredProviderFields = {
   ProviderType.anthropic: ['apiKey', 'defaultModel'],
-  ProviderType.baidu: ['appId', 'appKey'],
-  ProviderType.caiyun: ['token'],
-  ProviderType.deepL: ['authKey'],
+  ProviderType.baiduFanyiApi: ['appId', 'appKey'],
+  ProviderType.caiyunPlatform: ['token'],
+  ProviderType.deepLApi: ['authKey'],
   ProviderType.deepSeek: ['apiKey', 'defaultModel'],
   ProviderType.doubao: ['apiKey', 'defaultModel'],
   ProviderType.gemini: ['apiKey', 'defaultModel'],
-  ProviderType.google: ['apiKey'],
+  ProviderType.googleCloud: ['apiKey'],
   ProviderType.groq: ['apiKey', 'defaultModel'],
   ProviderType.moonshot: ['apiKey', 'defaultModel'],
   // Self-hosted endpoints (vLLM, LM Studio, LiteLLM …) often take no key at
@@ -79,9 +79,9 @@ const Map<ProviderType, List<String>> kRequiredProviderFields = {
   ProviderType.ollama: ['defaultModel'],
   ProviderType.qwen: ['apiKey', 'defaultModel'],
   ProviderType.system: [],
-  ProviderType.tencent: ['secretId', 'secretKey'],
+  ProviderType.tencentCloud: ['secretId', 'secretKey'],
   ProviderType.xAi: ['apiKey', 'defaultModel'],
-  ProviderType.youdao: ['appKey', 'appSecret'],
+  ProviderType.youdaoZhiyun: ['appKey', 'appSecret'],
   ProviderType.zhipu: ['apiKey', 'defaultModel'],
 };
 
@@ -91,13 +91,13 @@ const Map<ProviderType, List<String>> kRequiredProviderFields = {
 /// one is a service the user adds by hand.
 const Map<ProviderType, List<ServiceType>> kProviderCapabilities = {
   ProviderType.anthropic: [ServiceType.translation],
-  ProviderType.baidu: [ServiceType.translation],
-  ProviderType.caiyun: [ServiceType.translation],
-  ProviderType.deepL: [ServiceType.translation],
+  ProviderType.baiduFanyiApi: [ServiceType.translation],
+  ProviderType.caiyunPlatform: [ServiceType.translation],
+  ProviderType.deepLApi: [ServiceType.translation],
   ProviderType.deepSeek: [ServiceType.translation],
   ProviderType.doubao: [ServiceType.translation],
   ProviderType.gemini: [ServiceType.translation],
-  ProviderType.google: [ServiceType.translation],
+  ProviderType.googleCloud: [ServiceType.translation],
   ProviderType.groq: [ServiceType.translation],
   ProviderType.moonshot: [ServiceType.translation],
   ProviderType.openAi: [ServiceType.translation],
@@ -109,9 +109,9 @@ const Map<ProviderType, List<ServiceType>> kProviderCapabilities = {
     ServiceType.dictionary,
     ServiceType.ocr,
   ],
-  ProviderType.tencent: [ServiceType.translation],
+  ProviderType.tencentCloud: [ServiceType.translation],
   ProviderType.xAi: [ServiceType.translation],
-  ProviderType.youdao: [
+  ProviderType.youdaoZhiyun: [
     ServiceType.translation,
     ServiceType.dictionary,
     ServiceType.ocr,
@@ -156,13 +156,13 @@ String defaultBaseUrl(ProviderType type) {
     // Nothing to fall back to: the endpoint is the whole configuration.
     case ProviderType.openAiCompatible:
       return 'https://api.example.com/v1';
-    case ProviderType.baidu:
-    case ProviderType.caiyun:
-    case ProviderType.deepL:
-    case ProviderType.google:
+    case ProviderType.baiduFanyiApi:
+    case ProviderType.caiyunPlatform:
+    case ProviderType.deepLApi:
+    case ProviderType.googleCloud:
     case ProviderType.system:
-    case ProviderType.tencent:
-    case ProviderType.youdao:
+    case ProviderType.tencentCloud:
+    case ProviderType.youdaoZhiyun:
       return '';
   }
 }
@@ -243,6 +243,22 @@ String serviceDisplayName(ServiceConfigEntry service) {
   if (isBuiltinService(service)) {
     return '${t.common.provider.system}/${serviceTypeLabel(service.type)}';
   }
+  // Only derived services use product names; user-named services remain editable.
+  if (isImplicitService(service)) {
+    final names = t.common.service_name;
+    final localized = switch (service.name) {
+      '通用翻译 API' => names.baidu_fanyi_api,
+      '彩云小译 API' => names.caiyun_platform,
+      'DeepL API / Translate text' => names.deepl_api,
+      'Cloud Translation - Basic' => names.google_cloud,
+      '机器翻译（TMT）' => names.tencent_cloud,
+      '文本翻译 API' => names.youdao_zhiyun_translation,
+      '文本翻译 API（词典结果）' => names.youdao_zhiyun_dictionary,
+      '通用文字识别 API' => names.youdao_zhiyun_ocr,
+      _ => null,
+    };
+    if (localized != null) return localized;
+  }
   return service.name.isEmpty ? service.id : service.name;
 }
 
@@ -290,13 +306,13 @@ bool isLlmProviderType(ProviderType type) {
     case ProviderType.gemini:
     case ProviderType.openAiCompatible:
       return true;
-    case ProviderType.baidu:
-    case ProviderType.caiyun:
-    case ProviderType.deepL:
-    case ProviderType.google:
+    case ProviderType.baiduFanyiApi:
+    case ProviderType.caiyunPlatform:
+    case ProviderType.deepLApi:
+    case ProviderType.googleCloud:
     case ProviderType.system:
-    case ProviderType.tencent:
-    case ProviderType.youdao:
+    case ProviderType.tencentCloud:
+    case ProviderType.youdaoZhiyun:
       return false;
   }
 }
@@ -315,14 +331,14 @@ String providerTypeValue(ProviderType type) {
   switch (type) {
     case ProviderType.anthropic:
       return 'anthropic';
-    case ProviderType.baidu:
-      return 'baidu';
-    case ProviderType.caiyun:
-      return 'caiyun';
-    case ProviderType.deepL:
-      return 'deepl';
-    case ProviderType.google:
-      return 'google';
+    case ProviderType.baiduFanyiApi:
+      return 'baidu_fanyi_api';
+    case ProviderType.caiyunPlatform:
+      return 'caiyun_platform';
+    case ProviderType.deepLApi:
+      return 'deepl_api';
+    case ProviderType.googleCloud:
+      return 'google_cloud';
     case ProviderType.openAi:
       return 'openai';
     case ProviderType.ollama:
@@ -347,10 +363,10 @@ String providerTypeValue(ProviderType type) {
       return 'openai_compatible';
     case ProviderType.system:
       return 'system';
-    case ProviderType.tencent:
-      return 'tencent';
-    case ProviderType.youdao:
-      return 'youdao';
+    case ProviderType.tencentCloud:
+      return 'tencent_cloud';
+    case ProviderType.youdaoZhiyun:
+      return 'youdao_zhiyun';
   }
 }
 
@@ -358,14 +374,14 @@ String providerTypeDisplayName(ProviderType type) {
   switch (type) {
     case ProviderType.anthropic:
       return t.common.provider.anthropic;
-    case ProviderType.baidu:
-      return t.common.provider.baidu;
-    case ProviderType.caiyun:
-      return t.common.provider.caiyun;
-    case ProviderType.deepL:
-      return t.common.provider.deepl;
-    case ProviderType.google:
-      return t.common.provider.google;
+    case ProviderType.baiduFanyiApi:
+      return t.common.provider.baidu_fanyi_api;
+    case ProviderType.caiyunPlatform:
+      return t.common.provider.caiyun_platform;
+    case ProviderType.deepLApi:
+      return t.common.provider.deepl_api;
+    case ProviderType.googleCloud:
+      return t.common.provider.google_cloud;
     case ProviderType.openAi:
       return t.common.provider.openai;
     case ProviderType.ollama:
@@ -390,10 +406,10 @@ String providerTypeDisplayName(ProviderType type) {
       return 'OpenAI Compatible';
     case ProviderType.system:
       return t.common.provider.system;
-    case ProviderType.tencent:
-      return t.common.provider.tencent;
-    case ProviderType.youdao:
-      return t.common.provider.youdao;
+    case ProviderType.tencentCloud:
+      return t.common.provider.tencent_cloud;
+    case ProviderType.youdaoZhiyun:
+      return t.common.provider.youdao_zhiyun;
   }
 }
 

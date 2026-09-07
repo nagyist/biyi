@@ -1,5 +1,15 @@
 {
   "common": {
+    "service_name": {
+      "baidu_fanyi_api": "通用翻译 API",
+      "caiyun_platform": "彩云小译 API",
+      "deepl_api": "DeepL API / 文本翻译",
+      "google_cloud": "Cloud Translation - Basic",
+      "tencent_cloud": "机器翻译（TMT）",
+      "youdao_zhiyun_translation": "文本翻译 API",
+      "youdao_zhiyun_dictionary": "文本翻译 API（词典结果）",
+      "youdao_zhiyun_ocr": "通用文字识别 API"
+    },
     "ui": {
       "button": {
         "ok": "确定",
@@ -63,17 +73,17 @@
     },
     "provider": {
       "anthropic": "Anthropic",
-      "baidu": "百度",
-      "caiyun": "彩云小译",
-      "deepl": "DeepL",
-      "google": "谷歌",
+      "baidu_fanyi_api": "百度翻译开放平台",
+      "caiyun_platform": "彩云科技开放平台",
+      "deepl_api": "DeepL API",
+      "google_cloud": "Google Cloud",
       "ollama": "Ollama",
       "openai": "OpenAI",
       "sogou": "搜狗",
       "xai": "xAI",
       "system": "系统",
-      "tencent": "腾讯",
-      "youdao": "有道"
+      "tencent_cloud": "腾讯云",
+      "youdao_zhiyun": "有道智云 AI 开放平台"
     }
   },
   "app": {

@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 /// fetches a model roster, and there is no Rust engine in a widget test.
 final _deepl = ProviderConfigEntry(
   id: 'deepl',
-  type: ProviderType.deepL,
+  type: ProviderType.deepLApi,
   fields: const {'authKey': 'k'},
 );
 
@@ -40,7 +40,7 @@ void main() {
     );
   }
 
-  final deeplName = providerTypeDisplayName(ProviderType.deepL);
+  final deeplName = providerTypeDisplayName(ProviderType.deepLApi);
   final translationLabel = serviceTypeLabel(ServiceType.translation);
 
   testWidgets('derives the display name from the provider and the kind', (

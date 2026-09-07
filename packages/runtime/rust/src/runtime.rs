@@ -825,9 +825,20 @@ fn service_entry_for_provider_type(
     provider: &ProviderConfigEntry,
     service_type: ServiceType,
 ) -> ServiceConfigEntry {
-    let name = match provider.r#type {
-        _ => provider.id.clone(),
-    };
+    // Product names correspond to the APIs actually called by each adapter.
+    // YoudaoZhiyun dictionary results come from the same text translation endpoint.
+    let name = match (provider.r#type, service_type) {
+        (ProviderType::BaiduFanyiApi, ServiceType::Translation) => "通用翻译 API",
+        (ProviderType::CaiyunPlatform, ServiceType::Translation) => "彩云小译 API",
+        (ProviderType::DeepLApi, ServiceType::Translation) => "DeepL API / Translate text",
+        (ProviderType::GoogleCloud, ServiceType::Translation) => "Cloud Translation - Basic",
+        (ProviderType::TencentCloud, ServiceType::Translation) => "机器翻译（TMT）",
+        (ProviderType::YoudaoZhiyun, ServiceType::Translation) => "文本翻译 API",
+        (ProviderType::YoudaoZhiyun, ServiceType::Dictionary) => "文本翻译 API（词典结果）",
+        (ProviderType::YoudaoZhiyun, ServiceType::Ocr) => "通用文字识别 API",
+        _ => &provider.id,
+    }
+    .to_owned();
     ServiceConfigEntry {
         id: service_id.to_owned(),
         provider_id: provider.id.clone(),
@@ -2318,10 +2329,24 @@ impl RuntimePermission {
 
 #[uniffi::export(async_runtime = "tokio")]
 impl RuntimeTextExtractor {
-    /// Read the current clipboard text.
+    /// Read clipboard text, or recognize a clipboard image with the default OCR service.
     pub async fn extract_from_clipboard(&self) -> Result<String, RuntimeError> {
-        text_extractor::extract_from_clipboard()
-            .map_err(|e| RuntimeError::Error { msg: e.to_string() })
+        // Native clipboard access and PNG encoding can block; keep them off the async executor.
+        let content = run_on_worker_thread(|| async {
+            text_extractor::extract_from_clipboard().map_err(|e| e.to_string())
+        })
+        .await
+        .map_err(|msg| RuntimeError::Error { msg })?;
+        match content {
+            text_extractor::ClipboardContent::Text(text) => Ok(text),
+            text_extractor::ClipboardContent::Image(base64_image) => {
+                self.recognize_image(RecognizeTextRequest {
+                    image_path: None,
+                    base64_image: Some(base64_image),
+                })
+                .await
+            }
+        }
     }
 
     /// Extract text from the current screen selection.
@@ -2344,13 +2369,22 @@ impl RuntimeTextExtractor {
     ///
     /// The user must have a default OCR service configured in settings.
     pub async fn extract_from_screen_capture(&self) -> Result<String, RuntimeError> {
-        let runtime = self.runtime.clone();
-
         // 1. Take a screenshot to a temporary file.
         let image_path =
             capture_screenshot().map_err(|e| RuntimeError::Error { msg: e.to_string() })?;
 
-        // 2. Read settings to get the default OCR service ID.
+        self.recognize_image(RecognizeTextRequest {
+            image_path: Some(image_path),
+            base64_image: None,
+        })
+        .await
+    }
+}
+
+impl RuntimeTextExtractor {
+    async fn recognize_image(&self, request: RecognizeTextRequest) -> Result<String, RuntimeError> {
+        let runtime = self.runtime.clone();
+        // Read settings to get the default OCR service ID.
         let service_id = {
             let state = runtime.inner.state.read().await;
             let ocr_service_id = state.settings.general.default_ocr_service.clone();
@@ -2379,11 +2413,6 @@ impl RuntimeTextExtractor {
             let ocr_service = provider
                 .ocr()
                 .ok_or_else(|| format!("provider `{provider_id}` does not support ocr"))?;
-
-            let request = RecognizeTextRequest {
-                image_path: Some(image_path),
-                base64_image: None,
-            };
 
             let response = ocr_service
                 .recognize_text(request)
@@ -3497,5 +3526,36 @@ mod tests {
         assert_eq!(detections[1].detected_language.as_deref(), Some("en"));
         assert_eq!(detections[2].detected_language, None);
         assert_eq!(detections[2].candidates.len(), 2);
+    }
+}
+
+#[cfg(test)]
+mod provider_naming_tests {
+    use super::*;
+
+    #[test]
+    fn official_service_names_preserve_existing_instance_references() {
+        let provider = ProviderConfigEntry {
+            id: "youdao-work".to_owned(),
+            r#type: ProviderType::YoudaoZhiyun,
+            created_at: Some(123),
+            ..Default::default()
+        };
+        for (kind, suffix, expected) in [
+            (ServiceType::Translation, "translation", "文本翻译 API"),
+            (
+                ServiceType::Dictionary,
+                "dictionary",
+                "文本翻译 API（词典结果）",
+            ),
+            (ServiceType::Ocr, "ocr", "通用文字识别 API"),
+        ] {
+            let id = format!("youdao-work+{suffix}");
+            let service = service_entry_for_provider_type(&id, &provider, kind);
+            assert_eq!(service.id, id);
+            assert_eq!(service.provider_id, "youdao-work");
+            assert_eq!(service.name, expected);
+            assert_eq!(service.created_at, Some(123));
+        }
     }
 }
