@@ -22,10 +22,9 @@ import 'package:beyondtranslate_desktop/src/widgets/avatar.dart';
 import 'package:beyondtranslate_desktop/src/widgets/block_heading.dart';
 import 'package:beyondtranslate_desktop/src/widgets/blocks.dart';
 import 'package:beyondtranslate_desktop/src/widgets/data_display.dart';
-import 'package:beyondtranslate_desktop/src/widgets/list_tile.dart';
 import 'package:beyondtranslate_desktop/src/widgets/swap_pair.dart';
 import 'package:beyondtranslate_desktop/src/widgets/ui.dart'
-    show Badge, Switch, ThemeDataBuildContextProps;
+    show Badge, PreferenceRow, Switch, ThemeDataBuildContextProps;
 import 'package:flutter/services.dart' show FontLoader;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -208,25 +207,31 @@ void main() {
       );
     });
 
+    // The shape 提供商 and 服务 actually draw: the kit's row, with the app's
+    // own mark on the left and its controls on the right.
     testWidgets('list rows', (tester) async {
       await expectGolden(
         tester,
         'list_rows',
         width: 420,
         column([
-          ListTile(
-            leading: const Avatar(label: 'C', color: Color(0xFFD97757)),
-            title: const Text('Claude'),
-            meta: const Text('claude-sonnet-4-5 · 密钥有效'),
-            badge: const Badge(child: Text('默认')),
-            trailing: [Switch(value: true, onChanged: (_) {})],
+          PreferenceRow(
+            icon: const Avatar(label: 'C', color: Color(0xFFD97757)),
+            title: 'Claude',
+            subtitle: 'claude-sonnet-4-5 · 密钥有效',
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Badge(child: Text('默认')),
+                const SizedBox(width: 8),
+                Switch(value: true, onChanged: (_) {}),
+              ],
+            ),
           ),
-          ListTile(
-            variant: ListTileVariant.row,
-            tone: ListTileTone.warn,
-            leading: const Avatar(label: 'D', color: Color(0xFF3A7BFD)),
-            title: const Text('DeepL'),
-            meta: const Text('密钥已过期'),
+          PreferenceRow(
+            icon: const Avatar(label: 'D', color: Color(0xFF3A7BFD)),
+            title: 'DeepL',
+            subtitle: '密钥已过期',
             onPressed: () {},
           ),
         ]),

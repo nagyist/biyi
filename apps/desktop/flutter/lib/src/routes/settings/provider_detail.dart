@@ -10,7 +10,6 @@ import '../../services/settings_store.dart';
 import '../../theme/product_tokens.dart' show ProductPalette, ProductTypography;
 import '../../widgets/app_dialog.dart';
 import '../../widgets/custom_alert_dialog/show_dialog.dart';
-import '../../widgets/preference_list/preference_list_section.dart';
 import '../../widgets/provider_icon/provider_icon.dart';
 import '../../widgets/settings_page.dart';
 import '../../widgets/ui.dart'
@@ -21,6 +20,7 @@ import '../../widgets/ui.dart'
         ButtonVariant,
         DialogTone,
         FormField,
+        PreferenceSection,
         Spinner,
         TextField,
         ThemeDataBuildContextProps,
@@ -182,6 +182,19 @@ class _ProviderDetailPageState extends State<ProviderDetailPage> {
     }
   }
 
+  /// The page's blocks sit 8 inside its back bar.
+  ///
+  /// 返回 is a plain button and its label is already pushed in by the button's
+  /// own padding; the blocks below make up the same difference so the two
+  /// columns line up, and the page as a whole then matches the 24 the other
+  /// settings panes start at. The kit's section has no inset of its own — it
+  /// is drawn flush and inset from the outside, which is the only place that
+  /// knows what it is being lined up with.
+  Widget _inset(Widget child) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: child,
+      );
+
   @override
   Widget build(BuildContext context) {
     final vars = context.vars;
@@ -198,31 +211,27 @@ class _ProviderDetailPageState extends State<ProviderDetailPage> {
         ),
 
         // The provider's identity, at the size the deck gives a page header.
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Row(
-            children: [
-              ProviderIcon(providerTypeValue(widget.provider.type), size: 26),
-              const SizedBox(width: 10),
-              Text(
-                providerTypeDisplayName(widget.provider.type),
-                style: vars.displayStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  height: 1,
-                  color: vars.colorContent,
-                ),
+        _inset(Row(
+          children: [
+            ProviderIcon(providerTypeValue(widget.provider.type), size: 26),
+            const SizedBox(width: 10),
+            Text(
+              providerTypeDisplayName(widget.provider.type),
+              style: vars.displayStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                height: 1,
+                color: vars.colorContent,
               ),
-            ],
-          ),
-        ),
+            ),
+          ],
+        )),
 
-        PreferenceListSection(
-          labelInset: 8,
-          title: Text(t.settings.providers.editor.row.id),
+        _inset(PreferenceSection(
+          label: t.settings.providers.editor.row.id,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(vertical: 4),
               child: Row(
                 children: [
                   Text(
@@ -246,30 +255,26 @@ class _ProviderDetailPageState extends State<ProviderDetailPage> {
               ),
             ),
           ],
-        ),
+        )),
 
         const SettingsSectionDivider(),
 
-        PreferenceListSection(
-          labelInset: 8,
-          title: Text(detail.section.configuration),
+        _inset(PreferenceSection(
+          label: detail.section.configuration,
           children: [
             if (_fieldControllers.isEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  t.settings.providers.description.fallback,
-                  style: vars.sansStyle(
-                    fontSize: 12,
-                    height: 1.4,
-                    color: vars.colorContentFaint,
-                  ),
+              Text(
+                t.settings.providers.description.fallback,
+                style: vars.sansStyle(
+                  fontSize: 12,
+                  height: 1.4,
+                  color: vars.colorContentFaint,
                 ),
               )
             else
               for (final entry in _fieldControllers.entries)
                 Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8, bottom: 12),
+                  padding: const EdgeInsets.only(bottom: 12),
                   child: FormField(
                       label: _fieldLabel(entry.key),
                       child: TextField(
@@ -278,26 +283,24 @@ class _ProviderDetailPageState extends State<ProviderDetailPage> {
                           onChanged: (_) => _markDirty())),
                 ),
           ],
-        ),
+        )),
 
         if (_hasModelRoster) ...[
           const SettingsSectionDivider(),
-          PreferenceListSection(
-            labelInset: 8,
-            title: Text(detail.section.models),
+          _inset(PreferenceSection(
+            label: detail.section.models,
             action: Button(
                 variant: ButtonVariant.plain,
                 onPressed: _isLoadingModels ? null : _loadModels,
                 child: Text(detail.models.refresh)),
             children: [_buildModels()],
-          ),
+          )),
         ],
 
         const SettingsSectionDivider(),
 
-        PreferenceListSection(
-          labelInset: 8,
-          title: Text(t.settings.providers.section.services),
+        _inset(PreferenceSection(
+          label: t.settings.providers.section.services,
           children: [
             if (widget.services.isEmpty)
               _Note(text: t.settings.providers.item.no_services)
@@ -305,20 +308,17 @@ class _ProviderDetailPageState extends State<ProviderDetailPage> {
               for (final service in widget.services)
                 _ServiceLine(service: service),
           ],
-        ),
+        )),
 
         if (_errorMessage != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: SelectableText(
-              _errorMessage!,
-              style: vars.sansStyle(
-                fontSize: 11,
-                height: 1.6,
-                color: vars.dangerFg,
-              ),
+          _inset(SelectableText(
+            _errorMessage!,
+            style: vars.sansStyle(
+              fontSize: 11,
+              height: 1.6,
+              color: vars.dangerFg,
             ),
-          ),
+          )),
       ],
     );
   }
@@ -350,18 +350,15 @@ class _ProviderDetailPageState extends State<ProviderDetailPage> {
       );
     }
     if (_modelsError != null && _models == null) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          children: [
-            Flexible(child: _Note(text: _modelsError!, padded: false)),
-            const SizedBox(width: 10),
-            Button(
-                variant: ButtonVariant.plain,
-                onPressed: _loadModels,
-                child: Text(t.settings.providers.detail.models.retry)),
-          ],
-        ),
+      return Row(
+        children: [
+          Flexible(child: _Note(text: _modelsError!, padded: false)),
+          const SizedBox(width: 10),
+          Button(
+              variant: ButtonVariant.plain,
+              onPressed: _loadModels,
+              child: Text(t.settings.providers.detail.models.retry)),
+        ],
       );
     }
 
@@ -455,7 +452,7 @@ class _ModelRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final vars = context.vars;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
           Flexible(
@@ -499,7 +496,7 @@ class _ServiceLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final vars = context.vars;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
           Flexible(
@@ -551,9 +548,8 @@ class _Note extends StatelessWidget {
   Widget build(BuildContext context) {
     final vars = context.vars;
     return Padding(
-      padding: padded
-          ? const EdgeInsets.symmetric(horizontal: 8, vertical: 4)
-          : EdgeInsets.zero,
+      padding:
+          padded ? const EdgeInsets.symmetric(vertical: 4) : EdgeInsets.zero,
       child: Row(
         children: [
           if (leading != null) ...[leading!, const SizedBox(width: 10)],

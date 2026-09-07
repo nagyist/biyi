@@ -6,7 +6,6 @@ import 'package:beyondtranslate_desktop/src/widgets/icon_action_button.dart';
 import 'package:beyondtranslate_desktop/src/widgets/language_selector.dart';
 import 'package:beyondtranslate_desktop/src/widgets/nav_columns.dart'
     show Sidebar;
-import 'package:beyondtranslate_desktop/src/widgets/navigation_item.dart';
 import 'package:beyondtranslate_desktop/src/widgets/swap_pair.dart';
 import 'package:beyondtranslate_desktop/src/widgets/ui.dart'
     show Aside, Callout, NavItem, SidebarCard;
@@ -31,11 +30,11 @@ void main() {
       specimen(
         const Workbench(
           sidebar: [
-            NavigationItem(
-              label: '翻译',
-              icon: FluentIcons.translate_20_regular,
-              selected: true,
-            ),
+            NavItem(
+                label: '翻译',
+                icon: FluentIcons.translate_20_regular,
+                current: true,
+                onPressed: null),
           ],
           child: SizedBox.expand(),
         ),
@@ -73,10 +72,10 @@ void main() {
           alignment: Alignment.topLeft,
           child: SizedBox(
             width: 172,
-            child: NavigationItem(
-              label: '历史',
-              icon: FluentIcons.history_20_regular,
-            ),
+            child: NavItem(
+                label: '历史',
+                icon: FluentIcons.history_20_regular,
+                onPressed: null),
           ),
         ),
       ),

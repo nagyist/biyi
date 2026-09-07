@@ -12,10 +12,10 @@ import '../../services/app_windows.dart'
 import '../../theme/product_tokens.dart' show ProductTypography;
 import '../../utils/platform_util.dart';
 import '../../utils/utils.dart';
-import '../../widgets/navigation_item.dart';
 import '../../widgets/ui.dart'
     show
         Button,
+        NavItem,
         SidebarCard,
         SidebarGroup,
         ThemeDataBuildContextProps,
@@ -174,31 +174,27 @@ class _WorkbenchShellState extends State<WorkbenchShell> {
         sidebarFooter: const _SidebarVersion(),
         sidebar: [
           SidebarGroup(label: t.workbench.workspace, children: [
-            NavigationItem(
-              label: t.workbench.translate,
-              icon: FluentIcons.translate_20_regular,
-              selected: _selected('/translate'),
-              onTap: () => context.go('/translate'),
-            ),
+            NavItem(
+                label: t.workbench.translate,
+                icon: FluentIcons.translate_20_regular,
+                current: _selected('/translate'),
+                onPressed: () => context.go('/translate')),
             if (kGlossaryFeatureEnabled)
-              NavigationItem(
-                label: t.workbench.glossary,
-                icon: FluentIcons.book_20_regular,
-                selected: _selected('/glossary'),
-                onTap: () => context.go('/glossary'),
-              ),
-            NavigationItem(
-              label: t.workbench.history,
-              icon: FluentIcons.history_20_regular,
-              selected: _selected('/history'),
-              onTap: () => context.go('/history'),
-            ),
-            NavigationItem(
-              label: t.settings.layout.title,
-              icon: FluentIcons.settings_20_regular,
-              selected: _selected('/settings'),
-              onTap: () => context.go('/settings/general'),
-            ),
+              NavItem(
+                  label: t.workbench.glossary,
+                  icon: FluentIcons.book_20_regular,
+                  current: _selected('/glossary'),
+                  onPressed: () => context.go('/glossary')),
+            NavItem(
+                label: t.workbench.history,
+                icon: FluentIcons.history_20_regular,
+                current: _selected('/history'),
+                onPressed: () => context.go('/history')),
+            NavItem(
+                label: t.settings.layout.title,
+                icon: FluentIcons.settings_20_regular,
+                current: _selected('/settings'),
+                onPressed: () => context.go('/settings/general')),
           ]),
         ],
         child: widget.child,

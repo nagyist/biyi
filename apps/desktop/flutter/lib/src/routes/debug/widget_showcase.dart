@@ -8,7 +8,6 @@ import '../../widgets/glossary_hit.dart';
 import '../../widgets/history_row.dart';
 import '../../widgets/icon_action_button.dart';
 import '../../widgets/language_pair.dart';
-import '../../widgets/navigation_item.dart';
 import '../../widgets/numbered_section_label.dart';
 import '../../widgets/service_selector.dart';
 import '../../widgets/translation_pane.dart';
@@ -21,6 +20,7 @@ import '../../widgets/ui.dart'
         Divider,
         KeyCap,
         KeyCapVariant,
+        NavItem,
         SidebarGroup,
         Spinner,
         Switch,
@@ -140,22 +140,16 @@ class _WidgetShowcasePageState extends State<WidgetShowcasePage> {
             child: Workbench(
               sidebar: [
                 SidebarGroup(label: '工作区', children: [
-                  NavigationItem(
-                    label: '翻译',
-                    icon: Icons.translate,
-                    selected: true,
-                    onTap: () {},
-                  ),
-                  NavigationItem(
-                    label: '术语库',
-                    icon: Icons.menu_book_outlined,
-                    onTap: () {},
-                  ),
-                  NavigationItem(
-                    label: '历史',
-                    icon: Icons.history,
-                    onTap: () {},
-                  ),
+                  NavItem(
+                      label: '翻译',
+                      icon: Icons.translate,
+                      current: true,
+                      onPressed: () {}),
+                  NavItem(
+                      label: '术语库',
+                      icon: Icons.menu_book_outlined,
+                      onPressed: () {}),
+                  NavItem(label: '历史', icon: Icons.history, onPressed: () {}),
                 ]),
               ],
               child: Column(
