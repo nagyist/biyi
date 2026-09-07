@@ -79,11 +79,27 @@ final ui.IconLibrary _iconLibrary = const ui.IconLibrary(
   chevronRight: FluentIcons.chevron_right_20_regular,
 );
 
-/// The kit's token set for a palette.
+/// The kit's token set for a palette, in the app's own faces.
 ///
-/// Everything visual in the app comes from `beyondtranslate_ui`; this only
-/// names which of its themes a family and brightness map to.
-ui.ThemeData designThemeFor(AppThemeName name) => switch (name) {
+/// Everything visual comes from `beyondtranslate_ui`; this names which of its
+/// themes a family and brightness map to, and re-points the two type faces it
+/// carries. The kit names Apple faces and leaves the family slot empty, which
+/// is right on a Mac and resolves to whatever the engine defaults to
+/// everywhere else — Segoe UI with an Apple fallback list behind it on
+/// Windows, so a kit label falls back to a Chinese face that is not installed.
+/// Pointing `fontUi` and `fontDisplay` at the app's own stacks puts the kit's
+/// widgets in the same type as the product's, on every platform.
+ui.ThemeData designThemeFor(AppThemeName name) {
+  final ui.ThemeData theme = _paletteFor(name);
+  return theme.copyWith(
+    vars: theme.vars.copyWith(
+      fontUi: ProductFonts.ui,
+      fontDisplay: ProductFonts.display,
+    ),
+  );
+}
+
+ui.ThemeData _paletteFor(AppThemeName name) => switch (name) {
       AppThemeName.studioLight =>
         ui.ThemeData.studioLight(iconLibrary: _iconLibrary),
       AppThemeName.studioDark =>
@@ -195,8 +211,8 @@ ThemeData appThemeData(AppThemeName name) {
     scaffoldBackgroundColor: vars.colorSurface,
     dividerColor: vars.colorBorder,
     disabledColor: vars.colorContentFaint,
-    fontFamily: ProductFonts.sansFamily,
-    fontFamilyFallback: ProductFonts.sansFallback,
+    fontFamily: vars.fontUi.family,
+    fontFamilyFallback: vars.fontUi.fallback,
     iconTheme: IconThemeData(color: vars.colorContent),
     dividerTheme: DividerThemeData(
       color: vars.colorBorder,

@@ -59,14 +59,15 @@ const _pingFang = '/System/Library/Fonts/STHeiti Medium.ttc';
 const _menlo = '/System/Library/Fonts/Menlo.ttc';
 const _symbols = '/System/Library/Fonts/Apple Symbols.ttf';
 
-/// The host faces, registered under the names the kit's type recipes name.
+/// The host faces, registered under the names `ProductFonts` asks for on this
+/// platform — which is what the kit is handed too, so one set covers both.
 ///
-/// `flutter test` resolves nothing on its own: a family the recipes ask for
-/// and the test never registered comes out as tofu. ⌕ ⇄ ✕ ✓ sit outside SF's
-/// own coverage and macOS resolves them through Apple Symbols, so it is loaded
-/// *into* each family rather than beside it — a family's later fonts are its
-/// own fallbacks, which is the only way in when the recipe's
-/// `fontFamilyFallback` is the kit's and not the test's to extend.
+/// `flutter test` resolves nothing on its own: a family nothing registered
+/// comes out as tofu, and a style with no family at all comes out as Ahem's
+/// filled boxes. ⌕ ⇄ ✕ ✓ sit outside SF's own coverage and macOS reaches them
+/// through Apple Symbols, so it is loaded *into* each family rather than
+/// beside it — a family's later fonts are its own fallbacks, and the fallback
+/// lists themselves belong to the theme rather than to the test.
 const _hostFaces = <String, List<String>>{
   'SF Pro Text': [_sf, _symbols],
   'SF Pro Display': [_sf, _symbols],

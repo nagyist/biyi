@@ -18,7 +18,8 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, listEquals;
 import 'package:flutter/material.dart' as material show Theme, ThemeExtension;
 import 'package:flutter/widgets.dart';
 
-import '../widgets/ui.dart' show ColorDescriptor, Colors, ThemeVariables;
+import '../widgets/ui.dart'
+    show ColorDescriptor, Colors, FontFace, ThemeVariables;
 import 'app_theme.dart' show AppThemeName;
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -30,61 +31,87 @@ import 'app_theme.dart' show AppThemeName;
 /// Every role names its family outright rather than leaning on the platform
 /// default: a style with no `fontFamily` takes whatever family the engine
 /// happens to default to, and its `fontFamilyFallback` is never consulted for
-/// a glyph that default already covers. The kit's own recipes name the Apple
-/// faces in their fallback lists, so the macOS branch simply promotes those to
-/// the family slot.
+/// a glyph that default already covers — which is Ahem in a widget test, and
+/// on Windows a face with no Chinese in it. The macOS branch promotes the
+/// Apple faces the kit already names in its fallback lists.
+///
+/// [ui] and [display] are handed to the kit as its own `fontUi` and
+/// `fontDisplay` (see `designThemeFor`), so its widgets are set in the same
+/// faces as everything around them rather than in whatever the engine picks.
 abstract final class ProductFonts {
   static bool get _isWindows => defaultTargetPlatform == TargetPlatform.windows;
   static bool get _isLinux => defaultTargetPlatform == TargetPlatform.linux;
 
-  /// The UI face — labels, body copy, controls.
-  static String get sansFamily {
-    if (_isWindows) return 'Segoe UI';
-    if (_isLinux) return 'Noto Sans';
-    return 'SF Pro Text';
-  }
-
-  static List<String> get sansFallback {
-    if (_isWindows) return const ['Microsoft YaHei UI', 'Microsoft YaHei'];
-    if (_isLinux) return const ['Noto Sans CJK SC', 'Noto Sans CJK TC'];
-    return const ['PingFang SC'];
-  }
-
-  /// The display face — headings and numerals, set tighter.
-  static String get displayFamily {
-    if (_isWindows) return 'Segoe UI';
-    if (_isLinux) return 'Noto Sans';
-    return 'SF Pro Display';
-  }
-
-  /// The face a paragraph of Chinese is set in.
-  static String get cjkFamily {
-    if (_isWindows) return 'Microsoft YaHei UI';
-    if (_isLinux) return 'Noto Sans CJK SC';
-    return 'PingFang SC';
-  }
-
-  static List<String> get cjkFallback {
-    if (_isWindows) return const ['Microsoft YaHei', 'Segoe UI'];
-    if (_isLinux) {
-      return const ['Noto Sans CJK TC', 'Noto Sans', 'Droid Sans Fallback'];
+  /// The UI face — labels, body copy, controls. Handed to the kit as
+  /// `fontUi`, so its own widgets are set in it too.
+  static FontFace get ui {
+    if (_isWindows) {
+      return const FontFace(
+        family: 'Segoe UI',
+        fallback: ['Microsoft YaHei UI', 'Microsoft YaHei'],
+      );
     }
-    return const ['SF Pro Text'];
-  }
-
-  /// Numerals in a column, shortcut glyphs, raw JSON.
-  static String get monoFamily {
-    if (_isWindows) return 'Roboto Mono';
-    if (_isLinux) return 'Noto Sans Mono';
-    return 'SF Mono';
-  }
-
-  static List<String> get monoFallback {
-    if (_isWindows) return const ['Cascadia Mono', 'Consolas'];
     if (_isLinux) {
-      return const ['Noto Sans Mono CJK SC', 'DejaVu Sans Mono', 'monospace'];
+      return const FontFace(
+        family: 'Noto Sans',
+        fallback: ['Noto Sans CJK SC', 'Noto Sans CJK TC'],
+      );
     }
-    return const ['Menlo', 'monospace'];
+    return const FontFace(family: 'SF Pro Text', fallback: ['PingFang SC']);
+  }
+
+  /// The display face — headings and numerals, set tighter. The kit's
+  /// `fontDisplay`.
+  static FontFace get display {
+    if (_isWindows) {
+      return const FontFace(
+        family: 'Segoe UI',
+        fallback: ['Microsoft YaHei UI', 'Microsoft YaHei'],
+      );
+    }
+    if (_isLinux) {
+      return const FontFace(
+        family: 'Noto Sans',
+        fallback: ['Noto Sans CJK SC', 'Noto Sans CJK TC'],
+      );
+    }
+    return const FontFace(family: 'SF Pro Display', fallback: ['PingFang SC']);
+  }
+
+  /// The face a paragraph of Chinese is set in. The kit has no role for it —
+  /// nothing it draws is a paragraph — so it stays here.
+  static FontFace get cjk {
+    if (_isWindows) {
+      return const FontFace(
+        family: 'Microsoft YaHei UI',
+        fallback: ['Microsoft YaHei', 'Segoe UI'],
+      );
+    }
+    if (_isLinux) {
+      return const FontFace(
+        family: 'Noto Sans CJK SC',
+        fallback: ['Noto Sans CJK TC', 'Noto Sans', 'Droid Sans Fallback'],
+      );
+    }
+    return const FontFace(family: 'PingFang SC', fallback: ['SF Pro Text']);
+  }
+
+  /// Numerals in a column, shortcut glyphs, raw JSON. Also the kit's to do
+  /// without.
+  static FontFace get mono {
+    if (_isWindows) {
+      return const FontFace(
+        family: 'Roboto Mono',
+        fallback: ['Cascadia Mono', 'Consolas'],
+      );
+    }
+    if (_isLinux) {
+      return const FontFace(
+        family: 'Noto Sans Mono',
+        fallback: ['Noto Sans Mono CJK SC', 'DejaVu Sans Mono', 'monospace'],
+      );
+    }
+    return const FontFace(family: 'SF Mono', fallback: ['Menlo', 'monospace']);
   }
 }
 
@@ -237,8 +264,7 @@ extension ProductTypography on ThemeVariables {
   static const double title = 17;
 
   TextStyle _face(
-    String family,
-    List<String> fallback, {
+    FontFace face, {
     required double fontSize,
     FontWeight? fontWeight,
     double? height,
@@ -247,8 +273,8 @@ extension ProductTypography on ThemeVariables {
     List<FontFeature>? fontFeatures,
   }) =>
       TextStyle(
-        fontFamily: family,
-        fontFamilyFallback: fallback,
+        fontFamily: face.family,
+        fontFamilyFallback: face.fallback,
         fontSize: fontSize,
         fontWeight: fontWeight,
         height: height,
@@ -268,8 +294,7 @@ extension ProductTypography on ThemeVariables {
     double? letterSpacing,
   }) {
     return _face(
-      ProductFonts.sansFamily,
-      ProductFonts.sansFallback,
+      fontUi,
       fontSize: fontSize ?? body,
       fontWeight: fontWeight,
       height: height,
@@ -288,8 +313,7 @@ extension ProductTypography on ThemeVariables {
     List<FontFeature>? fontFeatures,
   }) {
     return _face(
-      ProductFonts.displayFamily,
-      ProductFonts.sansFallback,
+      fontDisplay,
       fontSize: fontSize ?? body,
       fontWeight: fontWeight,
       height: height,
@@ -307,8 +331,7 @@ extension ProductTypography on ThemeVariables {
     Color? color,
   }) =>
       _face(
-        ProductFonts.cjkFamily,
-        ProductFonts.cjkFallback,
+        ProductFonts.cjk,
         fontSize: fontSize ?? body,
         fontWeight: fontWeight,
         height: height,
@@ -322,8 +345,7 @@ extension ProductTypography on ThemeVariables {
     Color? color,
   }) =>
       _face(
-        ProductFonts.monoFamily,
-        ProductFonts.monoFallback,
+        ProductFonts.mono,
         fontSize: fontSize ?? body,
         fontWeight: fontWeight,
         height: height,
@@ -334,8 +356,7 @@ extension ProductTypography on ThemeVariables {
   /// these at 11pt semibold in sentence case: no uppercasing, no added
   /// tracking — which is the kit's `labelSmall`, given the product's face.
   TextStyle labelStyle({Color? color}) => _face(
-        ProductFonts.sansFamily,
-        ProductFonts.sansFallback,
+        fontUi,
         fontSize: caption,
         fontWeight: FontWeight.w600,
         height: 1,
