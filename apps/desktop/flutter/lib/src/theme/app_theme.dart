@@ -10,45 +10,66 @@ import 'product_tokens.dart'
 ///
 /// Each family carries its own light and dark pair, so this is orthogonal to
 /// [Brightness]: the family picks the character, the brightness picks the pair.
+/// The two are chosen separately in 设置 › 外观 and stored separately, so a
+/// theme survives a switch to 跟随系统 and back.
 enum DesignThemeFamily {
-  /// Muted violet on near-white / near-black — the default.
-  studio('studio'),
+  /// Muted violet on near-white / near-black — the kit's baseline.
+  studio('studio', 'Studio'),
 
-  /// Higher-contrast palette with a separate highlight hue.
-  bright('bright');
+  /// Warm paper and ink navy, marked in acid green. The default.
+  bright('bright', 'Bright'),
 
-  const DesignThemeFamily(this.id);
+  /// Cool teal on a blue-grey ground.
+  frost('frost', 'Frost'),
+
+  /// Neutral greys, no hue at all beyond the state colours.
+  graphite('graphite', 'Graphite'),
+
+  /// Warm rust on a sand ground.
+  ember('ember', 'Ember');
+
+  const DesignThemeFamily(this.id, this.label);
 
   /// The value persisted in `appearance.theme`.
   final String id;
 
+  /// What 设置 shows. A proper noun, so it is not translated — the palettes
+  /// are named the same in every locale, the way a typeface is.
+  final String label;
+
   static DesignThemeFamily fromId(String id) => DesignThemeFamily.values
       .firstWhere((family) => family.id == id, orElse: () => bright);
 
-  AppThemeName themeFor(Brightness brightness) => switch (this) {
-        DesignThemeFamily.studio => brightness == Brightness.dark
-            ? AppThemeName.studioDark
-            : AppThemeName.studioLight,
-        DesignThemeFamily.bright => brightness == Brightness.dark
-            ? AppThemeName.brightDark
-            : AppThemeName.brightLight,
-      };
+  /// This family's palette at a brightness.
+  AppThemeName themeFor(Brightness brightness) =>
+      AppThemeName.values.firstWhere(
+        (name) => name.family == this && name.brightness == brightness,
+      );
 }
 
-/// One of the kit's four palettes, named.
+/// One of the kit's ten palettes: a family under a brightness.
 ///
-/// The kit itself hands out its themes as constructors rather than as an enum,
-/// but the product layer has tokens that vary by palette (see
-/// [ProductTokens]), so the app keeps the name around and carries it on the
-/// theme it publishes.
+/// The kit hands out its themes as constructors rather than as an enum, but
+/// the product layer has tokens that vary by palette (see [ProductTokens]),
+/// so the app keeps the name around and carries it on the theme it publishes.
 enum AppThemeName {
-  studioLight,
-  studioDark,
-  brightLight,
-  brightDark;
+  studioLight(DesignThemeFamily.studio, Brightness.light),
+  studioDark(DesignThemeFamily.studio, Brightness.dark),
+  brightLight(DesignThemeFamily.bright, Brightness.light),
+  brightDark(DesignThemeFamily.bright, Brightness.dark),
+  frostLight(DesignThemeFamily.frost, Brightness.light),
+  frostDark(DesignThemeFamily.frost, Brightness.dark),
+  graphiteLight(DesignThemeFamily.graphite, Brightness.light),
+  graphiteDark(DesignThemeFamily.graphite, Brightness.dark),
+  emberLight(DesignThemeFamily.ember, Brightness.light),
+  emberDark(DesignThemeFamily.ember, Brightness.dark);
 
-  bool get isDark =>
-      this == AppThemeName.studioDark || this == AppThemeName.brightDark;
+  const AppThemeName(this.family, this.brightness);
+
+  final DesignThemeFamily family;
+  final Brightness brightness;
+
+  bool get isDark => brightness == Brightness.dark;
 }
 
 /// The glyphs the kit reaches for on its own — the app draws with Fluent
@@ -61,20 +82,28 @@ final ui.IconLibrary _iconLibrary = const ui.IconLibrary(
 /// The kit's token set for a palette.
 ///
 /// Everything visual in the app comes from `beyondtranslate_ui`; this only
-/// names which of its four themes a [Brightness] and family map to.
+/// names which of its themes a family and brightness map to.
 ui.ThemeData designThemeFor(AppThemeName name) => switch (name) {
-      AppThemeName.studioLight => ui.ThemeData.studioLight(
-          iconLibrary: _iconLibrary,
-        ),
-      AppThemeName.studioDark => ui.ThemeData.studioDark(
-          iconLibrary: _iconLibrary,
-        ),
-      AppThemeName.brightLight => ui.ThemeData.brightLight(
-          iconLibrary: _iconLibrary,
-        ),
-      AppThemeName.brightDark => ui.ThemeData.brightDark(
-          iconLibrary: _iconLibrary,
-        ),
+      AppThemeName.studioLight =>
+        ui.ThemeData.studioLight(iconLibrary: _iconLibrary),
+      AppThemeName.studioDark =>
+        ui.ThemeData.studioDark(iconLibrary: _iconLibrary),
+      AppThemeName.brightLight =>
+        ui.ThemeData.brightLight(iconLibrary: _iconLibrary),
+      AppThemeName.brightDark =>
+        ui.ThemeData.brightDark(iconLibrary: _iconLibrary),
+      AppThemeName.frostLight =>
+        ui.ThemeData.frostLight(iconLibrary: _iconLibrary),
+      AppThemeName.frostDark =>
+        ui.ThemeData.frostDark(iconLibrary: _iconLibrary),
+      AppThemeName.graphiteLight =>
+        ui.ThemeData.graphiteLight(iconLibrary: _iconLibrary),
+      AppThemeName.graphiteDark =>
+        ui.ThemeData.graphiteDark(iconLibrary: _iconLibrary),
+      AppThemeName.emberLight =>
+        ui.ThemeData.emberLight(iconLibrary: _iconLibrary),
+      AppThemeName.emberDark =>
+        ui.ThemeData.emberDark(iconLibrary: _iconLibrary),
     };
 
 /// Scopes a palette to a subtree and establishes the root defaults the kit's

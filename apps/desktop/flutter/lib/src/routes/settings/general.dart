@@ -8,8 +8,16 @@ import '../../utils/language_util.dart';
 import '../../utils/platform_util.dart';
 import '../../widgets/native_select.dart';
 import '../../widgets/settings_page.dart';
+import '../../widgets/theme_picker.dart' show ThemeFamilyPicker;
 import '../../widgets/ui.dart'
-    show Button, ButtonVariant, PreferenceRow, PreferenceSection, Switch;
+    show
+        Button,
+        ButtonVariant,
+        PreferenceRow,
+        PreferenceSection,
+        SegmentedControl,
+        SegmentedItem,
+        Switch;
 
 /// Mirrors macOS `GeneralView.swift`.
 class GeneralSettingsPage extends StatefulWidget {
@@ -90,21 +98,32 @@ class _GeneralSettingsPageState extends State<GeneralSettingsPage> {
                       AppearanceSettingsPatch(language: v),
                     ),
                   )),
+              // The palette and the light/dark pair are two settings, not one
+              // list of ten: pick the character here, and the brightness on the
+              // row below. Switching to 跟随系统 and back leaves the palette
+              // where it was.
+              PreferenceRow(
+                  title: appearance.section.theme_style,
+                  trailing: ThemeFamilyPicker(
+                    value: settingsStore.themeFamily,
+                    onChanged: (family) => settingsStore.updateAppearance(
+                      AppearanceSettingsPatch(theme: family.id),
+                    ),
+                  )),
               PreferenceRow(
                   title: appearance.section.theme_mode,
-                  trailing: _AppearanceSelect(
+                  // Three exclusive options that all fit on the line: a
+                  // segmented control shows where you are without being
+                  // opened first, which a menu of three cannot.
+                  trailing: SegmentedControl<String>(
                     value: settingsStore.appearance.themeMode,
                     items: [
-                      NativeSelectItem(
-                        value: 'light',
-                        label: t.common.theme_mode.light,
-                      ),
-                      NativeSelectItem(
+                      SegmentedItem(
+                          value: 'light', label: t.common.theme_mode.light),
+                      SegmentedItem(
                           value: 'dark', label: t.common.theme_mode.dark),
-                      NativeSelectItem(
-                        value: 'system',
-                        label: t.common.theme_mode.system,
-                      ),
+                      SegmentedItem(
+                          value: 'system', label: t.common.theme_mode.system),
                     ],
                     onChanged: (v) => settingsStore.updateAppearance(
                       AppearanceSettingsPatch(themeMode: v),
