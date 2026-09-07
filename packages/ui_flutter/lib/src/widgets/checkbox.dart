@@ -136,7 +136,7 @@ class Checkbox extends StatelessWidget {
             if (label != null) ...[
               SizedBox(width: vars.spacing25),
               Flexible(
-                child: DefaultTextStyle(
+                child: DefaultTextStyle.merge(
                   style: vars.labelQuiet.copyWith(
                     fontWeight: marked
                         ? vars.labelMedium.fontWeight
@@ -150,7 +150,7 @@ class Checkbox extends StatelessWidget {
                           children: [
                             Flexible(child: label!),
                             SizedBox(width: vars.spacing1),
-                            DefaultTextStyle(
+                            DefaultTextStyle.merge(
                               style: vars.labelQuiet.copyWith(
                                 color: vars.colorContentFaint,
                               ),

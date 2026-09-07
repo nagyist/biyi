@@ -158,12 +158,15 @@ class _BadgeState extends State<Badge> with SingleTickerProviderStateMixin {
           alignment: Alignment.center,
           widthFactor: 1.0,
           heightFactor: 1.0,
-          child: DefaultTextStyle(
+          child: DefaultTextStyle.merge(
             style: labelStyle.copyWith(
               color: foregroundColor,
             ),
             child: IconTheme(
-              data: IconThemeData(
+              // Merged rather than replaced: a bare `IconThemeData` carries
+              // no size, so a glyph inside a badge fell back to the 24px
+              // default instead of the size its surroundings set.
+              data: IconTheme.of(context).copyWith(
                 color: foregroundColor,
               ),
               child: widget.child,

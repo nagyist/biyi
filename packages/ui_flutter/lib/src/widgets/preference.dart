@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../generated/theme_variables.dart';
@@ -148,21 +149,82 @@ class PreferenceSection extends StatelessWidget {
 /// button taller than one without, and two sections on the same page would
 /// then start at different heights. Zero rather than a negative margin, so it
 /// holds for any control height and any heading size.
-class _HeadingAction extends StatelessWidget {
-  const _HeadingAction({required this.child});
-
-  final Widget child;
+///
+/// This is `height: 0` on a flex item, and it takes a render object rather
+/// than a composition because nothing off the shelf does both halves of it.
+/// An `OverflowBox` sizes itself to the constraints it is handed, and a
+/// `Row` hands a non-flex child an unbounded main axis — so the slot took an
+/// infinite width and every heading with an action crashed. And a zero-height
+/// box drops every press on what overhangs it, because `RenderBox.hitTest`
+/// checks its own bounds before it reaches the child.
+class _HeadingAction extends SingleChildRenderObjectWidget {
+  const _HeadingAction({required Widget child}) : super(child: child);
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 0,
-      child: OverflowBox(
-        minHeight: 0,
-        maxHeight: double.infinity,
-        child: child,
-      ),
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderHeadingAction();
+  }
+}
+
+class _RenderHeadingAction extends RenderShiftedBox {
+  _RenderHeadingAction() : super(null);
+
+  /// The child takes the slot's width constraints and none of its height: it
+  /// is the one thing here allowed to be as tall as it likes.
+  BoxConstraints _innerConstraints(BoxConstraints constraints) {
+    return BoxConstraints(
+      minWidth: constraints.minWidth,
+      maxWidth: constraints.maxWidth,
     );
+  }
+
+  @override
+  double computeMinIntrinsicWidth(double height) =>
+      child?.getMinIntrinsicWidth(double.infinity) ?? 0;
+
+  @override
+  double computeMaxIntrinsicWidth(double height) =>
+      child?.getMaxIntrinsicWidth(double.infinity) ?? 0;
+
+  @override
+  double computeMinIntrinsicHeight(double width) => 0;
+
+  @override
+  double computeMaxIntrinsicHeight(double width) => 0;
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    final RenderBox? child = this.child;
+    if (child == null) return constraints.smallest;
+    final Size childSize = child.getDryLayout(_innerConstraints(constraints));
+    return constraints.constrain(Size(childSize.width, 0));
+  }
+
+  @override
+  void performLayout() {
+    final RenderBox? child = this.child;
+    if (child == null) {
+      size = constraints.smallest;
+      return;
+    }
+    child.layout(_innerConstraints(constraints), parentUsesSize: true);
+    size = constraints.constrain(Size(child.size.width, 0));
+    (child.parentData! as BoxParentData).offset = Offset(
+      0,
+      -child.size.height / 2,
+    );
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    // Skipping the usual bounds check on purpose: the whole control lies
+    // outside a box with no height, so testing this box first would mean a
+    // heading's action could never be pressed.
+    if (hitTestChildren(result, position: position)) {
+      result.add(BoxHitTestEntry(this, position));
+      return true;
+    }
+    return false;
   }
 }
 

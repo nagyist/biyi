@@ -22,10 +22,29 @@ class Dialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(builder: _build);
+  }
+
+  Widget _build(BuildContext context, BoxConstraints constraints) {
     final ThemeVariables vars = Theme.of(context).vars;
 
+    // `max-height: 100%` in the stylesheet — and the sheet has to hold to it
+    // even where nothing above it has a height to be 100% of. Dropped into a
+    // scroll view or an overlay laid out loose, the column would just keep
+    // growing and the body's own scroller would never take over, which is
+    // the height every host was otherwise wrapping this in itself.
+    final double? viewport = MediaQuery.maybeSizeOf(context)?.height;
+    final double maxHeight = constraints.maxHeight.isFinite
+        ? constraints.maxHeight
+        : viewport == null
+        ? double.infinity
+        : viewport - vars.spacing6 * 2;
+
     return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: vars.dialogWidth),
+      constraints: BoxConstraints(
+        maxWidth: vars.dialogWidth,
+        maxHeight: maxHeight,
+      ),
       child: Container(
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(

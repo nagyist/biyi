@@ -45,7 +45,7 @@ class IconActionButton extends StatelessWidget {
         active: selected,
         iconSize: iconSize,
         onPressed: onPressed,
-        icon: icon,
+        icon: Icon(icon),
       ),
     );
 

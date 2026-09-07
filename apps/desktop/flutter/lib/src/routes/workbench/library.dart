@@ -442,7 +442,7 @@ class _WorkbenchLibraryPageState extends State<WorkbenchLibraryPage> {
                   // Fluent icon is drawn for one size, and the 20-grid one at
                   // 16 puts each of the three dots on a different subpixel
                   // phase — they come out visibly unequal.
-                  icon: FluentIcons.more_horizontal_16_regular,
+                  icon: Icon(FluentIcons.more_horizontal_16_regular),
                   iconSize: 16,
                   onPressed: toggle,
                 ),

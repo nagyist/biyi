@@ -216,7 +216,13 @@ class _ButtonState extends State<Button> {
             child: AnimatedDefaultTextStyle(
               duration: vars.motionDuration,
               curve: vars.motionEasing,
-              style: labelStyle.copyWith(color: content),
+              // `AnimatedDefaultTextStyle` has no `.merge`, so the merge is
+              // done by hand: the label face is layered onto whatever the
+              // host set above rather than replacing it, which is what lets
+              // a host's font family reach the label at all.
+              style: DefaultTextStyle.of(
+                context,
+              ).style.merge(labelStyle.copyWith(color: content)),
               softWrap: false,
               child: IconTheme(
                 data: IconTheme.of(context).copyWith(

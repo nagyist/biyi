@@ -701,9 +701,11 @@ class _WorkbenchTranslationPageState extends State<WorkbenchTranslationPage> {
                                 ? translation.copied
                                 : translation.copy_result,
                             active: copied,
-                            icon: copied
-                                ? FluentIcons.checkmark_20_regular
-                                : FluentIcons.copy_20_regular,
+                            icon: Icon(
+                              copied
+                                  ? FluentIcons.checkmark_20_regular
+                                  : FluentIcons.copy_20_regular,
+                            ),
                             onPressed: shownText.isNotEmpty
                                 ? () => _copyResult(target, shownText)
                                 : null),

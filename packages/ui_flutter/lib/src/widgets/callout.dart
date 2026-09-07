@@ -137,7 +137,7 @@ class _CalloutState extends State<Callout> {
         children: [
           if (widget.icon != null)
             IconTheme(
-              data: IconThemeData(
+              data: IconTheme.of(context).copyWith(
                 color: ramp[600],
                 size: vars.spacing4,
               ),
@@ -149,16 +149,19 @@ class _CalloutState extends State<Callout> {
               // tighter than the gap separating it from the icon and the
               // action.
               spacing: vars.spacing1,
-              mainAxisSize: MainAxisSize.max,
+              // Min, not max: a Row hands its children the height it was
+              // given, so a column that took all of it would stretch the
+              // whole callout to whatever bounded height it landed in.
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (widget.title != null)
-                  DefaultTextStyle(
+                  DefaultTextStyle.merge(
                     style: titleStyle.copyWith(color: titleColor),
                     child: widget.title!,
                   ),
                 if (widget.message != null)
-                  DefaultTextStyle(
+                  DefaultTextStyle.merge(
                     style: descriptionStyle.copyWith(color: descriptionColor),
                     child: widget.message!,
                   ),

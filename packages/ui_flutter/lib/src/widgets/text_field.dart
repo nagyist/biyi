@@ -1474,7 +1474,7 @@ class _TextFieldState extends State<TextField>
           children: <Widget>[
             // Insert a prefix at the front if the prefix visibility mode matches
             // the current text state.
-            if (prefixWidget != null) prefixWidget,
+            ?prefixWidget,
             // In the middle part, stack the placeholder on top of the main EditableText
             // if needed.
             Expanded(
@@ -1486,12 +1486,12 @@ class _TextFieldState extends State<TextField>
                 alignment: AlignmentDirectional.center,
                 textDirection: widget.textDirection,
                 children: <Widget>[
-                  if (placeholder != null) placeholder,
+                  ?placeholder,
                   editableText,
                 ],
               ),
             ),
-            if (suffixWidget != null) suffixWidget,
+            ?suffixWidget,
           ],
         );
       },

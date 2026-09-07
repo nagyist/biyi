@@ -76,7 +76,9 @@ void main() {
             metaControls: true,
             label: const Text('译文  简体中文'),
             meta: IconButton(
-                semanticsLabel: '复制译文', icon: Icons.copy, onPressed: () {}),
+                semanticsLabel: '复制译文',
+                icon: Icon(Icons.copy),
+                onPressed: () {}),
             actions: Row(
               children: [
                 Button(onPressed: () {}, child: const Text('收藏')),

@@ -64,6 +64,72 @@ class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
     );
   }
 
+  /// Frost Light — slate-grey paper with a teal accent.
+  static ThemeData frostLight({
+    IconLibrary? iconLibrary,
+  }) {
+    return ThemeData(
+      vars: themeVariablesFrostLight,
+      iconLibrary: iconLibrary ?? IconLibrary.material(),
+      brightness: Brightness.light,
+    );
+  }
+
+  /// Frost Dark — the same teal over a deep blue-slate canvas.
+  static ThemeData frostDark({
+    IconLibrary? iconLibrary,
+  }) {
+    return ThemeData(
+      vars: themeVariablesFrostDark,
+      iconLibrary: iconLibrary ?? IconLibrary.material(),
+      brightness: Brightness.dark,
+    );
+  }
+
+  /// Graphite Light — monochrome, and the one family with tighter corners.
+  static ThemeData graphiteLight({
+    IconLibrary? iconLibrary,
+  }) {
+    return ThemeData(
+      vars: themeVariablesGraphiteLight,
+      iconLibrary: iconLibrary ?? IconLibrary.material(),
+      brightness: Brightness.light,
+    );
+  }
+
+  /// Graphite Dark — the same, inverted: a near-white accent on near-black.
+  static ThemeData graphiteDark({
+    IconLibrary? iconLibrary,
+  }) {
+    return ThemeData(
+      vars: themeVariablesGraphiteDark,
+      iconLibrary: iconLibrary ?? IconLibrary.material(),
+      brightness: Brightness.dark,
+    );
+  }
+
+  /// Ember Light — warm paper with a copper accent.
+  static ThemeData emberLight({
+    IconLibrary? iconLibrary,
+  }) {
+    return ThemeData(
+      vars: themeVariablesEmberLight,
+      iconLibrary: iconLibrary ?? IconLibrary.material(),
+      brightness: Brightness.light,
+    );
+  }
+
+  /// Ember Dark — a charcoal canvas with that copper lifted to an amber.
+  static ThemeData emberDark({
+    IconLibrary? iconLibrary,
+  }) {
+    return ThemeData(
+      vars: themeVariablesEmberDark,
+      iconLibrary: iconLibrary ?? IconLibrary.material(),
+      brightness: Brightness.dark,
+    );
+  }
+
   /// Creates a dark theme — Studio Dark under its older name.
   static ThemeData dark({
     IconLibrary? iconLibrary,

@@ -635,9 +635,11 @@ class MiniTranslatorTranslation extends StatelessWidget {
                               ? t.mini_translator.button.copied
                               : t.mini_translator.button.copy,
                           active: copied,
-                          icon: copied
-                              ? FluentIcons.checkmark_20_regular
-                              : FluentIcons.copy_20_regular,
+                          icon: Icon(
+                            copied
+                                ? FluentIcons.checkmark_20_regular
+                                : FluentIcons.copy_20_regular,
+                          ),
                           onPressed: () => onCopyTarget(targetCode)),
                       const SizedBox(width: 8),
                     ],

@@ -98,7 +98,7 @@ class Toast extends StatelessWidget {
               ?action,
               if (onDismiss != null)
                 IconButton(
-                  icon: _kDismiss,
+                  icon: Icon(_kDismiss),
                   onPressed: onDismiss,
                 ),
             ],

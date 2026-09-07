@@ -126,7 +126,7 @@ class Radio<T> extends StatelessWidget {
             if (label != null) ...[
               SizedBox(width: vars.spacing25),
               Flexible(
-                child: DefaultTextStyle(
+                child: DefaultTextStyle.merge(
                   style: vars.labelQuiet.copyWith(
                     fontWeight: _selected
                         ? vars.labelMedium.fontWeight

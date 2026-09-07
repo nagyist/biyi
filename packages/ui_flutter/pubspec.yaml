@@ -13,7 +13,10 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints: ^6.0.0
+  # A range rather than a caret: this is a dev dependency, and in a pub
+  # workspace one member's floor is every member's. The package is linted
+  # against 6 here; a host on 5 is not asked to move for it.
+  flutter_lints: ">=5.0.0 <7.0.0"
   flutter_test:
     sdk: flutter
 

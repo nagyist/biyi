@@ -212,4 +212,89 @@ abstract final class Colors {
       950: Color(0xFF052F4A),
     },
   );
+
+  static const ColorSwatch<int> frost = ColorSwatch<int>(
+    0xff0f7a92,
+    <int, Color>{
+      50: Color(0xFFEEF8FA),
+      100: Color(0xFFD7EFF4),
+      200: Color(0xFFB2E0EA),
+      300: Color(0xFF74C9DC),
+      400: Color(0xFF35ABC4),
+      500: Color(0xFF1690A9),
+      600: Color(0xFF0F7A92),
+      700: Color(0xFF0C6277),
+      800: Color(0xFF0B4F61),
+      900: Color(0xFF0D3C4A),
+      950: Color(0xFF08262F),
+    },
+  );
+
+  static const ColorSwatch<int> graphite = ColorSwatch<int>(
+    0xff3f3f46,
+    <int, Color>{
+      50: Color(0xFFF6F6F7),
+      100: Color(0xFFEDEDEF),
+      200: Color(0xFFE2E2E6),
+      300: Color(0xFFC9C9CF),
+      400: Color(0xFF8F8F99),
+      500: Color(0xFF52525B),
+      600: Color(0xFF3F3F46),
+      700: Color(0xFF2B2B31),
+      800: Color(0xFF1C1C21),
+      900: Color(0xFF131317),
+      950: Color(0xFF0B0B0E),
+    },
+  );
+
+  static const ColorSwatch<int> graphiteDark = ColorSwatch<int>(
+    0xffd4d4d8,
+    <int, Color>{
+      50: Color(0xFF1C1C20),
+      100: Color(0xFF26262B),
+      200: Color(0xFFFAFAFA),
+      300: Color(0xFFE6E6EA),
+      400: Color(0xFFA1A1AA),
+      500: Color(0xFFEDEDF0),
+      600: Color(0xFFD4D4D8),
+      700: Color(0xFFA1A1AA),
+      800: Color(0xFF71717A),
+      900: Color(0xFF52525B),
+      950: Color(0xFF3F3F46),
+    },
+  );
+
+  static const ColorSwatch<int> ember = ColorSwatch<int>(
+    0xffad5717,
+    <int, Color>{
+      50: Color(0xFFFDF4EC),
+      100: Color(0xFFFAE4D0),
+      200: Color(0xFFF3C8A0),
+      300: Color(0xFFE9A969),
+      400: Color(0xFFD9863A),
+      500: Color(0xFFC46A1E),
+      600: Color(0xFFAD5717),
+      700: Color(0xFF8C4415),
+      800: Color(0xFF6D3513),
+      900: Color(0xFF512810),
+      950: Color(0xFF33190B),
+    },
+  );
+
+  static const ColorSwatch<int> emberDark = ColorSwatch<int>(
+    0xffe0954a,
+    <int, Color>{
+      50: Color(0xFFFDF2E4),
+      100: Color(0xFFFAE0C4),
+      200: Color(0xFFF6CF9F),
+      300: Color(0xFFF0B877),
+      400: Color(0xFFE9A45C),
+      500: Color(0xFFD9832E),
+      600: Color(0xFFE0954A),
+      700: Color(0xFFB96A20),
+      800: Color(0xFF7D4718),
+      900: Color(0xFF4A2B11),
+      950: Color(0xFF2C1A0C),
+    },
+  );
 }

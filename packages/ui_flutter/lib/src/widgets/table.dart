@@ -109,7 +109,7 @@ class TableRow extends StatelessWidget {
               ),
             ),
           ),
-          child: DefaultTextStyle(
+          child: DefaultTextStyle.merge(
             style: vars.bodyMedium.copyWith(color: vars.colorContent),
             child: Row(children: children),
           ),
@@ -156,7 +156,7 @@ class TableCell extends StatelessWidget {
     if (head) {
       content = Padding(
         padding: EdgeInsets.symmetric(vertical: vars.spacing2),
-        child: DefaultTextStyle(
+        child: DefaultTextStyle.merge(
           style: vars.labelSmall.copyWith(color: vars.colorContentFaint),
           child: content,
         ),

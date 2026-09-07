@@ -53,7 +53,14 @@ class IconButton extends StatefulWidget {
     required this.onPressed,
   });
 
-  final IconData icon;
+  /// The glyph. A widget rather than an `IconData`, the way React's takes a
+  /// node: a button that can only hold a glyph cannot hold a spinner, and
+  /// the rotation ends up wrapped around the whole control instead of around
+  /// what turns.
+  ///
+  /// It is drawn in the button's own ink and size — an `Icon` with no colour
+  /// or size of its own takes both from the `IconTheme` here.
+  final Widget icon;
 
   final IconButtonTint? tint;
 
@@ -158,10 +165,12 @@ class _IconButtonState extends State<IconButton> {
             border: Border.all(color: border, width: context.hairlineWidth),
             borderRadius: corner,
           ),
-          child: Icon(
-            widget.icon,
-            size: widget.iconSize ?? vars.spacing35,
-            color: content,
+          child: IconTheme.merge(
+            data: IconThemeData(
+              size: widget.iconSize ?? vars.spacing35,
+              color: content,
+            ),
+            child: widget.icon,
           ),
         );
       },
