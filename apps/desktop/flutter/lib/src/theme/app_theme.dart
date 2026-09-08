@@ -24,7 +24,10 @@ enum DesignThemeFamily {
   graphite('graphite', 'Graphite'),
 
   /// Warm rust on a sand ground.
-  ember('ember', 'Ember');
+  ember('ember', 'Ember'),
+
+  /// Cool white paper and blue-grey ink, marked in blurple.
+  nocturne('nocturne', 'Nocturne');
 
   const DesignThemeFamily(this.id, this.label);
 
@@ -45,7 +48,7 @@ enum DesignThemeFamily {
       );
 }
 
-/// One of the kit's ten palettes: a family under a brightness.
+/// One of the kit's twelve palettes: a family under a brightness.
 ///
 /// The kit hands out its themes as constructors rather than as an enum, but
 /// the product layer has tokens that vary by palette (see [ProductTokens]),
@@ -60,7 +63,9 @@ enum AppThemeName {
   graphiteLight(DesignThemeFamily.graphite, Brightness.light),
   graphiteDark(DesignThemeFamily.graphite, Brightness.dark),
   emberLight(DesignThemeFamily.ember, Brightness.light),
-  emberDark(DesignThemeFamily.ember, Brightness.dark);
+  emberDark(DesignThemeFamily.ember, Brightness.dark),
+  nocturneLight(DesignThemeFamily.nocturne, Brightness.light),
+  nocturneDark(DesignThemeFamily.nocturne, Brightness.dark);
 
   const AppThemeName(this.family, this.brightness);
 
@@ -101,6 +106,8 @@ ui.ThemeData _paletteFor(AppThemeName name) => switch (name) {
       AppThemeName.graphiteDark => ui.ThemeData.graphiteDark(),
       AppThemeName.emberLight => ui.ThemeData.emberLight(),
       AppThemeName.emberDark => ui.ThemeData.emberDark(),
+      AppThemeName.nocturneLight => ui.ThemeData.nocturneLight(),
+      AppThemeName.nocturneDark => ui.ThemeData.nocturneDark(),
     };
 
 /// Scopes a palette to a subtree and establishes the root defaults below it:
