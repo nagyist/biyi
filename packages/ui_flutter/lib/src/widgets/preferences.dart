@@ -9,9 +9,45 @@ import 'section_label.dart';
 /// The settings column.
 ///
 /// The spacing is the whole design here. Rows sit close together, a heading
-/// sits further from the section above it than from its own rows, and a group
-/// title stands further still — so a heading always reads as belonging to
-/// what follows it rather than floating between two blocks.
+/// sits further from the section above it than from its own rows, a group
+/// title stands further still, and one group stands furthest from the next —
+/// so a heading always reads as belonging to what follows it rather than
+/// floating between two blocks.
+
+/// The settings column, and the root the rest of this file sits in.
+///
+/// It owns the two things no group or section can: the run between groups,
+/// which is the widest step of the spacing ladder this column climbs, and the
+/// width. The column is capped rather than filling its pane — a row puts its
+/// label on one edge and its control on the other, and past
+/// [ThemeVariables.preferencesWidth] the two stop reading as one line.
+class Preferences extends StatelessWidget {
+  const Preferences({super.key, required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeVariables vars = Theme.of(context).vars;
+
+    // Full width up to the cap, so it fills a narrow pane and stops in a wide
+    // one: `width: 100%; max-width` in the stylesheet. The inner box is what
+    // makes it the former — under a loose constraint alone a centred column
+    // would shrink to its rows.
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: vars.preferencesWidth),
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          spacing: vars.spacing8,
+          children: children,
+        ),
+      ),
+    );
+  }
+}
 
 /// A group of sections, with a title that outranks them.
 class PreferenceGroup extends StatelessWidget {

@@ -1,10 +1,9 @@
 // ignore_for_file: annotate_overrides
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' as material;
-import 'package:flutter/material.dart' show ThemeExtension;
 import 'package:flutter/widgets.dart';
 
+import '../foundation/theme_extension.dart';
 import '../generated/theme_variables.dart';
 import '../painting/varianted_widget_state_color.dart';
 import '../painting/widget_property.dart';
@@ -14,140 +13,98 @@ import '../widgets/callout_theme.dart';
 import '../widgets/card_theme.dart';
 import '../widgets/checkbox_theme.dart';
 import '../widgets/key_cap_theme.dart';
-import 'icon_library.dart';
-
-export 'icon_library.dart';
 
 /// A theme data.
 class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
   /// Studio Light — the baseline every other theme is written against.
-  static ThemeData studioLight({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData studioLight() {
     return ThemeData(
       vars: themeVariables,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.light,
     );
   }
 
   /// Studio Dark — the same skeleton over a near-black canvas.
-  static ThemeData studioDark({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData studioDark() {
     return ThemeData(
       vars: themeVariablesStudioDark,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.dark,
     );
   }
 
   /// Bright Light — warm paper, ink navy, acid green marker.
-  static ThemeData brightLight({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData brightLight() {
     return ThemeData(
       vars: themeVariablesBrightLight,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.light,
     );
   }
 
   /// Bright Dark — the same pair with the roles swapped.
-  static ThemeData brightDark({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData brightDark() {
     return ThemeData(
       vars: themeVariablesBrightDark,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.dark,
     );
   }
 
   /// Frost Light — slate-grey paper with a teal accent.
-  static ThemeData frostLight({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData frostLight() {
     return ThemeData(
       vars: themeVariablesFrostLight,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.light,
     );
   }
 
   /// Frost Dark — the same teal over a deep blue-slate canvas.
-  static ThemeData frostDark({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData frostDark() {
     return ThemeData(
       vars: themeVariablesFrostDark,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.dark,
     );
   }
 
   /// Graphite Light — monochrome, and the one family with tighter corners.
-  static ThemeData graphiteLight({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData graphiteLight() {
     return ThemeData(
       vars: themeVariablesGraphiteLight,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.light,
     );
   }
 
   /// Graphite Dark — the same, inverted: a near-white accent on near-black.
-  static ThemeData graphiteDark({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData graphiteDark() {
     return ThemeData(
       vars: themeVariablesGraphiteDark,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.dark,
     );
   }
 
   /// Ember Light — warm paper with a copper accent.
-  static ThemeData emberLight({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData emberLight() {
     return ThemeData(
       vars: themeVariablesEmberLight,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.light,
     );
   }
 
   /// Ember Dark — a charcoal canvas with that copper lifted to an amber.
-  static ThemeData emberDark({
-    IconLibrary? iconLibrary,
-  }) {
+  static ThemeData emberDark() {
     return ThemeData(
       vars: themeVariablesEmberDark,
-      iconLibrary: iconLibrary ?? IconLibrary.material(),
       brightness: Brightness.dark,
     );
   }
 
   /// Creates a dark theme — Studio Dark under its older name.
-  static ThemeData dark({
-    IconLibrary? iconLibrary,
-  }) {
-    return studioDark(iconLibrary: iconLibrary);
-  }
+  static ThemeData dark() => studioDark();
 
   /// Creates a light theme — Studio Light under its older name.
-  static ThemeData light({
-    IconLibrary? iconLibrary,
-  }) {
-    return studioLight(iconLibrary: iconLibrary);
-  }
+  static ThemeData light() => studioLight();
 
   const ThemeData({
     this.vars = themeVariables,
     required this.brightness,
-    required this.iconLibrary,
     this.badgeTheme = const BadgeThemeData(),
     this.buttonTheme = const ButtonThemeData(),
     this.calloutTheme = const CalloutThemeData(),
@@ -161,9 +118,6 @@ class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
 
   /// The brightness of the design theme.
   final Brightness brightness;
-
-  /// The icon library of the design theme.
-  final IconLibrary iconLibrary;
 
   /// The badge theme of the design theme.
   final BadgeThemeData badgeTheme;
@@ -189,7 +143,6 @@ class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
   ThemeData copyWith({
     ThemeVariables? vars,
     Brightness? brightness,
-    IconLibrary? iconLibrary,
     BadgeThemeData? badgeTheme,
     ButtonThemeData? buttonTheme,
     CalloutThemeData? calloutTheme,
@@ -199,7 +152,6 @@ class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
   }) {
     return ThemeData(
       vars: vars ?? this.vars,
-      iconLibrary: iconLibrary ?? this.iconLibrary,
       brightness: brightness ?? this.brightness,
       badgeTheme: badgeTheme ?? this.badgeTheme,
       buttonTheme: buttonTheme ?? this.buttonTheme,
@@ -220,7 +172,6 @@ class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
     return ThemeData(
       vars: t < 0.5 ? vars : other.vars,
       brightness: t < 0.5 ? brightness : other.brightness,
-      iconLibrary: t < 0.5 ? iconLibrary : other.iconLibrary,
       badgeTheme: t < 0.5 ? badgeTheme : other.badgeTheme,
       buttonTheme: t < 0.5 ? buttonTheme : other.buttonTheme,
       calloutTheme: t < 0.5 ? calloutTheme : other.calloutTheme,
@@ -233,7 +184,6 @@ class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
   @override
   int get hashCode => Object.hash(
     vars,
-    iconLibrary,
     brightness,
     badgeTheme,
     buttonTheme,
@@ -252,7 +202,6 @@ class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
     }
     return other is ThemeData &&
         other.vars == vars &&
-        other.iconLibrary == iconLibrary &&
         other.brightness == brightness &&
         other.badgeTheme == badgeTheme &&
         other.buttonTheme == buttonTheme &&
@@ -267,7 +216,6 @@ class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('brightness', brightness))
-      ..add(DiagnosticsProperty('iconLibrary', iconLibrary))
       ..add(DiagnosticsProperty('badgeTheme', badgeTheme))
       ..add(DiagnosticsProperty('buttonTheme', buttonTheme))
       ..add(DiagnosticsProperty('calloutTheme', calloutTheme))
@@ -298,12 +246,21 @@ extension ThemeDataBuildContextProps on BuildContext {
 }
 
 /// A inherited widget that provides the design theme data.
+///
+/// It also sets the ambient text style the subtree is read in, which is the
+/// one thing leaving material behind would otherwise have cost: Flutter has
+/// no default face below an app the way a browser has one below `<body>`, and
+/// a `Text` with nothing above it is drawn in the engine's error style. A
+/// `Material` used to carry it; the theme carries it now, the way every other
+/// kit's theme does.
 class Theme extends InheritedTheme {
-  const Theme({
+  Theme({
     super.key,
     required this.data,
-    required super.child,
-  });
+    required Widget child,
+  }) : super(
+         child: _Ambient(data: data, child: child),
+       );
 
   final ThemeData data;
 
@@ -322,12 +279,35 @@ class Theme extends InheritedTheme {
 
   /// The theme the current subtree is rendered under, falling back to Studio
   /// Light so a widget dropped into a bare app still paints correctly rather
-  /// than throwing on a missing extension.
+  /// than throwing on a missing ancestor.
+  ///
+  /// There is no second place to look: this widget is the only thing that
+  /// carries a theme. A host whose app is someone else's — a `MaterialApp`,
+  /// a `CupertinoApp` — wraps the subtree it draws this kit in, which is what
+  /// the playground does around one window rather than around the process.
   static ThemeData of(BuildContext context) {
     final theme = context.dependOnInheritedWidgetOfExactType<Theme>();
-    return theme?.data ??
-        material.Theme.of(context).extension<ThemeData>() ??
-        ThemeData.studioLight();
+    return theme?.data ?? ThemeData.studioLight();
+  }
+}
+
+/// The body face, merged in rather than set, and that is the whole of the
+/// contract: `bodyMedium` names no family of its own by default — the design
+/// asks for the platform's own UI face — so a family a host sets above the
+/// theme reaches every label, and a component's own style merges over this
+/// in turn.
+class _Ambient extends StatelessWidget {
+  const _Ambient({required this.data, required this.child});
+
+  final ThemeData data;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle.merge(
+      style: data.vars.bodyMedium.copyWith(color: data.vars.colorContent),
+      child: child,
+    );
   }
 }
 

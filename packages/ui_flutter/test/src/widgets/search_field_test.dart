@@ -1,19 +1,12 @@
 import 'package:beyondtranslate_ui/beyondtranslate_ui.dart';
-import 'package:flutter/material.dart' as material;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../host.dart' as app;
+
 void main() {
   Widget host(Widget child) {
-    return material.MaterialApp(
-      home: Theme(
-        data: ThemeData.studioLight(),
-        child: material.Material(
-          type: material.MaterialType.transparency,
-          child: Center(child: SizedBox(width: 320, child: child)),
-        ),
-      ),
-    );
+    return app.host(Center(child: SizedBox(width: 320, child: child)));
   }
 
   testWidgets('the query is the host\'s to hold', (tester) async {

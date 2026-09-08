@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -296,7 +297,7 @@ class MenuRow extends StatelessWidget {
                   child: Opacity(
                     opacity: item.checked! ? 1 : 0,
                     child: Icon(
-                      _kCheck,
+                      FluentIcons.checkmark_12_filled,
                       size: vars.labelSmall.fontSize,
                       color: content,
                     ),
@@ -333,6 +334,3 @@ class MenuRow extends StatelessWidget {
     );
   }
 }
-
-/// The check glyph, from the icon library the package already ships.
-const IconData _kCheck = IconData(0xe5ca, fontFamily: 'MaterialIcons');

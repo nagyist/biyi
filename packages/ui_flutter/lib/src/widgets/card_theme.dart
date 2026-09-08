@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' show ThemeExtension;
 import 'package:flutter/widgets.dart';
 
+import '../foundation/theme_extension.dart';
 import '../painting/widget_property.dart';
 import '../theme/theme.dart';
 

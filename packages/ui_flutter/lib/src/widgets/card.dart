@@ -92,10 +92,9 @@ class Card extends StatelessWidget {
       ),
     };
 
-    final double radius = switch (size) {
-      WidgetSize.small => vars.radiusMedium,
-      _ => vars.radiusLarge,
-    };
+    // The container corner at every size: a card grows with what it holds,
+    // and Bright's pill on the control steps is wrong for that.
+    final double radius = vars.radiusLarge;
 
     return Semantics(
       container: true,

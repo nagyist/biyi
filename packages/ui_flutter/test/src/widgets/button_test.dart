@@ -1,14 +1,15 @@
-import 'package:beyondtranslate_ui/src/widgets/button.dart';
-import 'package:flutter/material.dart';
+import 'package:beyondtranslate_ui/beyondtranslate_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../host.dart';
 
 void main() {
   testWidgets('Button', (WidgetTester tester) async {
     await tester.pumpWidget(
-      MaterialApp(
-        home: Button(
-          child: const Text('Button'),
+      host(
+        Button(
           onPressed: () {},
+          child: const Text('Button'),
         ),
       ),
     );

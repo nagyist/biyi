@@ -7,9 +7,6 @@
 
 // ignore_for_file: require_trailing_commas
 
-/// @docImport 'package:flutter/material.dart';
-library;
-
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/cupertino.dart'
@@ -42,7 +39,6 @@ import 'switch_thumb_painter.dart';
 ///
 /// See also:
 ///
-///  * [Switch], the Material Design equivalent.
 ///  * <https://developer.apple.com/design/human-interface-guidelines/toggles/>
 class Switch extends StatefulWidget {
   /// Creates an iOS-style switch.
@@ -99,7 +95,10 @@ class Switch extends StatefulWidget {
   /// {@macro flutter.widgets.Focus.focusNode}
   final FocusNode? focusNode;
 
-  /// {@macro flutter.material.inkwell.onFocusChange}
+  /// Handler called when the focus changes.
+  ///
+  /// Called with true if this widget's node gains focus, and false if it loses
+  /// focus.
   final ValueChanged<bool>? onFocusChange;
 
   /// {@macro flutter.widgets.Focus.autofocus}

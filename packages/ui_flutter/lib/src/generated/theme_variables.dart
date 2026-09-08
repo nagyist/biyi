@@ -97,6 +97,7 @@ class ThemeVariables {
     this.framePopoverRadius = 16,
     this.frameTitlebarSize = 52,
     this.frameSidebarWidth = 172,
+    this.frameSidebarIconWidth = 48,
     this.frameRailWidth = 150,
     this.frameAsideWidth = 214,
     this.frameNavGap = 3,
@@ -197,6 +198,7 @@ class ThemeVariables {
     this.dialogScrimAlpha = 0.25,
     this.menuMinWidth = 176,
     this.menuItemPadding = 7,
+    this.preferencesWidth = 480,
     this.progressGradientFrom = const Color(0xFF6B4DFF),
     this.progressGradientTo = const Color(0xFFA08CFF),
     this.segmentedControlInset = 3,
@@ -263,6 +265,7 @@ class ThemeVariables {
   final double framePopoverRadius;
   final double frameTitlebarSize;
   final double frameSidebarWidth;
+  final double frameSidebarIconWidth;
   final double frameRailWidth;
   final double frameAsideWidth;
   final double frameNavGap;
@@ -633,6 +636,9 @@ class ThemeVariables {
   final double menuMinWidth;
   final double menuItemPadding;
 
+  // Preferences
+  final double preferencesWidth;
+
   // Progress
   final Color progressGradientFrom;
   final Color progressGradientTo;
@@ -725,6 +731,7 @@ class ThemeVariables {
     double? framePopoverRadius,
     double? frameTitlebarSize,
     double? frameSidebarWidth,
+    double? frameSidebarIconWidth,
     double? frameRailWidth,
     double? frameAsideWidth,
     double? frameNavGap,
@@ -790,6 +797,7 @@ class ThemeVariables {
     double? dialogScrimAlpha,
     double? menuMinWidth,
     double? menuItemPadding,
+    double? preferencesWidth,
     Color? progressGradientFrom,
     Color? progressGradientTo,
     double? segmentedControlInset,
@@ -844,6 +852,8 @@ class ThemeVariables {
       framePopoverRadius: framePopoverRadius ?? this.framePopoverRadius,
       frameTitlebarSize: frameTitlebarSize ?? this.frameTitlebarSize,
       frameSidebarWidth: frameSidebarWidth ?? this.frameSidebarWidth,
+      frameSidebarIconWidth:
+          frameSidebarIconWidth ?? this.frameSidebarIconWidth,
       frameRailWidth: frameRailWidth ?? this.frameRailWidth,
       frameAsideWidth: frameAsideWidth ?? this.frameAsideWidth,
       frameNavGap: frameNavGap ?? this.frameNavGap,
@@ -939,6 +949,7 @@ class ThemeVariables {
       dialogScrimAlpha: dialogScrimAlpha ?? this.dialogScrimAlpha,
       menuMinWidth: menuMinWidth ?? this.menuMinWidth,
       menuItemPadding: menuItemPadding ?? this.menuItemPadding,
+      preferencesWidth: preferencesWidth ?? this.preferencesWidth,
       progressGradientFrom: progressGradientFrom ?? this.progressGradientFrom,
       progressGradientTo: progressGradientTo ?? this.progressGradientTo,
       segmentedControlInset:

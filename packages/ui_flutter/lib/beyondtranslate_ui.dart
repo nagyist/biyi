@@ -1,6 +1,5 @@
 library;
 
-export 'package:flutter/material.dart' show Brightness, SelectableText, Tooltip;
 // These names collide with Flutter's own; this package's are the ones a
 // consumer means. `Table`/`TableRow`/`TableCell` are the layout widgets —
 // the design's grid is `Table`, and its parts carry the plain names.
@@ -12,6 +11,7 @@ export 'package:flutter/widgets.dart'
 export 'src/foundation/color_descriptor.dart';
 export 'src/foundation/extensions/color.dart';
 export 'src/foundation/font_face.dart';
+export 'src/foundation/theme_extension.dart';
 export 'src/foundation/widget_size.dart';
 export 'src/foundation/widget_tint.dart';
 export 'src/foundation/widget_variant.dart';
@@ -35,7 +35,7 @@ export 'src/widgets/menu.dart';
 export 'src/widgets/nav_item.dart';
 export 'src/widgets/option_card.dart';
 export 'src/widgets/pill_tabs.dart';
-export 'src/widgets/preference.dart';
+export 'src/widgets/preferences.dart';
 export 'src/widgets/pressable.dart';
 export 'src/widgets/progress.dart';
 export 'src/widgets/radio.dart';

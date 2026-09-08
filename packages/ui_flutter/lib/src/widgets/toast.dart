@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/widgets.dart';
 
 import '../foundation/widget_tint.dart';
@@ -98,7 +99,7 @@ class Toast extends StatelessWidget {
               ?action,
               if (onDismiss != null)
                 IconButton(
-                  icon: Icon(_kDismiss),
+                  icon: const Icon(FluentIcons.dismiss_12_regular),
                   onPressed: onDismiss,
                 ),
             ],
@@ -108,6 +109,3 @@ class Toast extends StatelessWidget {
     );
   }
 }
-
-/// The dismiss glyph, from the icon library the package already ships.
-const IconData _kDismiss = IconData(0xe5cd, fontFamily: 'MaterialIcons');

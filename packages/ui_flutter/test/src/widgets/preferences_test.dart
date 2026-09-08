@@ -1,24 +1,45 @@
 import 'package:beyondtranslate_ui/beyondtranslate_ui.dart';
-import 'package:flutter/material.dart' as material;
 import 'package:flutter_test/flutter_test.dart';
 
-/// The heading's action slot, which is the one part of this column that is a
-/// layout of its own rather than an arrangement of shared spacing.
+import '../../host.dart' as app;
+
+/// The root's cap, and the heading's action slot — the two parts of this
+/// column that are a layout of their own rather than an arrangement of shared
+/// spacing.
 void main() {
   Widget host(Widget child) {
-    return material.MaterialApp(
-      home: Theme(
-        data: ThemeData.studioLight(),
-        child: material.Material(
-          type: material.MaterialType.transparency,
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: SizedBox(width: 400, child: child),
-          ),
-        ),
+    return app.host(
+      Align(
+        alignment: Alignment.topCenter,
+        child: SizedBox(width: 400, child: child),
       ),
     );
   }
+
+  group('Preferences', () {
+    testWidgets('fills a narrow pane and stops at its width in a wide one', (
+      tester,
+    ) async {
+      const Widget column = Preferences(
+        children: [
+          PreferenceSection(
+            children: [PreferenceRow(title: 'Launch at login')],
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(host(column));
+      expect(tester.getSize(find.byType(Preferences)).width, 400);
+
+      await tester.pumpWidget(
+        app.host(const Align(alignment: Alignment.topCenter, child: column)),
+      );
+      expect(
+        tester.getSize(find.byType(Preferences)).width,
+        ThemeData.studioLight().vars.preferencesWidth,
+      );
+    });
+  });
 
   group('PreferenceSection', () {
     testWidgets('takes an action without the heading sizing to it', (

@@ -1,20 +1,9 @@
 import 'package:beyondtranslate_ui/beyondtranslate_ui.dart';
-import 'package:flutter/material.dart' as material;
 import 'package:flutter_test/flutter_test.dart';
 
-void main() {
-  Widget host(Widget child) {
-    return material.MaterialApp(
-      home: Theme(
-        data: ThemeData.studioLight(),
-        child: material.Material(
-          type: material.MaterialType.transparency,
-          child: child,
-        ),
-      ),
-    );
-  }
+import '../../host.dart';
 
+void main() {
   Widget sheet() {
     return Dialog(
       children: [

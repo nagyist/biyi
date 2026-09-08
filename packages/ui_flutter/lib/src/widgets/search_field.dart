@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -162,7 +163,7 @@ class _SearchFieldState extends State<SearchField> {
           spacing: vars.spacing2,
           children: [
             Icon(
-              _kSearch,
+              FluentIcons.search_16_regular,
               size: vars.spacing4,
               color: vars.colorContentFaint,
             ),
@@ -213,7 +214,7 @@ class _ClearButton extends StatelessWidget {
       semanticsLabel: label,
       borderRadius: BorderRadius.circular(vars.radiusTiny),
       builder: (context, states) => Icon(
-        _kDismiss,
+        FluentIcons.dismiss_12_regular,
         size: vars.spacing3,
         color: states.contains(WidgetState.hovered)
             ? vars.colorContent
@@ -222,7 +223,3 @@ class _ClearButton extends StatelessWidget {
     );
   }
 }
-
-/// The glyphs, from the icon library the package already ships.
-const IconData _kSearch = IconData(0xe8b6, fontFamily: 'MaterialIcons');
-const IconData _kDismiss = IconData(0xe5cd, fontFamily: 'MaterialIcons');

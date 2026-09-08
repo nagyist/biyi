@@ -9,6 +9,13 @@ environment:
 
 dependencies:
   collection: ^1.18.0
+  # The three glyphs the kit draws itself — the search field's magnifier and
+  # its dismiss, and the menu's tick. An icon set is the one thing a product
+  # replaces wholesale, so every other glyph is a prop; these three are the
+  # component rather than its content, and they come from the same set
+  # `ui_react` takes them from (`@fluentui/react-icons`) so the two ports
+  # draw one drawing.
+  fluentui_system_icons: ^1.1.255
   flutter:
     sdk: flutter
 

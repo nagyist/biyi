@@ -1,13 +1,13 @@
 {
   "repository": "https://github.com/fastforgedev/ui",
   "ref": "main",
-  "commit": "cdd81040575ed6e6814b51a77d4312b66aff8d70",
-  "synced_at": "2026-09-07T14:09:19Z",
+  "commit": "48502555688638e5599c235581c166cf593472c5",
+  "synced_at": "2026-09-07T23:44:56Z",
   "targets": {
     "packages/ui_flutter": {
       "upstream": "packages/ui_flutter",
-      "files": 66,
-      "digest": "sha256:f891fbda0e55d78bd7436ffdf6b14bef46939266e58d09921cce336ef12adf0b"
+      "files": 67,
+      "digest": "sha256:9510f6f827e33661e0797f140599fd6bd31a6bd7d823c184d1f9104e3cb9842b"
     }
   }
 }

@@ -1,7 +1,8 @@
 import 'package:beyondtranslate_ui/beyondtranslate_ui.dart';
-import 'package:flutter/material.dart' as material;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../host.dart' as app;
 
 /// Whether a host can say what this package is set in.
 ///
@@ -14,24 +15,18 @@ void main() {
   Widget host(Widget child, {String? family, ThemeVariables? vars}) {
     Widget content = Center(child: child);
     if (family != null) {
-      // Below the `Material`, which sets a text style of its own: this is
-      // where a host's own ambient style lands.
+      // Below the theme, which sets a body style of its own: this is where a
+      // host's own ambient style lands.
       content = DefaultTextStyle(
         style: TextStyle(fontFamily: family),
         child: content,
       );
     }
-    content = material.Material(
-      type: material.MaterialType.transparency,
-      child: content,
-    );
-    return material.MaterialApp(
-      home: Theme(
-        data: vars == null
-            ? ThemeData.studioLight()
-            : ThemeData.studioLight().copyWith(vars: vars),
-        child: content,
-      ),
+    return app.host(
+      content,
+      theme: vars == null
+          ? ThemeData.studioLight()
+          : ThemeData.studioLight().copyWith(vars: vars),
     );
   }
 

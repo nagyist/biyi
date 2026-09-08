@@ -1,6 +1,8 @@
 import 'package:beyondtranslate_ui/beyondtranslate_ui.dart';
-import 'package:flutter/material.dart' as material;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../host.dart' as app;
 
 /// The details this package is held to are the React stylesheets': the same
 /// tokens resolved the same way. These assertions are the parts of a
@@ -11,15 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 /// mirrors.
 void main() {
   Widget host(Widget child, {ThemeData? theme}) {
-    return material.MaterialApp(
-      home: Theme(
-        data: theme ?? ThemeData.studioLight(),
-        child: material.Material(
-          type: material.MaterialType.transparency,
-          child: Center(child: child),
-        ),
-      ),
-    );
+    return app.host(Center(child: child), theme: theme);
   }
 
   const vars = themeVariables;
@@ -127,7 +121,10 @@ void main() {
     ) async {
       await tester.pumpWidget(
         host(
-          IconButton(icon: const Icon(material.Icons.add), onPressed: () {}),
+          IconButton(
+            icon: const Icon(FluentIcons.add_16_regular),
+            onPressed: () {},
+          ),
         ),
       );
 
@@ -139,7 +136,10 @@ void main() {
     testWidgets('the quiet default rests in the subtle ink', (tester) async {
       await tester.pumpWidget(
         host(
-          IconButton(icon: const Icon(material.Icons.add), onPressed: () {}),
+          IconButton(
+            icon: const Icon(FluentIcons.add_16_regular),
+            onPressed: () {},
+          ),
         ),
       );
 
@@ -154,7 +154,7 @@ void main() {
       await tester.pumpWidget(
         host(
           IconButton(
-            icon: const Icon(material.Icons.add),
+            icon: const Icon(FluentIcons.add_16_regular),
             active: true,
             onPressed: () {},
           ),
@@ -594,7 +594,7 @@ void main() {
       // app, not as wide as the button that opened it.
       expect(
         tester.getSize(find.byType(DialogScrim)),
-        tester.getSize(find.byType(material.MaterialApp)),
+        tester.getSize(find.byType(WidgetsApp)),
       );
 
       await tester.tapAt(const Offset(10, 10));
