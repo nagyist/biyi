@@ -254,6 +254,31 @@ void main() {
         ]),
       );
     });
+
+    // The same capsule under Bright, whose `radiusSmall`/`radiusMedium` are
+    // pills rather than corners. Everything inside the capsule has to round
+    // with it; a fixed corner in there reads as a square button in a lozenge,
+    // which is what this image is here to catch.
+    testWidgets('language capsule under bright', (tester) async {
+      await expectGolden(
+        tester,
+        'capsule_bright',
+        theme: AppThemeName.brightLight,
+        column([
+          SwapPair(
+            start: 'English',
+            end: '简体中文',
+            onSwap: () {},
+            // An end paints its surface only while open or hovered, so one is
+            // opened here — a resting capsule would hide the very corner this
+            // image is watching.
+            onStartPressed: () {},
+            startOpen: true,
+            onEndPressed: () {},
+          ),
+        ]),
+      );
+    });
   }, skip: missing.isEmpty ? false : 'host is missing ${missing.join(', ')}');
 }
 

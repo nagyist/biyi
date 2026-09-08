@@ -15,8 +15,7 @@ import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:flutter/widgets.dart';
 
 import '../i18n/i18n.dart';
-import '../theme/product_tokens.dart' show ProductTypography;
-import 'ui.dart' show Pressable, ThemeDataBuildContextProps, ThemeVariables;
+import 'ui.dart' show MenuItem, MenuPanel, MenuRow;
 
 class SelectableTextBlock extends StatefulWidget {
   const SelectableTextBlock(
@@ -71,36 +70,30 @@ class _CopyMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeVariables vars = context.vars;
     final List<ContextMenuButtonItem> items = state.contextMenuButtonItems;
     if (items.isEmpty) return const SizedBox.shrink();
 
     final Offset anchor = state.contextMenuAnchors.primaryAnchor;
 
+    // The kit's own panel and rows, not a hand-drawn pair of them: a selection
+    // menu is a menu, and this way it keeps the corner, the wash and the row
+    // metrics every other menu in the app has — including under Bright, where
+    // a panel drawn on `radiusSmall` rounds into a lozenge.
     return Stack(
       children: [
         Positioned(
           left: anchor.dx,
           top: anchor.dy,
-          child: Container(
-            padding: EdgeInsets.all(vars.spacing05),
-            decoration: BoxDecoration(
-              color: vars.colorSurfaceRaised,
-              borderRadius: BorderRadius.circular(vars.radiusSmall),
-              border: Border.all(
-                color: vars.colorBorderStrong,
-                width: context.hairlineWidth,
-              ),
-              boxShadow: vars.shadowMd,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                for (final item in items)
-                  _MenuRow(label: _labelFor(item), onPressed: item.onPressed),
-              ],
-            ),
+          child: MenuPanel(
+            children: [
+              for (final item in items)
+                MenuRow(
+                  item: MenuItem(
+                    label: _labelFor(item),
+                    onSelect: item.onPressed,
+                  ),
+                ),
+            ],
           ),
         ),
       ],
@@ -113,40 +106,6 @@ class _CopyMenu extends StatelessWidget {
         ContextMenuButtonType.selectAll => t.common.ui.button.select_all,
         _ => item.label ?? '',
       };
-}
-
-class _MenuRow extends StatelessWidget {
-  const _MenuRow({required this.label, required this.onPressed});
-
-  final String label;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeVariables vars = context.vars;
-    final BorderRadius radius = BorderRadius.circular(vars.radiusTiny);
-
-    return Pressable(
-      onPressed: onPressed,
-      borderRadius: radius,
-      builder: (context, states) => Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: vars.spacing25,
-          vertical: vars.spacing1,
-        ),
-        decoration: BoxDecoration(
-          color: states.contains(WidgetState.hovered)
-              ? vars.colorSurfaceMuted
-              : null,
-          borderRadius: radius,
-        ),
-        child: Text(
-          label,
-          style: vars.sansStyle(fontSize: 12, color: vars.colorContent),
-        ),
-      ),
-    );
-  }
 }
 
 /// Puts a string on the clipboard without going through a selection.

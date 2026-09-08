@@ -77,7 +77,7 @@ class FloatingBall extends StatelessWidget {
           children: [
             Pressable(
               onPressed: onPressed,
-              borderRadius: BorderRadius.circular(999),
+              borderRadius: BorderRadius.circular(vars.radiusFull),
               semanticsLabel: semanticsLabel ?? 'BeyondTranslate',
               builder: (context, pressState) => Container(
                 width: 32,
@@ -167,7 +167,7 @@ class FloatingBall extends StatelessWidget {
 
     return Pressable(
       onPressed: onPressed,
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: BorderRadius.circular(vars.radiusFull),
       semanticsLabel:
           semanticsLabel ?? (solid ? '已翻译 · 点击还原原文' : 'BeyondTranslate'),
       builder: (context, states) => AnimatedOpacity(

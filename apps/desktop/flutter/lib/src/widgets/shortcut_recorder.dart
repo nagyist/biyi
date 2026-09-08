@@ -414,7 +414,7 @@ class _ShortcutRecorderState extends State<ShortcutRecorder> {
               child: Pressable(
                 onPressed: _clear,
                 semanticsLabel: widget.clearLabel,
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: BorderRadius.circular(vars.radiusFull),
                 builder: (context, states) => Icon(
                   FluentIcons.dismiss_circle_20_filled,
                   size: 14,

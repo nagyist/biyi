@@ -6,6 +6,14 @@ import 'ui.dart' show Pressable, ThemeDataBuildContextProps;
 
 enum SwapPairSize { sm, md }
 
+/// The capsule's own inset.
+///
+/// Each end sits against a capsule corner, so its corner is the capsule's less
+/// this — the concentric rule the kit's segmented control and menu both
+/// follow. A fixed corner in there breaks under Bright, whose `radiusMedium`
+/// is a pill: the capsule rounds and the ends stay square inside it.
+const double _kCapsuleInset = 5;
+
 /// A capsule holding two labels with a swap button between them — the
 /// English ⇄ 简体中文 control that anchors every titlebar.
 ///
@@ -59,12 +67,19 @@ class SwapPair extends StatelessWidget {
   Widget build(BuildContext context) {
     final vars = context.vars;
     final swapBox = size == SwapPairSize.md ? 20.0 : 18.0;
-    final swapRadius = BorderRadius.circular(vars.radiusTiny);
+    // The swap sits in the middle of the capsule rather than against a corner,
+    // so it takes a tiny control's own corner instead of the inset one.
+    final swapRadius = BorderRadius.circular(vars.controlTinyRadius);
 
     return Container(
       // The trigger chip carries its own leading inset, so the capsule gives
       // back the difference when the start end is one.
-      padding: EdgeInsets.fromLTRB(onStartPressed == null ? 11 : 6, 5, 6, 5),
+      padding: EdgeInsets.fromLTRB(
+        onStartPressed == null ? 11 : 6,
+        _kCapsuleInset,
+        6,
+        _kCapsuleInset,
+      ),
       decoration: BoxDecoration(
         color: vars.colorSurfaceInset,
         borderRadius: BorderRadius.circular(vars.radiusMedium),
@@ -163,7 +178,7 @@ class _SwapPairSide extends StatelessWidget {
       );
     }
 
-    final radius = BorderRadius.circular(vars.radiusTiny);
+    final radius = BorderRadius.circular(vars.radiusMedium - _kCapsuleInset);
     return Pressable(
       onPressed: onPressed,
       borderRadius: radius,
