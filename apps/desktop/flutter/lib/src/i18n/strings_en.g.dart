@@ -213,6 +213,21 @@ class TranslationsCommonServiceNameEn {
   /// en: 'Cloud Translation - Basic'
   String get google_cloud => 'Cloud Translation - Basic';
 
+  /// en: 'Yandex Translate API'
+  String get yandex => 'Yandex Translate API';
+
+  /// en: 'Microsoft Translator'
+  String get microsoft_translator => 'Microsoft Translator';
+
+  /// en: 'Alibaba Cloud Machine Translation'
+  String get aliyun => 'Alibaba Cloud Machine Translation';
+
+  /// en: 'Volcengine Machine Translation'
+  String get volcengine => 'Volcengine Machine Translation';
+
+  /// en: 'NiuTrans Translation API'
+  String get niutrans => 'NiuTrans Translation API';
+
   /// en: 'Tencent Machine Translation (TMT)'
   String get tencent_cloud => 'Tencent Machine Translation (TMT)';
 
@@ -225,6 +240,21 @@ class TranslationsCommonServiceNameEn {
 
   /// en: 'General Text Recognition API'
   String get youdao_zhiyun_ocr => 'General Text Recognition API';
+
+  /// en: 'Cloud Vision - Text Detection'
+  String get google_cloud_ocr => 'Cloud Vision - Text Detection';
+
+  /// en: 'General Print OCR'
+  String get tencent_cloud_ocr => 'General Print OCR';
+
+  /// en: 'Volcengine General OCR'
+  String get volcengine_ocr => 'Volcengine General OCR';
+
+  /// en: 'Alibaba Cloud General OCR'
+  String get aliyun_ocr => 'Alibaba Cloud General OCR';
+
+  /// en: 'Yandex Vision OCR'
+  String get yandex_ocr => 'Yandex Vision OCR';
 }
 
 // Path: common.ui
@@ -409,6 +439,21 @@ class TranslationsCommonProviderEn {
 
   /// en: 'Google Cloud'
   String get google_cloud => 'Google Cloud';
+
+  /// en: 'Yandex Cloud'
+  String get yandex => 'Yandex Cloud';
+
+  /// en: 'Microsoft Azure'
+  String get microsoft_translator => 'Microsoft Azure';
+
+  /// en: 'Alibaba Cloud'
+  String get aliyun => 'Alibaba Cloud';
+
+  /// en: 'Volcengine'
+  String get volcengine => 'Volcengine';
+
+  /// en: 'NiuTrans'
+  String get niutrans => 'NiuTrans';
 
   /// en: 'Ollama'
   String get ollama => 'Ollama';
@@ -2536,12 +2581,22 @@ extension on Translations {
       'common.service_name.caiyun_platform' => 'Caiyun Xiaoyi API',
       'common.service_name.deepl_api' => 'DeepL API / Translate text',
       'common.service_name.google_cloud' => 'Cloud Translation - Basic',
+      'common.service_name.yandex' => 'Yandex Translate API',
+      'common.service_name.microsoft_translator' => 'Microsoft Translator',
+      'common.service_name.aliyun' => 'Alibaba Cloud Machine Translation',
+      'common.service_name.volcengine' => 'Volcengine Machine Translation',
+      'common.service_name.niutrans' => 'NiuTrans Translation API',
       'common.service_name.tencent_cloud' =>
         'Tencent Machine Translation (TMT)',
       'common.service_name.youdao_zhiyun_translation' => 'Text Translation API',
       'common.service_name.youdao_zhiyun_dictionary' =>
         'Text Translation API (dictionary results)',
       'common.service_name.youdao_zhiyun_ocr' => 'General Text Recognition API',
+      'common.service_name.google_cloud_ocr' => 'Cloud Vision - Text Detection',
+      'common.service_name.tencent_cloud_ocr' => 'General Print OCR',
+      'common.service_name.volcengine_ocr' => 'Volcengine General OCR',
+      'common.service_name.aliyun_ocr' => 'Alibaba Cloud General OCR',
+      'common.service_name.yandex_ocr' => 'Yandex Vision OCR',
       'common.ui.button.ok' => 'OK',
       'common.ui.button.cancel' => 'Cancel',
       'common.ui.button.add' => 'Add',
@@ -2598,6 +2653,11 @@ extension on Translations {
       'common.provider.caiyun_platform' => 'Caiyun Open Platform',
       'common.provider.deepl_api' => 'DeepL API',
       'common.provider.google_cloud' => 'Google Cloud',
+      'common.provider.yandex' => 'Yandex Cloud',
+      'common.provider.microsoft_translator' => 'Microsoft Azure',
+      'common.provider.aliyun' => 'Alibaba Cloud',
+      'common.provider.volcengine' => 'Volcengine',
+      'common.provider.niutrans' => 'NiuTrans',
       'common.provider.ollama' => 'Ollama',
       'common.provider.openai' => 'OpenAI',
       'common.provider.sogou' => 'Sogou',

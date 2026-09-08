@@ -5,10 +5,20 @@
       "caiyun_platform": "彩云小译 API",
       "deepl_api": "DeepL API / 文本翻译",
       "google_cloud": "Cloud Translation - Basic",
+      "yandex": "Yandex 翻译 API",
+      "microsoft_translator": "Microsoft Translator",
+      "aliyun": "阿里云机器翻译",
+      "volcengine": "火山引擎机器翻译",
+      "niutrans": "小牛翻译 API",
       "tencent_cloud": "机器翻译（TMT）",
       "youdao_zhiyun_translation": "文本翻译 API",
       "youdao_zhiyun_dictionary": "文本翻译 API（词典结果）",
-      "youdao_zhiyun_ocr": "通用文字识别 API"
+      "youdao_zhiyun_ocr": "通用文字识别 API",
+      "google_cloud_ocr": "Cloud Vision - 文字检测",
+      "tencent_cloud_ocr": "通用印刷体识别（OCR）",
+      "volcengine_ocr": "火山引擎通用文字识别",
+      "aliyun_ocr": "阿里云通用文字识别",
+      "yandex_ocr": "Yandex Vision OCR"
     },
     "ui": {
       "button": {
@@ -79,6 +89,11 @@
       "caiyun_platform": "彩云科技开放平台",
       "deepl_api": "DeepL API",
       "google_cloud": "Google Cloud",
+      "yandex": "Yandex Cloud",
+      "microsoft_translator": "Microsoft Azure",
+      "aliyun": "阿里云",
+      "volcengine": "火山引擎",
+      "niutrans": "小牛翻译",
       "ollama": "Ollama",
       "openai": "OpenAI",
       "sogou": "搜狗",

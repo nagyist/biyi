@@ -33,8 +33,11 @@ pub use provider::traditional::TencentCloudProvider;
 #[cfg(feature = "youdao_zhiyun")]
 pub use provider::traditional::YoudaoZhiyunProvider;
 pub use provider::traditional::{
-    BaiduFanyiApiProviderConfig, CaiyunPlatformProviderConfig, DeepLApiProviderConfig,
-    GoogleCloudProviderConfig, TencentCloudProviderConfig, YoudaoZhiyunProviderConfig,
+    AlibabaCloudProvider, AlibabaCloudProviderConfig, BaiduFanyiApiProviderConfig,
+    CaiyunPlatformProviderConfig, DeepLApiProviderConfig, GoogleCloudProviderConfig,
+    MicrosoftAzureProvider, MicrosoftAzureProviderConfig, NiutransProvider, NiutransProviderConfig,
+    TencentCloudProviderConfig, VolcengineProvider, VolcengineProviderConfig, YandexCloudProvider,
+    YandexCloudProviderConfig, YoudaoZhiyunProviderConfig,
 };
 
 #[cfg(test)]

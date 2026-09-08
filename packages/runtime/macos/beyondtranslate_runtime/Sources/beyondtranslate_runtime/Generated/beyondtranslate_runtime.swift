@@ -6599,6 +6599,11 @@ public enum ProviderType: Equatable, Hashable {
   case caiyunPlatform
   case deepLApi
   case googleCloud
+  case yandexCloud
+  case microsoftAzure
+  case alibabaCloud
+  case volcengine
+  case niutrans
   case openAi
   case ollama
   case tencentCloud
@@ -6640,33 +6645,43 @@ public struct FfiConverterTypeProviderType: FfiConverterRustBuffer {
 
     case 5: return .googleCloud
 
-    case 6: return .openAi
+    case 6: return .yandexCloud
 
-    case 7: return .ollama
+    case 7: return .microsoftAzure
 
-    case 8: return .tencentCloud
+    case 8: return .alibabaCloud
 
-    case 9: return .xAi
+    case 9: return .volcengine
 
-    case 10: return .deepSeek
+    case 10: return .niutrans
 
-    case 11: return .qwen
+    case 11: return .openAi
 
-    case 12: return .zhipu
+    case 12: return .ollama
 
-    case 13: return .moonshot
+    case 13: return .tencentCloud
 
-    case 14: return .doubao
+    case 14: return .xAi
 
-    case 15: return .groq
+    case 15: return .deepSeek
 
-    case 16: return .gemini
+    case 16: return .qwen
 
-    case 17: return .openAiCompatible
+    case 17: return .zhipu
 
-    case 18: return .youdaoZhiyun
+    case 18: return .moonshot
 
-    case 19: return .system
+    case 19: return .doubao
+
+    case 20: return .groq
+
+    case 21: return .gemini
+
+    case 22: return .openAiCompatible
+
+    case 23: return .youdaoZhiyun
+
+    case 24: return .system
 
     default: throw UniffiInternalError.unexpectedEnumCase
     }
@@ -6690,47 +6705,62 @@ public struct FfiConverterTypeProviderType: FfiConverterRustBuffer {
     case .googleCloud:
       writeInt(&buf, Int32(5))
 
-    case .openAi:
+    case .yandexCloud:
       writeInt(&buf, Int32(6))
 
-    case .ollama:
+    case .microsoftAzure:
       writeInt(&buf, Int32(7))
 
-    case .tencentCloud:
+    case .alibabaCloud:
       writeInt(&buf, Int32(8))
 
-    case .xAi:
+    case .volcengine:
       writeInt(&buf, Int32(9))
 
-    case .deepSeek:
+    case .niutrans:
       writeInt(&buf, Int32(10))
 
-    case .qwen:
+    case .openAi:
       writeInt(&buf, Int32(11))
 
-    case .zhipu:
+    case .ollama:
       writeInt(&buf, Int32(12))
 
-    case .moonshot:
+    case .tencentCloud:
       writeInt(&buf, Int32(13))
 
-    case .doubao:
+    case .xAi:
       writeInt(&buf, Int32(14))
 
-    case .groq:
+    case .deepSeek:
       writeInt(&buf, Int32(15))
 
-    case .gemini:
+    case .qwen:
       writeInt(&buf, Int32(16))
 
-    case .openAiCompatible:
+    case .zhipu:
       writeInt(&buf, Int32(17))
 
-    case .youdaoZhiyun:
+    case .moonshot:
       writeInt(&buf, Int32(18))
 
-    case .system:
+    case .doubao:
       writeInt(&buf, Int32(19))
+
+    case .groq:
+      writeInt(&buf, Int32(20))
+
+    case .gemini:
+      writeInt(&buf, Int32(21))
+
+    case .openAiCompatible:
+      writeInt(&buf, Int32(22))
+
+    case .youdaoZhiyun:
+      writeInt(&buf, Int32(23))
+
+    case .system:
+      writeInt(&buf, Int32(24))
 
     }
   }

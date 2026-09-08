@@ -4288,6 +4288,11 @@ enum ProviderType {
   caiyunPlatform,
   deepLApi,
   googleCloud,
+  yandexCloud,
+  microsoftAzure,
+  alibabaCloud,
+  volcengine,
+  niutrans,
   openAi,
   ollama,
   tencentCloud,
@@ -4336,70 +4341,95 @@ class FfiConverterProviderType {
         );
       case 6:
         return LiftRetVal(
-          ProviderType.openAi,
+          ProviderType.yandexCloud,
           4,
         );
       case 7:
         return LiftRetVal(
-          ProviderType.ollama,
+          ProviderType.microsoftAzure,
           4,
         );
       case 8:
         return LiftRetVal(
-          ProviderType.tencentCloud,
+          ProviderType.alibabaCloud,
           4,
         );
       case 9:
         return LiftRetVal(
-          ProviderType.xAi,
+          ProviderType.volcengine,
           4,
         );
       case 10:
         return LiftRetVal(
-          ProviderType.deepSeek,
+          ProviderType.niutrans,
           4,
         );
       case 11:
         return LiftRetVal(
-          ProviderType.qwen,
+          ProviderType.openAi,
           4,
         );
       case 12:
         return LiftRetVal(
-          ProviderType.zhipu,
+          ProviderType.ollama,
           4,
         );
       case 13:
         return LiftRetVal(
-          ProviderType.moonshot,
+          ProviderType.tencentCloud,
           4,
         );
       case 14:
         return LiftRetVal(
-          ProviderType.doubao,
+          ProviderType.xAi,
           4,
         );
       case 15:
         return LiftRetVal(
-          ProviderType.groq,
+          ProviderType.deepSeek,
           4,
         );
       case 16:
         return LiftRetVal(
-          ProviderType.gemini,
+          ProviderType.qwen,
           4,
         );
       case 17:
         return LiftRetVal(
-          ProviderType.openAiCompatible,
+          ProviderType.zhipu,
           4,
         );
       case 18:
         return LiftRetVal(
-          ProviderType.youdaoZhiyun,
+          ProviderType.moonshot,
           4,
         );
       case 19:
+        return LiftRetVal(
+          ProviderType.doubao,
+          4,
+        );
+      case 20:
+        return LiftRetVal(
+          ProviderType.groq,
+          4,
+        );
+      case 21:
+        return LiftRetVal(
+          ProviderType.gemini,
+          4,
+        );
+      case 22:
+        return LiftRetVal(
+          ProviderType.openAiCompatible,
+          4,
+        );
+      case 23:
+        return LiftRetVal(
+          ProviderType.youdaoZhiyun,
+          4,
+        );
+      case 24:
         return LiftRetVal(
           ProviderType.system,
           4,

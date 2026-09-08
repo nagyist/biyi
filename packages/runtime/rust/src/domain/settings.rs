@@ -527,8 +527,13 @@ fn normalize_provider_config_keys(value: &mut Value) {
         ("request_id", "requestId"),
         ("secret_id", "secretId"),
         ("secret_key", "secretKey"),
+        ("access_key_id", "accessKeyId"),
+        ("access_key_secret", "accessKeySecret"),
+        ("access_key", "accessKey"),
+        ("folder_id", "folderId"),
         ("app_secret", "appSecret"),
         ("picture_base_url", "pictureBaseUrl"),
+        ("ocr_base_url", "ocrBaseUrl"),
     ] {
         if let Some(value) = object.remove(from) {
             object.insert(to.to_owned(), value);

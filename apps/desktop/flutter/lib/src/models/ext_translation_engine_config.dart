@@ -17,6 +17,14 @@ String getTranslationEngineTypeName(String type) {
     case 'google_cloud':
     case 'google':
       return t.common.provider.google_cloud;
+    case 'yandex_cloud':
+      return t.common.provider.yandex;
+    case 'microsoft_azure':
+      return t.common.provider.microsoft_translator;
+    case 'alibaba_cloud':
+      return t.common.provider.aliyun;
+    case 'volcengine':
+      return t.common.provider.volcengine;
     case 'ollama':
       return 'Ollama';
     case 'openai':

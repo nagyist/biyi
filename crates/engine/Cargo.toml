@@ -13,8 +13,13 @@ default = [
     "doubao",
     "gemini",
     "google_cloud",
+    "yandex_cloud",
+    "microsoft_azure",
+    "alibaba_cloud",
+    "volcengine",
     "groq",
     "moonshot",
+    "niutrans",
     "ollama",
     "openai",
     "openai-compatible",
@@ -32,8 +37,13 @@ deepseek = []
 doubao = []
 gemini = []
 google_cloud = []
+yandex_cloud = []
+microsoft_azure = []
+alibaba_cloud = []
+volcengine = []
 groq = []
 moonshot = []
+niutrans = []
 ollama = []
 openai = []
 openai-compatible = []

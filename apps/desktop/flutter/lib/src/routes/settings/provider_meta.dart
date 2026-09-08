@@ -16,8 +16,13 @@ const List<ProviderType> kKnownProviderTypes = <ProviderType>[
   ProviderType.doubao,
   ProviderType.gemini,
   ProviderType.googleCloud,
+  ProviderType.yandexCloud,
+  ProviderType.microsoftAzure,
+  ProviderType.alibabaCloud,
+  ProviderType.volcengine,
   ProviderType.groq,
   ProviderType.moonshot,
+  ProviderType.niutrans,
   ProviderType.openAi,
   ProviderType.openAiCompatible,
   ProviderType.ollama,
@@ -36,6 +41,11 @@ const Map<ProviderType, List<String>> kProviderFields = {
   ProviderType.caiyunPlatform: ['token'],
   ProviderType.deepLApi: ['authKey'],
   ProviderType.googleCloud: ['apiKey'],
+  ProviderType.yandexCloud: ['apiKey', 'folderId'],
+  ProviderType.microsoftAzure: ['apiKey', 'region'],
+  ProviderType.alibabaCloud: ['accessKeyId', 'accessKeySecret'],
+  ProviderType.volcengine: ['accessKey', 'secretKey'],
+  ProviderType.niutrans: ['apiKey'],
   ProviderType.openAi: ['apiKey', 'baseUrl', 'defaultModel'],
   ProviderType.ollama: ['baseUrl', 'defaultModel'],
   ProviderType.xAi: ['apiKey', 'baseUrl', 'defaultModel'],
@@ -70,8 +80,13 @@ const Map<ProviderType, List<String>> kRequiredProviderFields = {
   ProviderType.doubao: ['apiKey', 'defaultModel'],
   ProviderType.gemini: ['apiKey', 'defaultModel'],
   ProviderType.googleCloud: ['apiKey'],
+  ProviderType.yandexCloud: ['apiKey'],
+  ProviderType.microsoftAzure: ['apiKey'],
+  ProviderType.alibabaCloud: ['accessKeyId', 'accessKeySecret'],
+  ProviderType.volcengine: ['accessKey', 'secretKey'],
   ProviderType.groq: ['apiKey', 'defaultModel'],
   ProviderType.moonshot: ['apiKey', 'defaultModel'],
+  ProviderType.niutrans: ['apiKey'],
   // Self-hosted endpoints (vLLM, LM Studio, LiteLLM …) often take no key at
   // all, so the URL stands in for it.
   ProviderType.openAiCompatible: ['baseUrl', 'defaultModel'],
@@ -97,7 +112,12 @@ const Map<ProviderType, List<ServiceType>> kProviderCapabilities = {
   ProviderType.deepSeek: [ServiceType.translation],
   ProviderType.doubao: [ServiceType.translation],
   ProviderType.gemini: [ServiceType.translation],
-  ProviderType.googleCloud: [ServiceType.translation],
+  ProviderType.googleCloud: [ServiceType.translation, ServiceType.ocr],
+  ProviderType.yandexCloud: [ServiceType.translation, ServiceType.ocr],
+  ProviderType.microsoftAzure: [ServiceType.translation],
+  ProviderType.alibabaCloud: [ServiceType.translation, ServiceType.ocr],
+  ProviderType.volcengine: [ServiceType.translation, ServiceType.ocr],
+  ProviderType.niutrans: [ServiceType.translation],
   ProviderType.groq: [ServiceType.translation],
   ProviderType.moonshot: [ServiceType.translation],
   ProviderType.openAi: [ServiceType.translation],
@@ -109,7 +129,7 @@ const Map<ProviderType, List<ServiceType>> kProviderCapabilities = {
     ServiceType.dictionary,
     ServiceType.ocr,
   ],
-  ProviderType.tencentCloud: [ServiceType.translation],
+  ProviderType.tencentCloud: [ServiceType.translation, ServiceType.ocr],
   ProviderType.xAi: [ServiceType.translation],
   ProviderType.youdaoZhiyun: [
     ServiceType.translation,
@@ -160,6 +180,11 @@ String defaultBaseUrl(ProviderType type) {
     case ProviderType.caiyunPlatform:
     case ProviderType.deepLApi:
     case ProviderType.googleCloud:
+    case ProviderType.yandexCloud:
+    case ProviderType.microsoftAzure:
+    case ProviderType.alibabaCloud:
+    case ProviderType.volcengine:
+    case ProviderType.niutrans:
     case ProviderType.system:
     case ProviderType.tencentCloud:
     case ProviderType.youdaoZhiyun:
@@ -255,6 +280,12 @@ String serviceDisplayName(ServiceConfigEntry service) {
       '文本翻译 API' => names.youdao_zhiyun_translation,
       '文本翻译 API（词典结果）' => names.youdao_zhiyun_dictionary,
       '通用文字识别 API' => names.youdao_zhiyun_ocr,
+      'Cloud Vision - Text Detection' => names.google_cloud_ocr,
+      '通用印刷体识别（OCR）' => names.tencent_cloud_ocr,
+      '火山引擎通用文字识别' => names.volcengine_ocr,
+      '阿里云通用文字识别' => names.aliyun_ocr,
+      'Yandex Vision OCR' => names.yandex_ocr,
+      '小牛翻译 API' => names.niutrans,
       _ => null,
     };
     if (localized != null) return localized;
@@ -310,6 +341,11 @@ bool isLlmProviderType(ProviderType type) {
     case ProviderType.caiyunPlatform:
     case ProviderType.deepLApi:
     case ProviderType.googleCloud:
+    case ProviderType.yandexCloud:
+    case ProviderType.microsoftAzure:
+    case ProviderType.alibabaCloud:
+    case ProviderType.volcengine:
+    case ProviderType.niutrans:
     case ProviderType.system:
     case ProviderType.tencentCloud:
     case ProviderType.youdaoZhiyun:
@@ -339,6 +375,16 @@ String providerTypeValue(ProviderType type) {
       return 'deepl_api';
     case ProviderType.googleCloud:
       return 'google_cloud';
+    case ProviderType.yandexCloud:
+      return 'yandex_cloud';
+    case ProviderType.microsoftAzure:
+      return 'microsoft_azure';
+    case ProviderType.alibabaCloud:
+      return 'alibaba_cloud';
+    case ProviderType.volcengine:
+      return 'volcengine';
+    case ProviderType.niutrans:
+      return 'niutrans';
     case ProviderType.openAi:
       return 'openai';
     case ProviderType.ollama:
@@ -382,6 +428,16 @@ String providerTypeDisplayName(ProviderType type) {
       return t.common.provider.deepl_api;
     case ProviderType.googleCloud:
       return t.common.provider.google_cloud;
+    case ProviderType.yandexCloud:
+      return t.common.provider.yandex;
+    case ProviderType.microsoftAzure:
+      return t.common.provider.microsoft_translator;
+    case ProviderType.alibabaCloud:
+      return t.common.provider.aliyun;
+    case ProviderType.volcengine:
+      return t.common.provider.volcengine;
+    case ProviderType.niutrans:
+      return t.common.provider.niutrans;
     case ProviderType.openAi:
       return t.common.provider.openai;
     case ProviderType.ollama:

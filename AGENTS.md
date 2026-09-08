@@ -145,6 +145,24 @@ Pages import the kit through `lib/src/widgets/ui.dart`, never
 - **Functions/Methods:** `camelCase` (Dart), `snake_case` (Rust)
 - **Constants:** `lowerCamelCase` (Dart), `SCREAMING_SNAKE_CASE` (Rust)
 
+### Translation Provider Naming
+
+Keep provider identity separate from the translation service it exposes:
+
+- **Provider ID** is the API platform's canonical machine-readable identifier
+  and must use the platform name (for example, `yandex_cloud`,
+  `microsoft_azure`, `alibaba_cloud`, `volcengine`). Do not introduce legacy
+  aliases for provider IDs.
+- **Provider display name** is the platform name shown in the provider list
+  (for example, Yandex Cloud, Microsoft Azure, Alibaba Cloud, Volcengine).
+- **Service name** identifies the concrete API product offered by that
+  platform (for example, Yandex Translate API or Microsoft Translator).
+
+When adding a provider, use the canonical provider ID consistently across the
+Rust `ProviderType`, settings serialization, Flutter provider metadata, and
+generated bindings. Put product-specific wording in `service_name` instead of
+the provider display name.
+
 ### Git Practices
 - Write clear, descriptive commit messages in English.
 - Reference issues and pull requests when applicable.

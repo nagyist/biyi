@@ -5,10 +5,20 @@
       "caiyun_platform": "Caiyun Xiaoyi API",
       "deepl_api": "DeepL API / Translate text",
       "google_cloud": "Cloud Translation - Basic",
+      "yandex": "Yandex Translate API",
+      "microsoft_translator": "Microsoft Translator",
+      "aliyun": "Alibaba Cloud Machine Translation",
+      "volcengine": "Volcengine Machine Translation",
+      "niutrans": "NiuTrans Translation API",
       "tencent_cloud": "Tencent Machine Translation (TMT)",
       "youdao_zhiyun_translation": "Text Translation API",
       "youdao_zhiyun_dictionary": "Text Translation API (dictionary results)",
-      "youdao_zhiyun_ocr": "General Text Recognition API"
+      "youdao_zhiyun_ocr": "General Text Recognition API",
+      "google_cloud_ocr": "Cloud Vision - Text Detection",
+      "tencent_cloud_ocr": "General Print OCR",
+      "volcengine_ocr": "Volcengine General OCR",
+      "aliyun_ocr": "Alibaba Cloud General OCR",
+      "yandex_ocr": "Yandex Vision OCR"
     },
     "ui": {
       "button": {
@@ -79,6 +89,11 @@
       "caiyun_platform": "Caiyun Open Platform",
       "deepl_api": "DeepL API",
       "google_cloud": "Google Cloud",
+      "yandex": "Yandex Cloud",
+      "microsoft_translator": "Microsoft Azure",
+      "aliyun": "Alibaba Cloud",
+      "volcengine": "Volcengine",
+      "niutrans": "NiuTrans",
       "ollama": "Ollama",
       "openai": "OpenAI",
       "sogou": "Sogou",

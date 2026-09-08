@@ -248,6 +248,16 @@ class _TranslationsCommonServiceNameZhHant
   @override
   String get google_cloud => 'Cloud Translation - Basic';
   @override
+  String get yandex => 'Yandex 翻譯 API';
+  @override
+  String get microsoft_translator => 'Microsoft Translator';
+  @override
+  String get aliyun => '阿里雲機器翻譯';
+  @override
+  String get volcengine => '火山引擎機器翻譯';
+  @override
+  String get niutrans => '小牛翻譯 API';
+  @override
   String get tencent_cloud => '機器翻譯（TMT）';
   @override
   String get youdao_zhiyun_translation => '文字翻譯 API';
@@ -407,6 +417,16 @@ class _TranslationsCommonProviderZhHant extends TranslationsCommonProviderEn {
   String get deepl_api => 'DeepL API';
   @override
   String get google_cloud => 'Google Cloud';
+  @override
+  String get yandex => 'Yandex Cloud';
+  @override
+  String get microsoft_translator => 'Microsoft Azure';
+  @override
+  String get aliyun => '阿里雲';
+  @override
+  String get volcengine => '火山引擎';
+  @override
+  String get niutrans => '小牛翻譯';
   @override
   String get ollama => 'Ollama';
   @override
@@ -2220,6 +2240,11 @@ extension on TranslationsZhHant {
       'common.service_name.caiyun_platform' => '彩雲小譯 API',
       'common.service_name.deepl_api' => 'DeepL API / 文字翻譯',
       'common.service_name.google_cloud' => 'Cloud Translation - Basic',
+      'common.service_name.yandex' => 'Yandex 翻譯 API',
+      'common.service_name.microsoft_translator' => 'Microsoft Translator',
+      'common.service_name.aliyun' => '阿里雲機器翻譯',
+      'common.service_name.volcengine' => '火山引擎機器翻譯',
+      'common.service_name.niutrans' => '小牛翻譯 API',
       'common.service_name.tencent_cloud' => '機器翻譯（TMT）',
       'common.service_name.youdao_zhiyun_translation' => '文字翻譯 API',
       'common.service_name.youdao_zhiyun_dictionary' => '文字翻譯 API（詞典結果）',
@@ -2280,6 +2305,11 @@ extension on TranslationsZhHant {
       'common.provider.caiyun_platform' => '彩云科技开放平台',
       'common.provider.deepl_api' => 'DeepL API',
       'common.provider.google_cloud' => 'Google Cloud',
+      'common.provider.yandex' => 'Yandex Cloud',
+      'common.provider.microsoft_translator' => 'Microsoft Azure',
+      'common.provider.aliyun' => '阿里雲',
+      'common.provider.volcengine' => '火山引擎',
+      'common.provider.niutrans' => '小牛翻譯',
       'common.provider.ollama' => 'Ollama',
       'common.provider.openai' => 'OpenAI',
       'common.provider.sogou' => '搜狗',

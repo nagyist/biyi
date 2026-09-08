@@ -248,6 +248,16 @@ class _TranslationsCommonServiceNameZhHans
   @override
   String get google_cloud => 'Cloud Translation - Basic';
   @override
+  String get yandex => 'Yandex 翻译 API';
+  @override
+  String get microsoft_translator => 'Microsoft Translator';
+  @override
+  String get aliyun => '阿里云机器翻译';
+  @override
+  String get volcengine => '火山引擎机器翻译';
+  @override
+  String get niutrans => '小牛翻译 API';
+  @override
   String get tencent_cloud => '机器翻译（TMT）';
   @override
   String get youdao_zhiyun_translation => '文本翻译 API';
@@ -255,6 +265,16 @@ class _TranslationsCommonServiceNameZhHans
   String get youdao_zhiyun_dictionary => '文本翻译 API（词典结果）';
   @override
   String get youdao_zhiyun_ocr => '通用文字识别 API';
+  @override
+  String get google_cloud_ocr => 'Cloud Vision - 文字检测';
+  @override
+  String get tencent_cloud_ocr => '通用印刷体识别（OCR）';
+  @override
+  String get volcengine_ocr => '火山引擎通用文字识别';
+  @override
+  String get aliyun_ocr => '阿里云通用文字识别';
+  @override
+  String get yandex_ocr => 'Yandex Vision OCR';
 }
 
 // Path: common.ui
@@ -407,6 +427,16 @@ class _TranslationsCommonProviderZhHans extends TranslationsCommonProviderEn {
   String get deepl_api => 'DeepL API';
   @override
   String get google_cloud => 'Google Cloud';
+  @override
+  String get yandex => 'Yandex Cloud';
+  @override
+  String get microsoft_translator => 'Microsoft Azure';
+  @override
+  String get aliyun => '阿里云';
+  @override
+  String get volcengine => '火山引擎';
+  @override
+  String get niutrans => '小牛翻译';
   @override
   String get ollama => 'Ollama';
   @override
@@ -2346,10 +2376,20 @@ extension on TranslationsZhHans {
       'common.service_name.caiyun_platform' => '彩云小译 API',
       'common.service_name.deepl_api' => 'DeepL API / 文本翻译',
       'common.service_name.google_cloud' => 'Cloud Translation - Basic',
+      'common.service_name.yandex' => 'Yandex 翻译 API',
+      'common.service_name.microsoft_translator' => 'Microsoft Translator',
+      'common.service_name.aliyun' => '阿里云机器翻译',
+      'common.service_name.volcengine' => '火山引擎机器翻译',
+      'common.service_name.niutrans' => '小牛翻译 API',
       'common.service_name.tencent_cloud' => '机器翻译（TMT）',
       'common.service_name.youdao_zhiyun_translation' => '文本翻译 API',
       'common.service_name.youdao_zhiyun_dictionary' => '文本翻译 API（词典结果）',
       'common.service_name.youdao_zhiyun_ocr' => '通用文字识别 API',
+      'common.service_name.google_cloud_ocr' => 'Cloud Vision - 文字检测',
+      'common.service_name.tencent_cloud_ocr' => '通用印刷体识别（OCR）',
+      'common.service_name.volcengine_ocr' => '火山引擎通用文字识别',
+      'common.service_name.aliyun_ocr' => '阿里云通用文字识别',
+      'common.service_name.yandex_ocr' => 'Yandex Vision OCR',
       'common.ui.button.ok' => '确定',
       'common.ui.button.cancel' => '取消',
       'common.ui.button.add' => '添加',
@@ -2406,6 +2446,11 @@ extension on TranslationsZhHans {
       'common.provider.caiyun_platform' => '彩云科技开放平台',
       'common.provider.deepl_api' => 'DeepL API',
       'common.provider.google_cloud' => 'Google Cloud',
+      'common.provider.yandex' => 'Yandex Cloud',
+      'common.provider.microsoft_translator' => 'Microsoft Azure',
+      'common.provider.aliyun' => '阿里云',
+      'common.provider.volcengine' => '火山引擎',
+      'common.provider.niutrans' => '小牛翻译',
       'common.provider.ollama' => 'Ollama',
       'common.provider.openai' => 'OpenAI',
       'common.provider.sogou' => '搜狗',

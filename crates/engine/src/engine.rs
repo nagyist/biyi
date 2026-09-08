@@ -40,6 +40,11 @@ use crate::provider::traditional::TencentCloudProviderConfig;
 #[cfg(feature = "youdao_zhiyun")]
 use crate::provider::traditional::YoudaoZhiyunProvider;
 use crate::provider::traditional::YoudaoZhiyunProviderConfig;
+use crate::provider::traditional::{
+    AlibabaCloudProvider, AlibabaCloudProviderConfig, MicrosoftAzureProvider,
+    MicrosoftAzureProviderConfig, NiutransProvider, NiutransProviderConfig, VolcengineProvider,
+    VolcengineProviderConfig, YandexCloudProvider, YandexCloudProviderConfig,
+};
 
 // ── Error ─────────────────────────────────────────────────────────────────────
 
@@ -158,6 +163,16 @@ pub enum ProviderType {
     DeepLApi,
     #[serde(rename = "google_cloud", alias = "google")]
     GoogleCloud,
+    #[serde(rename = "yandex_cloud")]
+    YandexCloud,
+    #[serde(rename = "microsoft_azure")]
+    MicrosoftAzure,
+    #[serde(rename = "alibaba_cloud")]
+    AlibabaCloud,
+    #[serde(rename = "volcengine")]
+    Volcengine,
+    #[serde(rename = "niutrans")]
+    Niutrans,
 
     #[serde(rename = "tencent_cloud", alias = "tencent")]
     TencentCloud,
@@ -198,6 +213,11 @@ impl ProviderType {
             Self::CaiyunPlatform => "caiyun_platform",
             Self::DeepLApi => "deepl_api",
             Self::GoogleCloud => "google_cloud",
+            Self::YandexCloud => "yandex_cloud",
+            Self::MicrosoftAzure => "microsoft_azure",
+            Self::AlibabaCloud => "alibaba_cloud",
+            Self::Volcengine => "volcengine",
+            Self::Niutrans => "niutrans",
 
             Self::TencentCloud => "tencent_cloud",
             Self::YoudaoZhiyun => "youdao_zhiyun",
@@ -284,6 +304,19 @@ fn build_provider(
         ProviderType::GoogleCloud => {
             build_google_cloud_provider(provider_id, config.decode(provider_id)?)
         }
+        ProviderType::YandexCloud => {
+            build_yandex_cloud_provider(provider_id, config.decode(provider_id)?)
+        }
+        ProviderType::MicrosoftAzure => {
+            build_microsoft_azure_provider(provider_id, config.decode(provider_id)?)
+        }
+        ProviderType::AlibabaCloud => {
+            build_alibaba_cloud_provider(provider_id, config.decode(provider_id)?)
+        }
+        ProviderType::Volcengine => {
+            build_volcengine_provider(provider_id, config.decode(provider_id)?)
+        }
+        ProviderType::Niutrans => build_niutrans_provider(provider_id, config.decode(provider_id)?),
 
         ProviderType::TencentCloud => {
             build_tencent_cloud_provider(provider_id, config.decode(provider_id)?)
@@ -357,6 +390,36 @@ build_provider_fn!(
     "baidu_fanyi_api",
     BaiduFanyiApiProvider,
     BaiduFanyiApiProviderConfig
+);
+build_provider_fn!(
+    build_yandex_cloud_provider,
+    "yandex_cloud",
+    YandexCloudProvider,
+    YandexCloudProviderConfig
+);
+build_provider_fn!(
+    build_microsoft_azure_provider,
+    "microsoft_azure",
+    MicrosoftAzureProvider,
+    MicrosoftAzureProviderConfig
+);
+build_provider_fn!(
+    build_alibaba_cloud_provider,
+    "alibaba_cloud",
+    AlibabaCloudProvider,
+    AlibabaCloudProviderConfig
+);
+build_provider_fn!(
+    build_volcengine_provider,
+    "volcengine",
+    VolcengineProvider,
+    VolcengineProviderConfig
+);
+build_provider_fn!(
+    build_niutrans_provider,
+    "niutrans",
+    NiutransProvider,
+    NiutransProviderConfig
 );
 build_provider_fn!(
     build_caiyun_platform_provider,

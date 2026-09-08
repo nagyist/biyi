@@ -832,10 +832,20 @@ fn service_entry_for_provider_type(
         (ProviderType::CaiyunPlatform, ServiceType::Translation) => "彩云小译 API",
         (ProviderType::DeepLApi, ServiceType::Translation) => "DeepL API / Translate text",
         (ProviderType::GoogleCloud, ServiceType::Translation) => "Cloud Translation - Basic",
+        (ProviderType::YandexCloud, ServiceType::Translation) => "Yandex Translate API",
+        (ProviderType::MicrosoftAzure, ServiceType::Translation) => "Microsoft Translator",
+        (ProviderType::AlibabaCloud, ServiceType::Translation) => "阿里云机器翻译",
+        (ProviderType::Volcengine, ServiceType::Translation) => "火山引擎机器翻译",
+        (ProviderType::Niutrans, ServiceType::Translation) => "小牛翻译 API",
         (ProviderType::TencentCloud, ServiceType::Translation) => "机器翻译（TMT）",
         (ProviderType::YoudaoZhiyun, ServiceType::Translation) => "文本翻译 API",
         (ProviderType::YoudaoZhiyun, ServiceType::Dictionary) => "文本翻译 API（词典结果）",
         (ProviderType::YoudaoZhiyun, ServiceType::Ocr) => "通用文字识别 API",
+        (ProviderType::GoogleCloud, ServiceType::Ocr) => "Cloud Vision - Text Detection",
+        (ProviderType::TencentCloud, ServiceType::Ocr) => "通用印刷体识别（OCR）",
+        (ProviderType::Volcengine, ServiceType::Ocr) => "火山引擎通用文字识别",
+        (ProviderType::AlibabaCloud, ServiceType::Ocr) => "阿里云通用文字识别",
+        (ProviderType::YandexCloud, ServiceType::Ocr) => "Yandex Vision OCR",
         _ => &provider.id,
     }
     .to_owned();
@@ -3556,6 +3566,26 @@ mod provider_naming_tests {
             assert_eq!(service.provider_id, "youdao-work");
             assert_eq!(service.name, expected);
             assert_eq!(service.created_at, Some(123));
+        }
+    }
+
+    #[test]
+    fn cloud_ocr_services_carry_their_product_names() {
+        for (kind, expected) in [
+            (ProviderType::GoogleCloud, "Cloud Vision - Text Detection"),
+            (ProviderType::TencentCloud, "通用印刷体识别（OCR）"),
+            (ProviderType::Volcengine, "火山引擎通用文字识别"),
+            (ProviderType::AlibabaCloud, "阿里云通用文字识别"),
+            (ProviderType::YandexCloud, "Yandex Vision OCR"),
+        ] {
+            let provider = ProviderConfigEntry {
+                id: "cloud".to_owned(),
+                r#type: kind,
+                ..Default::default()
+            };
+            let service = service_entry_for_provider_type("cloud+ocr", &provider, ServiceType::Ocr);
+            assert_eq!(service.name, expected);
+            assert_eq!(service.r#type, ServiceType::Ocr);
         }
     }
 }

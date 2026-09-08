@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show Icons;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../services/runtime.dart' show ProviderType;
@@ -24,9 +24,9 @@ class ProviderIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (type) {
       ProviderType.system =>
-        Icon(Icons.computer_outlined, size: size, color: color),
+        Icon(FluentIcons.desktop_20_regular, size: size, color: color),
       ProviderType.openAiCompatible =>
-        Icon(Icons.api_outlined, size: size, color: color),
+        Icon(FluentIcons.plug_connected_20_regular, size: size, color: color),
       ProviderType.anthropic =>
         _buildAsset(context, 'provider_icons/llm/anthropic.png'),
       ProviderType.baiduFanyiApi =>
@@ -43,6 +43,16 @@ class ProviderIcon extends StatelessWidget {
         _buildAsset(context, 'provider_icons/llm/gemini.png'),
       ProviderType.googleCloud =>
         _buildAsset(context, 'provider_icons/traditional/google_cloud.png'),
+      ProviderType.yandexCloud =>
+        _buildAsset(context, 'provider_icons/traditional/yandex.png'),
+      ProviderType.microsoftAzure => _buildAsset(
+          context, 'provider_icons/traditional/microsoft_translator.png'),
+      ProviderType.alibabaCloud =>
+        _buildAsset(context, 'provider_icons/traditional/aliyun.png'),
+      ProviderType.volcengine =>
+        _buildAsset(context, 'provider_icons/traditional/volcengine.png'),
+      ProviderType.niutrans =>
+        _buildAsset(context, 'provider_icons/traditional/niutrans.png'),
       ProviderType.groq => _buildAsset(context, 'provider_icons/llm/groq.png'),
       ProviderType.moonshot =>
         _buildAsset(context, 'provider_icons/llm/moonshot.png'),

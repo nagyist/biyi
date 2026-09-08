@@ -244,6 +244,16 @@ class _TranslationsCommonServiceNameKo extends TranslationsCommonServiceNameEn {
   @override
   String get google_cloud => 'Cloud Translation - Basic';
   @override
+  String get yandex => 'Yandex 번역 API';
+  @override
+  String get microsoft_translator => 'Microsoft Translator';
+  @override
+  String get aliyun => 'Alibaba Cloud 기계 번역';
+  @override
+  String get volcengine => 'Volcengine 기계 번역';
+  @override
+  String get niutrans => 'NiuTrans 번역 API';
+  @override
   String get tencent_cloud => '기계 번역(TMT)';
   @override
   String get youdao_zhiyun_translation => '텍스트 번역 API';
@@ -402,6 +412,16 @@ class _TranslationsCommonProviderKo extends TranslationsCommonProviderEn {
   String get deepl_api => 'DeepL API';
   @override
   String get google_cloud => 'Google Cloud';
+  @override
+  String get yandex => 'Yandex Cloud';
+  @override
+  String get microsoft_translator => 'Microsoft Azure';
+  @override
+  String get aliyun => 'Alibaba Cloud';
+  @override
+  String get volcengine => 'Volcengine';
+  @override
+  String get niutrans => 'NiuTrans';
   @override
   String get ollama => 'Ollama';
   @override
@@ -2210,6 +2230,11 @@ extension on TranslationsKo {
       'common.service_name.caiyun_platform' => 'Caiyun Xiaoyi API',
       'common.service_name.deepl_api' => 'DeepL API / 텍스트 번역',
       'common.service_name.google_cloud' => 'Cloud Translation - Basic',
+      'common.service_name.yandex' => 'Yandex 번역 API',
+      'common.service_name.microsoft_translator' => 'Microsoft Translator',
+      'common.service_name.aliyun' => 'Alibaba Cloud 기계 번역',
+      'common.service_name.volcengine' => 'Volcengine 기계 번역',
+      'common.service_name.niutrans' => 'NiuTrans 번역 API',
       'common.service_name.tencent_cloud' => '기계 번역(TMT)',
       'common.service_name.youdao_zhiyun_translation' => '텍스트 번역 API',
       'common.service_name.youdao_zhiyun_dictionary' => '텍스트 번역 API(사전 결과)',
@@ -2270,6 +2295,11 @@ extension on TranslationsKo {
       'common.provider.caiyun_platform' => 'Caiyun Open Platform',
       'common.provider.deepl_api' => 'DeepL API',
       'common.provider.google_cloud' => 'Google Cloud',
+      'common.provider.yandex' => 'Yandex Cloud',
+      'common.provider.microsoft_translator' => 'Microsoft Azure',
+      'common.provider.aliyun' => 'Alibaba Cloud',
+      'common.provider.volcengine' => 'Volcengine',
+      'common.provider.niutrans' => 'NiuTrans',
       'common.provider.ollama' => 'Ollama',
       'common.provider.openai' => 'OpenAI',
       'common.provider.sogou' => 'Sogou',

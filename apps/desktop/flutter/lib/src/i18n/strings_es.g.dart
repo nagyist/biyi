@@ -244,6 +244,16 @@ class _TranslationsCommonServiceNameEs extends TranslationsCommonServiceNameEn {
   @override
   String get google_cloud => 'Cloud Translation - Basic';
   @override
+  String get yandex => 'API de Yandex Translate';
+  @override
+  String get microsoft_translator => 'Microsoft Translator';
+  @override
+  String get aliyun => 'Traducción automática de Alibaba Cloud';
+  @override
+  String get volcengine => 'Traducción automática de Volcengine';
+  @override
+  String get niutrans => 'API de traducción NiuTrans';
+  @override
   String get tencent_cloud => 'Traducción automática (TMT)';
   @override
   String get youdao_zhiyun_translation => 'API de traducción de texto';
@@ -403,6 +413,16 @@ class _TranslationsCommonProviderEs extends TranslationsCommonProviderEn {
   String get deepl_api => 'DeepL API';
   @override
   String get google_cloud => 'Google Cloud';
+  @override
+  String get yandex => 'Yandex Cloud';
+  @override
+  String get microsoft_translator => 'Microsoft Azure';
+  @override
+  String get aliyun => 'Alibaba Cloud';
+  @override
+  String get volcengine => 'Volcengine';
+  @override
+  String get niutrans => 'NiuTrans';
   @override
   String get ollama => 'Ollama';
   @override
@@ -2257,6 +2277,11 @@ extension on TranslationsEs {
       'common.service_name.caiyun_platform' => 'API de Caiyun Xiaoyi',
       'common.service_name.deepl_api' => 'DeepL API / Traducción de texto',
       'common.service_name.google_cloud' => 'Cloud Translation - Basic',
+      'common.service_name.yandex' => 'API de Yandex Translate',
+      'common.service_name.microsoft_translator' => 'Microsoft Translator',
+      'common.service_name.aliyun' => 'Traducción automática de Alibaba Cloud',
+      'common.service_name.volcengine' => 'Traducción automática de Volcengine',
+      'common.service_name.niutrans' => 'API de traducción NiuTrans',
       'common.service_name.tencent_cloud' => 'Traducción automática (TMT)',
       'common.service_name.youdao_zhiyun_translation' =>
         'API de traducción de texto',
@@ -2320,6 +2345,11 @@ extension on TranslationsEs {
       'common.provider.caiyun_platform' => 'Caiyun Open Platform',
       'common.provider.deepl_api' => 'DeepL API',
       'common.provider.google_cloud' => 'Google Cloud',
+      'common.provider.yandex' => 'Yandex Cloud',
+      'common.provider.microsoft_translator' => 'Microsoft Azure',
+      'common.provider.aliyun' => 'Alibaba Cloud',
+      'common.provider.volcengine' => 'Volcengine',
+      'common.provider.niutrans' => 'NiuTrans',
       'common.provider.ollama' => 'Ollama',
       'common.provider.openai' => 'OpenAI',
       'common.provider.sogou' => 'Sogou',

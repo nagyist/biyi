@@ -25,6 +25,39 @@ providers:
 }
 
 #[test]
+fn loads_canonical_platform_provider_ids() {
+    for (id, provider_type) in [
+        ("yandex-cloud", "yandex_cloud"),
+        ("microsoft-azure", "microsoft_azure"),
+        ("alibaba-cloud", "alibaba_cloud"),
+        ("volcengine", "volcengine"),
+        ("niutrans", "niutrans"),
+    ] {
+        let fields = match provider_type {
+            "yandex_cloud" | "microsoft_azure" | "niutrans" => "apiKey: test-key",
+            "alibaba_cloud" => "accessKeyId: test-id\n    accessKeySecret: test-secret",
+            "volcengine" => "accessKey: test-access\n    secretKey: test-secret",
+            _ => unreachable!(),
+        };
+        let yaml = format!("providers:\n  {id}:\n    type: {provider_type}\n    {fields}\n");
+        let registry = from_yaml_str(&yaml).expect("canonical provider id should load");
+        assert!(registry.require(id).is_ok());
+    }
+}
+
+#[test]
+fn rejects_legacy_platform_provider_ids() {
+    for provider_type in ["yandex", "microsoft_translator", "aliyun"] {
+        let yaml =
+            format!("providers:\n  legacy:\n    type: {provider_type}\n    apiKey: test-key\n");
+        assert!(
+            from_yaml_str(&yaml).is_err(),
+            "legacy id {provider_type} must be rejected"
+        );
+    }
+}
+
+#[test]
 fn loads_camel_case_provider_config() {
     let registry = from_yaml_str(
         r#"
@@ -261,6 +294,62 @@ providers:
     assert!(provider.translation().is_some());
     assert!(provider.ocr().is_some());
     assert!(provider.dictionary().is_some());
+}
+
+#[test]
+fn cloud_providers_with_an_ocr_product_advertise_it() {
+    let registry = from_yaml_str(
+        r#"
+providers:
+  google:
+    type: google_cloud
+    api_key: key
+  tencent:
+    type: tencent_cloud
+    secret_id: id
+    secret_key: key
+  volcengine:
+    type: volcengine
+    access_key: ak
+    secret_key: sk
+  alibaba:
+    type: alibaba_cloud
+    access_key_id: ak
+    access_key_secret: sk
+  yandex:
+    type: yandex_cloud
+    api_key: key
+    folder_id: folder
+"#,
+    )
+    .expect("valid config");
+
+    for name in ["google", "tencent", "volcengine", "alibaba", "yandex"] {
+        let provider = registry.require(name).expect(name);
+        assert!(provider.translation().is_some(), "{name} translates");
+        assert!(provider.ocr().is_some(), "{name} recognizes text");
+        assert!(provider.dictionary().is_none(), "{name} has no dictionary");
+    }
+}
+
+#[test]
+fn ocr_base_url_is_optional_and_accepts_both_spellings() {
+    let registry = from_yaml_str(
+        r#"
+providers:
+  a:
+    type: google_cloud
+    api_key: key
+    ocr_base_url: http://localhost:1
+  b:
+    type: google_cloud
+    apiKey: key
+    ocrBaseUrl: http://localhost:2
+"#,
+    )
+    .expect("valid config");
+    assert!(registry.require("a").is_ok());
+    assert!(registry.require("b").is_ok());
 }
 
 #[cfg(not(feature = "baidu_fanyi_api"))]

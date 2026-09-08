@@ -14,3 +14,7 @@ PNG sources are preserved as downloaded; ICO sources are decoded to PNG without 
 
 Baidu and Tencent provide 32 px favicons; Youdao provides a 50 px icon.
 These are platform website icons, replacing the previous consumer translation app artwork.
+
+Yandex, Microsoft Translator, Alibaba Cloud, Volcengine, and NiuTrans icons are project-local
+vector marks rendered to 32 px PNGs because the providers do not expose a stable
+small API favicon suitable for redistribution in the app bundle.
