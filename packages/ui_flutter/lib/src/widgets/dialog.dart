@@ -48,7 +48,7 @@ class Dialog extends StatelessWidget {
       child: Container(
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          color: vars.colorSurface,
+          color: vars.colorSurfaceOverlay,
           border: Border.all(
             color: tone == DialogTone.danger
                 // A dangerous sheet is edged in its own hue.

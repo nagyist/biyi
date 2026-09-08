@@ -96,6 +96,22 @@ class ThemeData extends ThemeExtension<ThemeData> with DiagnosticableTreeMixin {
     );
   }
 
+  /// Nocturne Light — cool white paper, blue-grey ink, a blurple accent.
+  static ThemeData nocturneLight() {
+    return ThemeData(
+      vars: themeVariablesNocturneLight,
+      brightness: Brightness.light,
+    );
+  }
+
+  /// Nocturne Dark — a blue-grey near-black, with the same blurple lifted.
+  static ThemeData nocturneDark() {
+    return ThemeData(
+      vars: themeVariablesNocturneDark,
+      brightness: Brightness.dark,
+    );
+  }
+
   /// Creates a dark theme — Studio Dark under its older name.
   static ThemeData dark() => studioDark();
 
@@ -233,16 +249,14 @@ extension ThemeDataBuildContextProps on BuildContext {
   /// The design theme's variables.
   ThemeVariables get vars => Theme.of(this).vars;
 
-  /// A separator is one *device* pixel. At 1x that is the 1px the token
-  /// holds; on Retina a 1px logical line is twice the weight of the real
-  /// thing, so it halves — the same rule `ui_react`'s base.css applies with
-  /// `@media (min-resolution: 2dppx)`.
+  /// A separator is one *logical* pixel, whatever the display scale — the
+  /// 1px the token holds, drawn as written.
   ///
-  /// Drawn control outlines use `stroke.control` instead and stay put.
-  double get hairlineWidth {
-    final double ratio = MediaQuery.maybeDevicePixelRatioOf(this) ?? 1.0;
-    return ratio >= 2 ? vars.strokeHairline / 2 : vars.strokeHairline;
-  }
+  /// It used to halve on Retina, to land on one device pixel; the Nocturne
+  /// mockups the system is drawn to rule at a full 1px, and against them a
+  /// halved rule read as too thin to be a decision. Drawn control outlines
+  /// use `stroke.control` instead, and always did.
+  double get hairlineWidth => vars.strokeHairline;
 }
 
 /// A inherited widget that provides the design theme data.

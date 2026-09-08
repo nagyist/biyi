@@ -67,7 +67,7 @@ class Toast extends StatelessWidget {
             end: vars.spacing15,
           ),
           decoration: BoxDecoration(
-            color: vars.colorSurface,
+            color: vars.colorSurfaceOverlay,
             border: Border.all(
               color: vars.colorBorderStrong,
               width: context.hairlineWidth,

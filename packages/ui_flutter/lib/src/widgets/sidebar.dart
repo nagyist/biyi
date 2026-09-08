@@ -36,7 +36,7 @@ class Sidebar extends StatelessWidget {
     return Container(
       width: width ?? vars.frameSidebarWidth,
       decoration: BoxDecoration(
-        color: vars.colorSurfaceMuted,
+        color: vars.colorSurfaceColumn,
         border: BorderDirectional(
           end: BorderSide(
             color: vars.colorBorder,

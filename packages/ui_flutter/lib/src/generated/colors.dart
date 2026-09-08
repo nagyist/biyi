@@ -297,4 +297,21 @@ abstract final class Colors {
       950: Color(0xFF2C1A0C),
     },
   );
+
+  static const ColorSwatch<int> nocturne = ColorSwatch<int>(
+    0xff8375d1,
+    <int, Color>{
+      50: Color(0xFFF5F4FF),
+      100: Color(0xFFE7E5FE),
+      200: Color(0xFFD2CEFD),
+      300: Color(0xFFB5ABFC),
+      400: Color(0xFFA094E8),
+      500: Color(0xFF9184D9),
+      600: Color(0xFF8375D1),
+      700: Color(0xFF6F60C6),
+      800: Color(0xFF5B4BB4),
+      900: Color(0xFF453897),
+      950: Color(0xFF2D2465),
+    },
+  );
 }

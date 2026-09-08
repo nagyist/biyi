@@ -216,7 +216,7 @@ class MenuPanel extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         padding: EdgeInsets.all(vars.spacing1),
         decoration: BoxDecoration(
-          color: vars.colorSurface,
+          color: vars.colorSurfaceOverlay,
           border: Border.all(
             color: vars.colorBorderStrong,
             width: context.hairlineWidth,

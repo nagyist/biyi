@@ -242,15 +242,16 @@ void main() {
           tester.widget<Container>(find.byType(Container)).decoration
               as BoxDecoration;
       expect(decoration.color, vars.colorSurface);
-      // A separator is one *device* pixel: the 1px token halves on Retina,
-      // the way base.css halves it under `min-resolution: 2dppx`. The test
-      // binding runs at a device pixel ratio above 1.
+      // A separator is the hairline as written, at every display scale — it
+      // no longer halves on Retina, the way base.css no longer halves
+      // `--stroke-hairline` under `min-resolution: 2dppx`. The test binding
+      // runs above 1x, which is where a halving would have shown.
       expect(
         tester.view.devicePixelRatio,
         greaterThanOrEqualTo(2),
-        reason: 'the halving only shows above 1x',
+        reason: 'a scale-dependent width would only show above 1x',
       );
-      expect(decoration.border!.top.width, vars.strokeHairline / 2);
+      expect(decoration.border!.top.width, vars.strokeHairline);
     });
 
     testWidgets('tinted takes the surface wash, not the chip fill', (
@@ -503,8 +504,8 @@ void main() {
       final resting = await decorationFor(selected: false);
       final chosen = await decorationFor(selected: true);
 
-      // A device-pixel hairline at rest; the control stroke when chosen.
-      expect(resting.border!.top.width, vars.strokeHairline / 2);
+      // The hairline at rest; the control stroke when chosen.
+      expect(resting.border!.top.width, vars.strokeHairline);
       expect(chosen.border!.top.width, vars.strokeControl);
       expect(
         chosen.border!.top.color,
@@ -618,6 +619,8 @@ void main() {
         (ThemeData.graphiteDark(), themeVariablesGraphiteDark),
         (ThemeData.emberLight(), themeVariablesEmberLight),
         (ThemeData.emberDark(), themeVariablesEmberDark),
+        (ThemeData.nocturneLight(), themeVariablesNocturneLight),
+        (ThemeData.nocturneDark(), themeVariablesNocturneDark),
       ]) {
         await tester.pumpWidget(
           host(
