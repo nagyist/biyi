@@ -19,7 +19,9 @@
         "edit": "편집",
         "save": "저장",
         "manage": "관리",
-        "continue": "계속"
+        "continue": "계속",
+        "copy": "복사",
+        "select_all": "전체 선택"
       },
       "feedback": {
         "copied": "복사됨"

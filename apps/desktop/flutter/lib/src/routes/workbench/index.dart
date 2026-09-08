@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../extensions/window_controller.dart';
@@ -164,8 +164,9 @@ class _WorkbenchShellState extends State<WorkbenchShell> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Workbench(
+    return ColoredBox(
+      color: context.vars.colorSurface,
+      child: Workbench(
         collapsed: _collapsed,
         onToggleCollapsed: () => setState(() => _collapsed = !_collapsed),
         sidebarWidth: _sidebarWidth,

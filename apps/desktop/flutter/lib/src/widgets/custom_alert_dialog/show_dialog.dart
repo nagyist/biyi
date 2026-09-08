@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// Shows a dialog as an overlay within the **current window**, bypassing the
 /// Flutter multi-window dialog-window behavior.
@@ -10,9 +10,13 @@ import 'package:flutter/material.dart';
 /// [showRawDialog] checks for a [WindowRegistry] in the context and, if found,
 /// creates a [_DialogWindowRoute] — a new native window.
 ///
-/// This function bypasses that behavior by pushing a [DialogRoute] directly
+/// This function bypasses that behavior by pushing a [RawDialogRoute] directly
 /// onto the current window's [Navigator], exactly as [showDialog] did before
 /// the multi-window changes.
+///
+/// `RawDialogRoute` rather than material's `DialogRoute`: the two differ only
+/// in the defaults material fills in — the scrim colour and the fade — and the
+/// app names both itself, from its own tokens.
 Future<T?> showDialogInCurrentWindow<T>({
   required BuildContext context,
   required WidgetBuilder builder,
@@ -25,7 +29,6 @@ Future<T?> showDialogInCurrentWindow<T>({
   TraversalEdgeBehavior? traversalEdgeBehavior,
   bool fullscreenDialog = false,
   bool? requestFocus,
-  AnimationStyle? animationStyle,
 }) {
   final NavigatorState navigator = Navigator.of(context, rootNavigator: true);
 
@@ -38,21 +41,35 @@ Future<T?> showDialogInCurrentWindow<T>({
   );
 
   return navigator.push<T>(
-    DialogRoute<T>(
-      context: context,
-      builder: builder,
-      themes: themes,
-      barrierColor: barrierColor ?? Colors.black54,
+    RawDialogRoute<T>(
+      pageBuilder: (context, animation, secondaryAnimation) {
+        final Widget dialog = Builder(builder: builder);
+        return themes.wrap(useSafeArea ? SafeArea(child: dialog) : dialog);
+      },
+      // The scrim material used to pick for us. Black at 40% is what it chose,
+      // and it is the one colour here that is not a token: a scrim is the
+      // absence of the window, not a shade of it.
+      barrierColor: barrierColor ?? const Color(0x66000000),
       barrierDismissible: barrierDismissible,
-      barrierLabel: barrierLabel,
-      useSafeArea: useSafeArea,
+      barrierLabel:
+          barrierLabel ?? (barrierDismissible ? _kDismissLabel : null),
+      transitionDuration: const Duration(milliseconds: 150),
+      transitionBuilder: (context, animation, secondaryAnimation, child) =>
+          FadeTransition(
+        opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+        child: child,
+      ),
       settings: routeSettings,
       anchorPoint: anchorPoint,
       traversalEdgeBehavior:
           traversalEdgeBehavior ?? TraversalEdgeBehavior.closedLoop,
       requestFocus: requestFocus,
-      animationStyle: animationStyle,
       fullscreenDialog: fullscreenDialog,
     ),
   );
 }
+
+/// What a screen reader calls the scrim. `MaterialLocalizations` supplied this;
+/// with material gone the app says it, and there is one dialog language here
+/// anyway — every sheet in the app is dismissed the same way.
+const String _kDismissLabel = '关闭';

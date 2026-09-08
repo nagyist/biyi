@@ -1,5 +1,5 @@
 import 'package:beyondtranslate_runtime/beyondtranslate_runtime.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../i18n/i18n.dart';
 import '../../theme/product_tokens.dart' show ProductPalette, ProductTypography;

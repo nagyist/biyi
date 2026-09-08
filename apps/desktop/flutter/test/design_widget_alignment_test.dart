@@ -1,6 +1,4 @@
 import 'package:beyondtranslate_desktop/src/routes/mini_translator/limited_functionality_banner.dart';
-import 'package:beyondtranslate_desktop/src/theme/app_theme.dart'
-    show AppThemeProvider;
 import 'package:beyondtranslate_desktop/src/widgets/blocks.dart';
 import 'package:beyondtranslate_desktop/src/widgets/icon_action_button.dart';
 import 'package:beyondtranslate_desktop/src/widgets/language_selector.dart';
@@ -11,16 +9,14 @@ import 'package:beyondtranslate_desktop/src/widgets/ui.dart'
     show Aside, Callout, NavItem, SidebarCard;
 import 'package:beyondtranslate_desktop/src/widgets/workbench.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'harness.dart';
 
 void main() {
   Widget specimen(Widget child) {
-    return AppThemeProvider(
-      child: MaterialApp(
-        home: Scaffold(body: SizedBox(width: 840, height: 560, child: child)),
-      ),
-    );
+    return appHarness(child, size: const Size(840, 560));
   }
 
   testWidgets('workbench supplies WindowBody with a Flex parent', (
@@ -52,7 +48,7 @@ void main() {
       specimen(
         Center(
           child: IconActionButton(
-            icon: Icons.more_horiz,
+            icon: FluentIcons.more_horizontal_16_regular,
             tooltip: '更多',
             onPressed: () {},
           ),

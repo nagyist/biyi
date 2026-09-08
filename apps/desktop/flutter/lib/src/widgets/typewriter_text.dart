@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// A text widget that reveals its content character by character
 /// with a typewriter-style animation.

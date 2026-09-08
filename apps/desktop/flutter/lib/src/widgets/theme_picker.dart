@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 
 import '../theme/app_theme.dart' show DesignThemeFamily, designThemeFor;
 import '../theme/product_tokens.dart' show ProductPalette;
-import 'ui.dart'
-    show Pressable, ThemeDataBuildContextProps, ThemeVariables, Tooltip;
+import 'app_tooltip.dart' show AppTooltip;
+import 'ui.dart' show Pressable, ThemeDataBuildContextProps, ThemeVariables;
 
 /// The palettes, as the colours they paint with.
 ///
@@ -64,7 +64,7 @@ class _ThemeFamilySwatch extends StatelessWidget {
     final ThemeVariables theirs =
         designThemeFor(family.themeFor(brightness)).vars;
 
-    return Tooltip(
+    return AppTooltip(
       message: family.label,
       child: Pressable(
         onPressed: onPressed,

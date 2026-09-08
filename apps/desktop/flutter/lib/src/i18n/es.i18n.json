@@ -19,7 +19,9 @@
         "edit": "Editar",
         "save": "Guardar",
         "manage": "Administrar",
-        "continue": "Continuar"
+        "continue": "Continuar",
+        "copy": "Copiar",
+        "select_all": "Seleccionar todo"
       },
       "feedback": {
         "copied": "Copiado"

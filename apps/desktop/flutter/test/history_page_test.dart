@@ -1,13 +1,13 @@
 import 'package:beyondtranslate_desktop/src/i18n/i18n.dart';
 import 'package:beyondtranslate_desktop/src/routes/workbench/library.dart';
 import 'package:beyondtranslate_desktop/src/services/history_store.dart';
-import 'package:beyondtranslate_desktop/src/theme/app_theme.dart'
-    show AppThemeProvider;
 import 'package:beyondtranslate_desktop/src/widgets/native_menu.dart';
 import 'package:beyondtranslate_runtime/beyondtranslate_runtime.dart';
 import 'package:flutter/gestures.dart' show PointerDeviceKind;
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'harness.dart';
 
 void main() {
   setUpAll(() async => LocaleSettings.setLocale(AppLocale.zhHans));
@@ -127,13 +127,7 @@ void main() {
   });
 }
 
-Widget _specimen(Widget child) => AppThemeProvider(
-      child: MaterialApp(
-        home: Scaffold(
-          body: SizedBox(width: 668, height: 560, child: child),
-        ),
-      ),
-    );
+Widget _specimen(Widget child) => appHarness(child, size: const Size(668, 560));
 
 HistoryEntry _entry(
   String id,

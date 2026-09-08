@@ -2,9 +2,10 @@
 // have to stay independent: switching one must not disturb the other.
 import 'package:beyondtranslate_desktop/src/theme/app_theme.dart';
 import 'package:beyondtranslate_desktop/src/widgets/theme_picker.dart';
-import 'package:flutter/material.dart' as m;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'harness.dart';
 
 void main() {
   Future<void> pump(
@@ -14,16 +15,10 @@ void main() {
     AppThemeName theme = AppThemeName.brightLight,
   }) {
     return tester.pumpWidget(
-      m.MaterialApp(
-        theme: appThemeData(theme),
-        // A Tooltip needs an Overlay overhead, which the app's MaterialApp
-        // gives it.
-        home: AppThemeProvider(
-          theme: theme,
-          child: Center(
-            child: ThemeFamilyPicker(value: value, onChanged: onChanged),
-          ),
-        ),
+      // A hover label needs an Overlay overhead, which the shell gives it.
+      appHarness(
+        Center(child: ThemeFamilyPicker(value: value, onChanged: onChanged)),
+        theme: theme,
       ),
     );
   }

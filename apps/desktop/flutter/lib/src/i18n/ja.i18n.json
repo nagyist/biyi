@@ -19,7 +19,9 @@
         "edit": "編集",
         "save": "保存",
         "manage": "管理",
-        "continue": "続行"
+        "continue": "続行",
+        "copy": "コピー",
+        "select_all": "すべて選択"
       },
       "feedback": {
         "copied": "コピーしました"

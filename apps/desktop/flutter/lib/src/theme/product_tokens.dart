@@ -15,12 +15,11 @@
 library;
 
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, listEquals;
-import 'package:flutter/material.dart' as material show Theme, ThemeExtension;
 import 'package:flutter/widgets.dart';
 
 import '../widgets/ui.dart'
     show ColorDescriptor, Colors, FontFace, ThemeVariables;
-import 'app_theme.dart' show AppThemeName;
+import 'app_theme.dart' show AppThemeName, ProductScope;
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Faces
@@ -405,7 +404,7 @@ extension ProductTypography on ThemeVariables {
 /// three palettes. It rides on Material's theme as an extension, which is how
 /// `context.product` reaches a widget under no closer scope.
 @immutable
-class ProductTokens extends material.ThemeExtension<ProductTokens> {
+class ProductTokens {
   const ProductTokens({this.highlightGlow = const <BoxShadow>[]});
 
   /// The preferred translation's type — larger and airier than the source it
@@ -462,18 +461,8 @@ class ProductTokens extends material.ThemeExtension<ProductTokens> {
   static ProductTokens forTheme(AppThemeName theme) =>
       theme == AppThemeName.studioDark ? _studioDark : _flat;
 
-  @override
   ProductTokens copyWith({List<BoxShadow>? highlightGlow}) =>
       ProductTokens(highlightGlow: highlightGlow ?? this.highlightGlow);
-
-  @override
-  ProductTokens lerp(
-    covariant material.ThemeExtension<ProductTokens>? other,
-    double t,
-  ) {
-    if (other is! ProductTokens) return this;
-    return t < 0.5 ? this : other;
-  }
 
   @override
   bool operator ==(Object other) =>
@@ -486,9 +475,7 @@ class ProductTokens extends material.ThemeExtension<ProductTokens> {
 extension ProductTokensContext on BuildContext {
   /// The product layer's tokens for the active palette.
   ///
-  /// They ride on Material's theme, which every window sets up in
-  /// `appThemeData`, so a widget reaches them without a scope of its own.
-  ProductTokens get product =>
-      material.Theme.of(this).extension<ProductTokens>() ??
-      const ProductTokens();
+  /// They ride on the [ProductScope] every window installs beside the kit's
+  /// theme, so a widget reaches them without a scope of its own.
+  ProductTokens get product => ProductScope.of(this);
 }

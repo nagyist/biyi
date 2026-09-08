@@ -1,7 +1,4 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-// An error is worth copying out of, and a selectable run of text is the one
-// thing the design system has no equivalent for.
-import 'package:flutter/material.dart' show SelectableText;
 import 'package:flutter/widgets.dart' hide FormField;
 
 import '../../i18n/i18n.dart';
@@ -11,6 +8,7 @@ import '../../theme/product_tokens.dart' show ProductPalette, ProductTypography;
 import '../../widgets/app_dialog.dart';
 import '../../widgets/custom_alert_dialog/show_dialog.dart';
 import '../../widgets/provider_icon/provider_icon.dart';
+import '../../widgets/selectable_text.dart';
 import '../../widgets/settings_page.dart';
 import '../../widgets/ui.dart'
     show
@@ -311,7 +309,7 @@ class _ProviderDetailPageState extends State<ProviderDetailPage> {
         )),
 
         if (_errorMessage != null)
-          _inset(SelectableText(
+          _inset(SelectableTextBlock(
             _errorMessage!,
             style: vars.sansStyle(
               fontSize: 11,

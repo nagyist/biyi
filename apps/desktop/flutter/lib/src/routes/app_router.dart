@@ -3,9 +3,9 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart' show kDebugMode;
-import 'package:flutter/material.dart' hide Image;
 import 'package:flutter/src/widgets/_window.dart' as flutter_window
     show WindowController, WindowEntry, WindowManager, WindowRegistry;
+import 'package:flutter/widgets.dart' hide Image;
 import 'package:go_router/go_router.dart';
 import 'package:nativeapi/nativeapi.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,7 +16,8 @@ import '../services/dock_icon_controller.dart';
 import '../services/mac_app_presentation.dart';
 import '../services/settings_store.dart';
 import '../services/shortcut_service/shortcut_service.dart';
-import '../theme/app_theme.dart';
+import '../theme/app_theme.dart' show AppThemeProvider, designThemeFor;
+import '../theme/product_tokens.dart' show ProductPalette;
 import '../utils/language_util.dart';
 import '../widgets/toast_host.dart';
 import '__root.dart';
@@ -94,16 +95,15 @@ class _WorkbenchAppState extends State<WorkbenchApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return WidgetsApp.router(
       debugShowCheckedModeBanner: false,
       title: kWorkbenchWindowTitle,
-      theme: appThemeData(
+      // The colour the OS shows the app by — a task switcher, a recents
+      // entry. `WidgetsApp` asks for it outright where `MaterialApp` took it
+      // from the theme.
+      color: designThemeFor(
         settingsStore.themeFamily.themeFor(Brightness.light),
-      ),
-      darkTheme: appThemeData(
-        settingsStore.themeFamily.themeFor(Brightness.dark),
-      ),
-      themeMode: settingsStore.themeMode,
+      ).vars.accent,
       builder: (context, child) => _withDesignTokens(context, child!),
       routerConfig: _router,
       localizationsDelegates: context.localizationDelegates,
@@ -113,13 +113,17 @@ class _WorkbenchAppState extends State<WorkbenchApp> {
   }
 }
 
-/// Establishes the design system's root defaults under the resolved Material
-/// brightness, so every kit widget below reads the same palette [appThemeData]
-/// was built from — and gives the window its own [ToastHost], so each window
-/// stacks its own notifications.
+/// Establishes the design system's root defaults for a window, and gives it
+/// its own [ToastHost] so each window stacks its own notifications.
+///
+/// The brightness is resolved here rather than by the app above: `WidgetsApp`
+/// has no `themeMode` to do it, which is no loss — the answer is the stored
+/// preference and, for 跟随系统, one `MediaQuery` lookup. Sitting in the
+/// builder means a change to either rebuilds the whole window.
 Widget _withDesignTokens(BuildContext context, Widget child) {
+  final Brightness brightness = settingsStore.themeMode.resolve(context);
   return AppThemeProvider(
-    theme: settingsStore.themeFamily.themeFor(Theme.of(context).brightness),
+    theme: settingsStore.themeFamily.themeFor(brightness),
     child: ToastHost(child: child),
   );
 }
@@ -152,16 +156,15 @@ class _MiniTranslatorAppState extends State<MiniTranslatorApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return WidgetsApp.router(
       debugShowCheckedModeBanner: false,
       title: kMiniTranslatorWindowTitle,
-      theme: appThemeData(
+      // The colour the OS shows the app by — a task switcher, a recents
+      // entry. `WidgetsApp` asks for it outright where `MaterialApp` took it
+      // from the theme.
+      color: designThemeFor(
         settingsStore.themeFamily.themeFor(Brightness.light),
-      ),
-      darkTheme: appThemeData(
-        settingsStore.themeFamily.themeFor(Brightness.dark),
-      ),
-      themeMode: settingsStore.themeMode,
+      ).vars.accent,
       builder: (context, child) => _withDesignTokens(context, child!),
       routerConfig: _router,
       localizationsDelegates: context.localizationDelegates,

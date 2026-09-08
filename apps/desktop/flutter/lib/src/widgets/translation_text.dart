@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart'
     show TargetPlatform, defaultTargetPlatform;
-import 'package:flutter/material.dart' show SelectableText;
 import 'package:flutter/widgets.dart';
 
 import '../theme/product_tokens.dart' show ProductPalette;
 import 'native_text.dart';
+import 'selectable_text.dart';
 import 'ui.dart' show ThemeDataBuildContextProps;
 
 /// The selection sits behind the glyphs, so it reads as the accent without
@@ -16,13 +16,13 @@ const double _kSelectionOpacity = 0.2;
 /// On macOS the string is drawn by AppKit through [NativeText], which brings
 /// the whole menu a Mac user expects on a translation: 拷贝, 查询「…」, 朗读,
 /// 共享, Services, and a native drag out of the window. Every other platform
-/// falls back to Flutter's `SelectableText`.
+/// falls back to [SelectableTextBlock].
 ///
 /// The display-side sibling of [TranslationTextArea], which is where 译文 goes
 /// when it is editable.
 ///
 /// Plain strings only — rich text has no native counterpart, so anything with
-/// spans (词典释义, 时态) stays on `SelectableText.rich`.
+/// spans (词典释义, 时态) stays on a plain `Text.rich`.
 class TranslationText extends StatelessWidget {
   const TranslationText(
     this.data, {
@@ -74,7 +74,7 @@ class TranslationText extends StatelessWidget {
       padding: padding,
       child: DefaultSelectionStyle(
         selectionColor: selectionColor,
-        child: SelectableText(data, style: style, textAlign: textAlign),
+        child: SelectableTextBlock(data, style: style, textAlign: textAlign),
       ),
     );
     if (onTap == null && onDoubleTap == null) return text;

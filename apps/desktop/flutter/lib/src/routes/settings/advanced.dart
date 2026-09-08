@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart' hide Switch, TextField;
+import 'package:flutter/widgets.dart';
 
 import '../../i18n/i18n.dart';
 import '../../services/runtime.dart' as runtime_service;

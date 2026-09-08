@@ -6,9 +6,11 @@
 // Flutter path, so they pin the platform away from it.
 import 'package:beyondtranslate_desktop/src/widgets/plain_text_field.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'harness.dart';
 
 void main() {
   /// [testWidgets], with the target platform pinned off macOS for the length
@@ -37,21 +39,19 @@ void main() {
     });
   }
 
-  /// Mounts a focused multiline field. `MaterialApp` is what carries
+  /// Mounts a focused multiline field. `WidgetsApp` is what carries
   /// `DefaultTextEditingShortcuts`, which is what turns ⌃V into a paste.
   Future<TextEditingController> pump(
       WidgetTester tester, String initial) async {
     final controller = TextEditingController(text: initial);
     addTearDown(controller.dispose);
     await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: PlainTextField(
-            controller: controller,
-            autofocus: true,
-            minLines: 3,
-            maxLines: 8,
-          ),
+      appHarness(
+        PlainTextField(
+          controller: controller,
+          autofocus: true,
+          minLines: 3,
+          maxLines: 8,
         ),
       ),
     );

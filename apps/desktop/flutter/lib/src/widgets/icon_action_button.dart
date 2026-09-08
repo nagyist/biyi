@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart' hide IconButton;
+import 'package:flutter/widgets.dart';
 
+import 'app_tooltip.dart' show AppTooltip;
 import 'ui.dart' show IconButton, ThemeDataBuildContextProps;
 
 /// The design system's 24pt flat toolbar affordance, taking an [IconData]
-/// instead of a widget, wearing a native tooltip, and adding the optional
+/// instead of a widget, wearing a hover label, and adding the optional
 /// rotation the mini translator's pin needs.
 ///
 /// Everything visual — geometry, hover wash, active read, disabled dimming —
@@ -50,6 +51,6 @@ class IconActionButton extends StatelessWidget {
     );
 
     if (tooltip == null) return button;
-    return Tooltip(message: tooltip!, child: button);
+    return AppTooltip(message: tooltip!, child: button);
   }
 }

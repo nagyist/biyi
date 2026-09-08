@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../theme/product_tokens.dart' show ProductPalette;
 import '../ui.dart' show Spinner, ThemeDataBuildContextProps, WidgetSize;

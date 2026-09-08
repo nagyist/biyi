@@ -1403,6 +1403,12 @@ class TranslationsCommonUiButtonEn {
 
   /// en: 'Continue'
   String get kContinue => 'Continue';
+
+  /// en: 'Copy'
+  String get copy => 'Copy';
+
+  /// en: 'Select all'
+  String get select_all => 'Select all';
 }
 
 // Path: common.ui.feedback
@@ -2544,6 +2550,8 @@ extension on Translations {
       'common.ui.button.save' => 'Save',
       'common.ui.button.manage' => 'Manage',
       'common.ui.button.kContinue' => 'Continue',
+      'common.ui.button.copy' => 'Copy',
+      'common.ui.button.select_all' => 'Select all',
       'common.ui.feedback.copied' => 'Copied',
       'common.language.ar' => 'Arabic',
       'common.language.bn' => 'Bengali',

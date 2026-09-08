@@ -1243,6 +1243,10 @@ class _TranslationsCommonUiButtonZhHans extends TranslationsCommonUiButtonEn {
   String get manage => '管理';
   @override
   String get kContinue => '继续';
+  @override
+  String get copy => '复制';
+  @override
+  String get select_all => '全选';
 }
 
 // Path: common.ui.feedback
@@ -2354,6 +2358,8 @@ extension on TranslationsZhHans {
       'common.ui.button.save' => '保存',
       'common.ui.button.manage' => '管理',
       'common.ui.button.kContinue' => '继续',
+      'common.ui.button.copy' => '复制',
+      'common.ui.button.select_all' => '全选',
       'common.ui.feedback.copied' => '已复制',
       'common.language.ar' => '阿拉伯语',
       'common.language.bn' => '孟加拉语',

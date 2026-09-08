@@ -1,7 +1,7 @@
 import 'package:beyondtranslate_runtime/beyondtranslate_runtime.dart'
     show InputSubmitMode;
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart' hide IconButton;
+import 'package:flutter/widgets.dart';
 
 import '../../features.dart';
 import '../../i18n/i18n.dart';

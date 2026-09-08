@@ -1,11 +1,23 @@
-import 'package:flutter/material.dart' hide FormField, TextField;
+import 'package:flutter/widgets.dart' hide FormField;
 import 'package:go_router/go_router.dart';
 
 import '../../services/runtime.dart';
+import '../../theme/product_tokens.dart' show ProductPalette, ProductTypography;
 import '../../utils/platform_util.dart';
-import '../../widgets/custom_app_bar/custom_app_bar.dart';
+import '../../widgets/selectable_text.dart';
 import '../../widgets/ui.dart'
-    show Button, ButtonVariant, FormField, Spinner, TextField, WidgetSize;
+    show
+        Button,
+        ButtonVariant,
+        FormField,
+        SegmentedControl,
+        SegmentedItem,
+        Spinner,
+        TextField,
+        ThemeDataBuildContextProps,
+        ThemeVariables,
+        WidgetSize;
+import 'debug_scaffold.dart';
 
 List<RouteBase> get $appRoutes => <RouteBase>[
       GoRoute(
@@ -21,8 +33,8 @@ class RuntimeDebugRoutePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(title: Text('Runtime Debug')),
+    return const DebugScaffold(
+      title: 'Runtime Debug',
       body: RuntimeDebugPage(),
     );
   }
@@ -141,30 +153,26 @@ class _RuntimeDebugPageState extends State<RuntimeDebugPage> {
     if (_providers.isEmpty) {
       return Text(
         'No configured providers found. Save a provider in settings first.',
-        style: Theme.of(context).textTheme.bodyMedium,
+        style: _body(context),
       );
     }
 
-    return SegmentedButton<String>(
-      segments: _providers
+    return SegmentedControl<String>(
+      items: _providers
           .map(
-            (provider) => ButtonSegment<String>(
+            (provider) => SegmentedItem<String>(
               value: provider.id,
-              label: Text('${provider.id} (${provider.type})'),
+              label: '${provider.id} (${provider.type})',
             ),
           )
           .toList(),
-      selected: _providerId == null ? const <String>{} : {_providerId!},
-      onSelectionChanged: (selection) {
-        setState(() {
-          _providerId = selection.first;
-        });
-      },
+      value: _providerId ?? _providers.first.id,
+      onChanged: (value) => setState(() => _providerId = value),
     );
   }
 
   Widget _buildResultCard(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final ThemeVariables vars = context.vars;
     final hasResult = _response != null;
     final isError = _errorText != null;
 
@@ -183,25 +191,21 @@ class _RuntimeDebugPageState extends State<RuntimeDebugPage> {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).canvasColor,
-        borderRadius: BorderRadius.circular(12),
+        color: vars.colorSurfaceMuted,
+        borderRadius: BorderRadius.circular(vars.radiusMedium),
         border: Border.all(
-          color: isError
-              ? colorScheme.error.withValues(alpha: 0.35)
-              : colorScheme.outlineVariant.withValues(alpha: 0.45),
+          color: isError ? vars.dangerFg : vars.colorBorder,
+          width: context.hairlineWidth,
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Theme.of(context).textTheme.titleMedium),
+          Text(title, style: _heading(context)),
           const SizedBox(height: 12),
-          SelectableText(
+          SelectableTextBlock(
             content,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontFamily: 'Roboto Mono', height: 1.4),
+            style: vars.monoStyle(fontSize: 12, height: 1.4),
           ),
         ],
       ),
@@ -233,21 +237,21 @@ class _RuntimeDebugPageState extends State<RuntimeDebugPage> {
         children: [
           Text(
             'Call the Rust runtime directly from the desktop app to verify the integration.',
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: _body(context),
           ),
           if (!kIsMacOS) ...[
             const SizedBox(height: 12),
             Text(
               'This debug page currently targets macOS. Other desktop platforms may compile, but they are outside this verification scope.',
-              style: Theme.of(context).textTheme.bodySmall,
+              style: _body(context, fontSize: 11),
             ),
           ],
           const SizedBox(height: 20),
-          Text('Provider', style: Theme.of(context).textTheme.titleMedium),
+          Text('Provider', style: _heading(context)),
           const SizedBox(height: 12),
           _buildProviderPicker(context),
           const SizedBox(height: 20),
-          Text('Request', style: Theme.of(context).textTheme.titleMedium),
+          Text('Request', style: _heading(context)),
           const SizedBox(height: 12),
           FormField(
               label: 'Source language (optional)',
@@ -282,3 +286,17 @@ class _RuntimeDebugPageState extends State<RuntimeDebugPage> {
     );
   }
 }
+
+/// A section heading on a debug page.
+TextStyle _heading(BuildContext context) => context.vars.sansStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: context.vars.colorContent,
+    );
+
+TextStyle _body(BuildContext context, {double fontSize = 12}) =>
+    context.vars.sansStyle(
+      fontSize: fontSize,
+      height: 1.5,
+      color: context.vars.colorContentSecondary,
+    );

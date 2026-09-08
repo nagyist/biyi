@@ -19,7 +19,9 @@
         "edit": "編輯",
         "save": "儲存",
         "manage": "管理",
-        "continue": "繼續"
+        "continue": "繼續",
+        "copy": "複製",
+        "select_all": "全選"
       },
       "feedback": {
         "copied": "已複製"

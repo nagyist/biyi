@@ -2,8 +2,8 @@
 
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nativeapi/nativeapi.dart' as nativeapi;
 
@@ -1095,9 +1095,11 @@ class _MiniTranslatorPageState extends State<MiniTranslatorPage>
   Widget build(BuildContext context) {
     // The window itself is the deck's MiniWindow tray: the top bar and the
     // action bar sit directly on it, the panel card floats between them.
-    return Scaffold(
-      backgroundColor: context.vars.colorSurfaceMuted,
-      body: CallbackShortcuts(
+    // A `Scaffold` used to paint this; all it was giving the window was its
+    // ground, and the tray draws everything else itself.
+    return ColoredBox(
+      color: context.vars.colorSurfaceMuted,
+      child: CallbackShortcuts(
         bindings: {
           // ⌥1…⌥9 promote the matching service, as hinted on the cards.
           for (var digit = 1; digit <= 9; digit++)

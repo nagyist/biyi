@@ -1112,6 +1112,10 @@ class _TranslationsCommonUiButtonKo extends TranslationsCommonUiButtonEn {
   String get manage => '관리';
   @override
   String get kContinue => '계속';
+  @override
+  String get copy => '복사';
+  @override
+  String get select_all => '전체 선택';
 }
 
 // Path: common.ui.feedback
@@ -2218,6 +2222,8 @@ extension on TranslationsKo {
       'common.ui.button.save' => '저장',
       'common.ui.button.manage' => '관리',
       'common.ui.button.kContinue' => '계속',
+      'common.ui.button.copy' => '복사',
+      'common.ui.button.select_all' => '전체 선택',
       'common.ui.feedback.copied' => '복사됨',
       'common.language.ar' => '아랍어',
       'common.language.bn' => '벵골어',

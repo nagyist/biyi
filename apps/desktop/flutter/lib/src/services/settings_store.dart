@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:beyondtranslate_runtime/beyondtranslate_runtime.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' show ThemeMode;
 import 'package:nativeapi/nativeapi.dart';
 
-import '../theme/app_theme.dart' show DesignThemeFamily;
+import '../theme/app_theme.dart' show AppThemeMode, DesignThemeFamily;
 import '../utils/language_util.dart';
 import '../utils/platform_util.dart';
 import 'runtime.dart' as runtime_service;
@@ -78,16 +77,7 @@ class SettingsStore extends ChangeNotifier {
   List<ServiceConfigEntry> get services => List.unmodifiable(_services);
 
   String get appLanguage => _appearance.language;
-  ThemeMode get themeMode {
-    switch (_appearance.themeMode) {
-      case 'light':
-        return ThemeMode.light;
-      case 'dark':
-        return ThemeMode.dark;
-      default:
-        return ThemeMode.system;
-    }
-  }
+  AppThemeMode get themeMode => AppThemeMode.fromId(_appearance.themeMode);
 
   /// The palette family the design system paints with. Orthogonal to
   /// [themeMode], which only decides light vs dark.

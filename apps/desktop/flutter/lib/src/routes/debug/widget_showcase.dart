@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart'
-    hide Card, Divider, Switch, VerticalDivider;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../theme/product_tokens.dart' show ProductPalette, ProductTypography;
@@ -28,6 +28,7 @@ import '../../widgets/ui.dart'
         VerticalDivider,
         WidgetSize;
 import '../../widgets/workbench.dart';
+import 'debug_scaffold.dart';
 
 List<RouteBase> get $appRoutes => <RouteBase>[
       GoRoute(
@@ -50,8 +51,8 @@ class _WidgetShowcasePageState extends State<WidgetShowcasePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('UI Widgets')),
+    return DebugScaffold(
+      title: 'UI Widgets',
       body: ListView(
         padding: const EdgeInsets.all(32),
         children: [
@@ -79,7 +80,7 @@ class _WidgetShowcasePageState extends State<WidgetShowcasePage> {
                   onPressed: null,
                   child: Spinner(size: WidgetSize.small)),
               IconActionButton(
-                icon: Icons.bookmark_border,
+                icon: FluentIcons.bookmark_20_regular,
                 tooltip: '收藏',
                 onPressed: () {},
               ),
@@ -142,14 +143,17 @@ class _WidgetShowcasePageState extends State<WidgetShowcasePage> {
                 SidebarGroup(label: '工作区', children: [
                   NavItem(
                       label: '翻译',
-                      icon: Icons.translate,
+                      icon: FluentIcons.translate_20_regular,
                       current: true,
                       onPressed: () {}),
                   NavItem(
                       label: '术语库',
-                      icon: Icons.menu_book_outlined,
+                      icon: FluentIcons.book_20_regular,
                       onPressed: () {}),
-                  NavItem(label: '历史', icon: Icons.history, onPressed: () {}),
+                  NavItem(
+                      label: '历史',
+                      icon: FluentIcons.history_20_regular,
+                      onPressed: () {}),
                 ]),
               ],
               child: Column(

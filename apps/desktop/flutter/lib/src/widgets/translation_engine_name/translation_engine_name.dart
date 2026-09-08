@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../models/ext_translation_engine_config.dart';
 import '../../models/translation_engine_config.dart';

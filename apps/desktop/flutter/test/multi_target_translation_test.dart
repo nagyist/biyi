@@ -5,8 +5,6 @@ import 'package:beyondtranslate_desktop/src/routes/mini_translator/translation_i
 import 'package:beyondtranslate_desktop/src/routes/mini_translator/translation_results_view.dart';
 import 'package:beyondtranslate_desktop/src/services/runtime.dart'
     show TranslationError;
-import 'package:beyondtranslate_desktop/src/theme/app_theme.dart'
-    show AppThemeProvider;
 import 'package:beyondtranslate_desktop/src/utils/language_util.dart';
 import 'package:beyondtranslate_desktop/src/utils/shortcut_util.dart';
 import 'package:beyondtranslate_desktop/src/widgets/blocks.dart';
@@ -15,22 +13,21 @@ import 'package:beyondtranslate_desktop/src/widgets/missing_language.dart';
 import 'package:beyondtranslate_desktop/src/widgets/ui.dart'
     show Button, IconButton;
 import 'package:beyondtranslate_runtime/beyondtranslate_runtime.dart';
-import 'package:flutter/material.dart' hide IconButton;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'harness.dart';
 
 /// 自动匹配 can resolve to several targets at once, and both windows stack one
 /// result block per target: the first behind the accent rule, the rest behind
 /// a hairline, each with its own 对比 list and its own 复制.
 void main() {
   Widget specimen(Widget child, {double width = 460}) {
-    return AppThemeProvider(
-      child: MaterialApp(
-        home: Scaffold(
-          body: Align(
-            alignment: Alignment.topLeft,
-            child: SizedBox(width: width, child: child),
-          ),
-        ),
+    return appHarness(
+      Align(
+        alignment: Alignment.topLeft,
+        child: SizedBox(width: width, child: child),
       ),
     );
   }
@@ -77,7 +74,7 @@ void main() {
             label: const Text('译文  简体中文'),
             meta: IconButton(
                 semanticsLabel: '复制译文',
-                icon: Icon(Icons.copy),
+                icon: const Icon(FluentIcons.copy_20_regular),
                 onPressed: () {}),
             actions: Row(
               children: [

@@ -1,17 +1,22 @@
 import 'dart:ui';
 
 import 'package:beyondtranslate_desktop/src/i18n/i18n.dart';
+import 'package:beyondtranslate_desktop/src/theme/app_theme.dart'
+    show AppThemeName, designThemeFor;
+import 'package:beyondtranslate_desktop/src/theme/product_tokens.dart'
+    show ProductPalette;
+import 'package:beyondtranslate_desktop/src/widgets/custom_alert_dialog/show_dialog.dart';
 import 'package:beyondtranslate_desktop/src/widgets/ui.dart' show TextField;
-import 'package:flutter/material.dart' hide TextField;
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
-/// The shape of the app: a `MaterialApp.router` whose shell and pages read the
+/// The shape of the app: a `WidgetsApp.router` whose shell and pages read the
 /// global `t`. Everything under the router lives in `Overlay` entries, so an
 /// ancestor rebuild never reaches them — without [LocaleRebuildScope] a
 /// language switch left the sidebar, the pages and any open dialog in the old
 /// language. The router is what makes this worth a test: with a plain
-/// `MaterialApp(home:)` the route content happens to rebuild anyway.
+/// `WidgetsApp(home:)` the route content happens to rebuild anyway.
 void main() {
   setUpAll(() => LocaleSettings.setLocaleRaw('zh-Hans'));
 
@@ -30,7 +35,7 @@ void main() {
     expect(find.text(pageLabel), findsOneWidget);
 
     // Dialogs are their own overlay entries — the switch has to reach them too.
-    showDialog<void>(
+    showDialogInCurrentWindow<void>(
       context: tester.element(find.text(pageLabel)),
       builder: (_) => Text(t.workbench.history),
     );
@@ -151,7 +156,8 @@ class _AppState extends State<_App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return WidgetsApp.router(
+      color: designThemeFor(AppThemeName.studioLight).vars.accent,
       routerConfig: _router,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -169,10 +175,8 @@ class _Shell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [Text(t.workbench.translate), Expanded(child: child)],
-      ),
+    return Column(
+      children: [Text(t.workbench.translate), Expanded(child: child)],
     );
   }
 }

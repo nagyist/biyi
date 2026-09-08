@@ -22,11 +22,22 @@ void main() {
   final accent = theme.vars.accent;
   final selection = accent.withValues(alpha: 0.2);
 
+  // The `Overlay` is not decoration: a `SelectableRegion` asserts on one
+  // overhead, because that is where its selection menu goes. In the app it is
+  // the window's; here it is the smallest thing that stands in for it.
   Future<void> pump(WidgetTester tester, Widget child) {
     return tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
-        child: Theme(data: theme, child: child),
+        child: MediaQuery(
+          data: const MediaQueryData(),
+          child: Theme(
+            data: theme,
+            child: Overlay(
+              initialEntries: [OverlayEntry(builder: (_) => child)],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -117,9 +128,16 @@ void main() {
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
-        child: Theme(
-          data: designThemeFor(AppThemeName.studioDark),
-          child: const TranslationText('hello'),
+        child: MediaQuery(
+          data: const MediaQueryData(),
+          child: Theme(
+            data: designThemeFor(AppThemeName.studioDark),
+            child: Overlay(
+              initialEntries: [
+                OverlayEntry(builder: (_) => const TranslationText('hello')),
+              ],
+            ),
+          ),
         ),
       ),
     );

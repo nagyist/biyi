@@ -1,8 +1,11 @@
 import 'package:beyondtranslate_runtime/beyondtranslate_runtime.dart';
-import 'package:flutter/material.dart' hide TextField;
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/widgets.dart';
 
 import '../services/runtime.dart';
+import '../theme/product_tokens.dart' show ProductPalette, ProductTypography;
 import 'app_dialog.dart';
+import 'selectable_text.dart';
 import 'ui.dart'
     show
         Button,
@@ -152,8 +155,7 @@ Be concise and helpful. Respond in the same language as the user's question.''';
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
+    final vars = context.vars;
     return AppDialog(
         title: 'Discuss Translation',
         content: SizedBox(
@@ -164,7 +166,7 @@ Be concise and helpful. Respond in the same language as the user's question.''';
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceContainerHighest,
+                  color: vars.colorSurfaceMuted,
                   borderRadius: BorderRadius.circular(context.vars.radiusLarge),
                 ),
                 child: Column(
@@ -173,24 +175,30 @@ Be concise and helpful. Respond in the same language as the user's question.''';
                   children: [
                     Text(
                       'Source (${widget.sourceLang})',
-                      style: theme.textTheme.labelSmall,
+                      style: vars.labelStyle(color: vars.colorContentSubtle),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       widget.sourceText,
-                      style: theme.textTheme.bodySmall,
+                      style: vars.sansStyle(
+                        fontSize: 12,
+                        color: vars.colorContentSecondary,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 6),
                     Text(
                       'Translation (${widget.targetLang})',
-                      style: theme.textTheme.labelSmall,
+                      style: vars.labelStyle(color: vars.colorContentSubtle),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       widget.translatedText,
-                      style: theme.textTheme.bodySmall,
+                      style: vars.sansStyle(
+                        fontSize: 12,
+                        color: vars.colorContentSecondary,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -229,7 +237,7 @@ Be concise and helpful. Respond in the same language as the user's question.''';
                   Button(
                       variant: ButtonVariant.filled,
                       onPressed: _isLoading ? null : _sendMessage,
-                      child: const Icon(Icons.send, size: 14)),
+                      child: const Icon(FluentIcons.send_20_regular, size: 14)),
                 ],
               ),
             ],
@@ -258,7 +266,7 @@ class _ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final vars = context.vars;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -270,12 +278,19 @@ class _ChatBubble extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: isUser
-                    ? theme.colorScheme.primaryContainer
-                    : theme.colorScheme.surfaceContainerHighest,
+                // The reader's own turn is marked, the model's sits on the
+                // quieter surface — the same pair a marked passage uses.
+                color: isUser ? vars.accentSurface : vars.colorSurfaceMuted,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: SelectableText(content, style: theme.textTheme.bodySmall),
+              child: SelectableTextBlock(
+                content,
+                style: vars.sansStyle(
+                  fontSize: 12,
+                  height: 1.5,
+                  color: vars.colorContent,
+                ),
+              ),
             ),
           ),
         ],

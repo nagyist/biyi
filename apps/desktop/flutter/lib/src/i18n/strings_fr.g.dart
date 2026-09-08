@@ -1129,6 +1129,10 @@ class _TranslationsCommonUiButtonFr extends TranslationsCommonUiButtonEn {
   String get manage => 'Gérer';
   @override
   String get kContinue => 'Continuer';
+  @override
+  String get copy => 'Copier';
+  @override
+  String get select_all => 'Tout sélectionner';
 }
 
 // Path: common.ui.feedback
@@ -2272,6 +2276,8 @@ extension on TranslationsFr {
       'common.ui.button.save' => 'Enregistrer',
       'common.ui.button.manage' => 'Gérer',
       'common.ui.button.kContinue' => 'Continuer',
+      'common.ui.button.copy' => 'Copier',
+      'common.ui.button.select_all' => 'Tout sélectionner',
       'common.ui.feedback.copied' => 'Copié',
       'common.language.ar' => 'Arabe',
       'common.language.bn' => 'Bengali',

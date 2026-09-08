@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart' hide Checkbox, IconButton;
 import 'package:flutter/services.dart'
     show Clipboard, ClipboardData, LogicalKeyboardKey;
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
@@ -287,37 +287,73 @@ class _WorkbenchLibraryPageState extends State<WorkbenchLibraryPage> {
           ]);
     }
     final vars = context.vars;
+    // The checkbox column: the row's own inset, then the bare box.
+    final double gutter = vars.spacing5 + vars.checkboxMediumBox;
+
     return ListView(
       children: [
         for (final entry in _rows)
           _selecting
-              ? IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(left: 20, top: 18),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: vars.colorBorder,
-                              width: context.hairlineWidth,
-                            ),
-                          ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Checkbox(
-                              value: _selected.contains(entry.id),
-                              onChanged: (_) => _toggle(entry.id),
-                              label: const SizedBox.shrink()),
-                        ),
-                      ),
-                      Expanded(child: _buildRow(entry)),
-                    ],
-                  ),
-                )
+              ? _selectableRow(context, entry, gutter)
               : _buildRow(entry),
+      ],
+    );
+  }
+
+  /// A row with the 多选 checkbox beside it.
+  ///
+  /// The gutter's hairline has to meet the row's own, so it needs the row's
+  /// height — and the row is a [ListCard], whose body is a `LayoutBuilder`
+  /// that refuses to report an intrinsic height. So the row is laid out first
+  /// and the gutter is positioned against it, rather than the two being
+  /// stretched to a height measured up front.
+  Widget _selectableRow(
+    BuildContext context,
+    HistoryEntry entry,
+    double gutter,
+  ) {
+    final vars = context.vars;
+
+    return Stack(
+      // The row keeps the width the list handed down; `loose` would let it
+      // shrink to its text.
+      fit: StackFit.passthrough,
+      children: [
+        Padding(
+          padding: EdgeInsetsDirectional.only(start: gutter),
+          child: _buildRow(entry),
+        ),
+        PositionedDirectional(
+          top: 0,
+          bottom: 0,
+          start: 0,
+          width: gutter,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: vars.colorBorder,
+                  width: context.hairlineWidth,
+                ),
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(start: vars.spacing5),
+              child: Align(
+                alignment: Alignment.topLeft,
+                // The box sits on the row's first line rather than in the
+                // middle of a record that may run several lines tall.
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 18),
+                  child: Checkbox(
+                    value: _selected.contains(entry.id),
+                    onChanged: (_) => _toggle(entry.id),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

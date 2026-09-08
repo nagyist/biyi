@@ -1,14 +1,14 @@
 // 译文 — which widget draws it. On macOS the string goes to AppKit through
 // `NativeText`, so the whole native text menu (拷贝, 查询, 朗读, 共享) comes with
-// it; everywhere else it stays on Flutter's `SelectableText`.
+// it; everywhere else it stays on [SelectableTextBlock].
 //
 // AppKit owns the mouse over a platform view, so 双击复制 cannot ride on a
 // surrounding `GestureDetector` — the callback lives on the widget, and both
 // paths have to honour it.
 import 'package:beyondtranslate_desktop/src/widgets/native_text.dart';
+import 'package:beyondtranslate_desktop/src/widgets/selectable_text.dart';
 import 'package:beyondtranslate_desktop/src/widgets/translation_text.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' show SelectableText;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -31,6 +31,9 @@ void main() {
     });
   }
 
+  // The `Overlay` is not decoration: a `SelectableRegion` asserts on one
+  // overhead, because that is where its selection menu goes. In the app it is
+  // the window's; here it is the smallest thing that stands in for it.
   Future<void> pump(
     WidgetTester tester,
     Widget child,
@@ -38,7 +41,17 @@ void main() {
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
-        child: Align(alignment: Alignment.topLeft, child: child),
+        child: MediaQuery(
+          data: const MediaQueryData(),
+          child: Overlay(
+            initialEntries: [
+              OverlayEntry(
+                builder: (_) =>
+                    Align(alignment: Alignment.topLeft, child: child),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -52,7 +65,7 @@ void main() {
 
     expect(find.byType(NativeText), findsNothing);
     expect(
-      tester.widget<SelectableText>(find.byType(SelectableText)).data,
+      tester.widget<SelectableTextBlock>(find.byType(SelectableTextBlock)).data,
       '注意力就是你所需要的一切。',
     );
   });
@@ -89,7 +102,7 @@ void main() {
       ),
     );
 
-    expect(find.byType(SelectableText), findsNothing);
+    expect(find.byType(SelectableTextBlock), findsNothing);
     expect(
       tester.widget<NativeText>(find.byType(NativeText)).text,
       '注意力就是你所需要的一切。',

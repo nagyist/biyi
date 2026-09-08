@@ -20,7 +20,7 @@
 /// `Switch`, `Table`, `TextField`, `Theme`) collide with Flutter's own. A file
 /// that shows one of those and also imports Material or Widgets must hide
 /// Flutter's — for example
-/// `import 'package:flutter/material.dart' hide Divider;`.
+/// `import 'package:flutter/widgets.dart';`.
 ///
 /// Reaching for `context.vars` means showing the extension that carries it,
 /// `ThemeDataBuildContextProps`. The product's own colours and type recipes

@@ -2,10 +2,10 @@ import 'package:beyondtranslate_desktop/src/i18n/i18n.dart';
 import 'package:beyondtranslate_desktop/src/routes/settings/add_service_dialog.dart';
 import 'package:beyondtranslate_desktop/src/routes/settings/provider_meta.dart';
 import 'package:beyondtranslate_desktop/src/services/runtime.dart';
-import 'package:beyondtranslate_desktop/src/theme/app_theme.dart'
-    show AppThemeProvider;
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'harness.dart';
 
 /// A traditional provider keeps the sheet off the runtime: only an LLM one
 /// fetches a model roster, and there is no Rust engine in a widget test.
@@ -27,16 +27,9 @@ ServiceConfigEntry _derivedTranslation(String providerId) {
 
 void main() {
   Widget specimen({List<ServiceConfigEntry> existing = const []}) {
-    return AppThemeProvider(
-      child: MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            width: 840,
-            height: 620,
-            child: AddServiceDialog(providers: [_deepl], existing: existing),
-          ),
-        ),
-      ),
+    return appHarness(
+      AddServiceDialog(providers: [_deepl], existing: existing),
+      size: const Size(840, 620),
     );
   }
 

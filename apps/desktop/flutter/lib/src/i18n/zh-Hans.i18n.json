@@ -19,7 +19,9 @@
         "edit": "编辑",
         "save": "保存",
         "manage": "管理",
-        "continue": "继续"
+        "continue": "继续",
+        "copy": "复制",
+        "select_all": "全选"
       },
       "feedback": {
         "copied": "已复制"

@@ -1,7 +1,7 @@
 import 'package:beyondtranslate_runtime/beyondtranslate_runtime.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart' hide Dialog, FormField;
 import 'package:flutter/services.dart' show KeyDownEvent, LogicalKeyboardKey;
+import 'package:flutter/widgets.dart' hide FormField;
 import 'package:nativeapi/nativeapi.dart' as nativeapi;
 
 import '../../i18n/i18n.dart';
@@ -454,10 +454,13 @@ class _CommonLanguagesSheetState extends State<_CommonLanguagesSheet> {
         Expanded(
           child: _selected.isEmpty
               ? _PaneEmpty(text: strings.empty_common)
-              : ReorderableListView.builder(
-                  scrollController: _chosenList,
+              // The widgets-layer list, not `ReorderableListView`: that one is
+              // material's, and it draws every row in a `Material` of its own.
+              // This one carries no chrome, which is what the rows want — they
+              // paint their own surface, and their own drag handle.
+              : ReorderableList(
+                  controller: _chosenList,
                   padding: const EdgeInsets.all(4),
-                  buildDefaultDragHandles: false,
                   itemCount: _selected.length,
                   onReorderItem: _move,
                   // The list is its own drop indicator; the lifted row keeps
